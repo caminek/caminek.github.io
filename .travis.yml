@@ -12,15 +12,16 @@ cache:
   - node_modules                  # Should increase build speed
 
 before_script:
- - chmod +x ./_scripts/cibuild.sh # Make sure script is executabe
+ - chmod +x ./_scripts/cibuild.sh # Make sure scripts are executabe
+ - chmod +x ./_scripts/deploy.sh
 
 script:
   - ./_scripts/cibuild.sh         # scripts to be run
 
 deploy:
-  provider: pages                 # TravisCI configs for deploying to GitHub Pages
-  skip_cleanup: true              # Don't remove files
+  provider: script                # Pages no longer works due to GH changes
+  script: ./_scripts/deploy.sh    # Custom deployment to './docs' folder
+  skip_cleanup: true              
   github_token: $GITHUB_TOKEN     # Private token set in TravisCI dashboard
-  local_dir: _site                # Deploy the _site folder
   on:
     branch: master                # TravisCI is triggered by changes to this branch
