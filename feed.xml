@@ -1,30 +1,189 @@
----
-layout: null
----
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>{{ site.title | xml_escape }}</title>
-    <description>{{ site.description | xml_escape }}</description>
-    <link>{{ site.url }}{{ site.baseurl }}/</link>
-    <atom:link href="{{ "/feed.xml" | prepend: site.baseurl | prepend: site.url }}" rel="self" type="application/rss+xml"/>
-    <pubDate>{{ site.time | date_to_rfc822 }}</pubDate>
-    <lastBuildDate>{{ site.time | date_to_rfc822 }}</lastBuildDate>
-    <generator>Jekyll v{{ jekyll.version }}</generator>
-    {% for post in site.posts limit:10 %}
+    <title>Caminek</title>
+    <description></description>
+    <link>/</link>
+    <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Wed, 08 Jan 2020 22:34:21 +0000</pubDate>
+    <lastBuildDate>Wed, 08 Jan 2020 22:34:21 +0000</lastBuildDate>
+    <generator>Jekyll v4.0.0</generator>
+    
       <item>
-        <title>{{ post.title | xml_escape }}</title>
-        <description>{{ post.excerpt | remove: '<p>' | remove: '</p>' | xml_escape }}</description>
-        <pubDate>{{ post.date | date_to_rfc822 }}</pubDate>
-        <link>{{ post.url | prepend: site.baseurl | prepend: site.url }}</link>
-        <guid isPermaLink="true">{{ post.url | prepend: site.baseurl | prepend: site.url }}</guid>
-        {% for tag in post.tags %}
-        <category>{{ tag | xml_escape }}</category>
-        {% endfor %}
-        {% for cat in post.categories %}
-        <category>{{ cat | xml_escape }}</category>
-        {% endfor %}
+        <title>Binary Bomb: Secret Phase</title>
+        <description>Unlike previous phases, we can't start by jumping directly into the secret_phase function. We first have to figure out how to get into the phase first.</description>
+        <pubDate>Fri, 20 Dec 2019 13:34:27 +0000</pubDate>
+        <link>/2019/12/20/binary-bomb-secret-phase/</link>
+        <guid isPermaLink="true">/2019/12/20/binary-bomb-secret-phase/</guid>
+        
+        <category>reverse-engineering</category>
+        
+        <category>binary-bomb</category>
+        
+        <category>gdb</category>
+        
+        <category>x86-64</category>
+        
+        
+        <category>reverse-engineering</category>
+        
+        <category>x86-64</category>
+        
       </item>
-    {% endfor %}
+    
+      <item>
+        <title>Binary Bomb: Phase 6</title>
+        <description>This phase is the hardest yet. I spent longer trying to solve this phase than I did on all the other phases combined.</description>
+        <pubDate>Wed, 18 Dec 2019 19:27:56 +0000</pubDate>
+        <link>/2019/12/18/binary-bomb-phase-6/</link>
+        <guid isPermaLink="true">/2019/12/18/binary-bomb-phase-6/</guid>
+        
+        <category>reverse-engineering</category>
+        
+        <category>binary-bomb</category>
+        
+        <category>gdb</category>
+        
+        <category>x86-64</category>
+        
+        
+        <category>reverse-engineering</category>
+        
+        <category>x86-64</category>
+        
+      </item>
+    
+      <item>
+        <title>Binary Bomb: Phase 5</title>
+        <description>Phase 5 is a bit easier than Phase 4. We're back to having only one correct answer but in order to get that we're going to have to write some more Python code.</description>
+        <pubDate>Wed, 18 Dec 2019 00:18:21 +0000</pubDate>
+        <link>/2019/12/18/binary-bomb-phase-5/</link>
+        <guid isPermaLink="true">/2019/12/18/binary-bomb-phase-5/</guid>
+        
+        <category>reverse-engineering</category>
+        
+        <category>binary-bomb</category>
+        
+        <category>gdb</category>
+        
+        <category>x86-64</category>
+        
+        
+        <category>reverse-engineering</category>
+        
+        <category>x86-64</category>
+        
+      </item>
+    
+      <item>
+        <title>Binary Bomb: Phase 4</title>
+        <description>Phase 4 is our first real jump in difficulty. Like the last phase, it has multiple correct answer. The difficulty comes from recursion and another function whose purpose isn't clear from just its name. We'll enlist Python to help.</description>
+        <pubDate>Tue, 17 Dec 2019 16:19:54 +0000</pubDate>
+        <link>/2019/12/17/binary-bomb-phase-4/</link>
+        <guid isPermaLink="true">/2019/12/17/binary-bomb-phase-4/</guid>
+        
+        <category>reverse-engineering</category>
+        
+        <category>binary-bomb</category>
+        
+        <category>gdb</category>
+        
+        <category>x86-64</category>
+        
+        
+        <category>reverse-engineering</category>
+        
+        <category>x86-64</category>
+        
+      </item>
+    
+      <item>
+        <title>Binary Bomb: Phase 3</title>
+        <description>Phase 3 is a little more difficult than Phase 2 and in my opinion, the first interesting phase we've encountered. This phase is easy enough to pass without actually understanding what's going on and has multiple correct answers. Let's find out why.</description>
+        <pubDate>Tue, 17 Dec 2019 01:55:08 +0000</pubDate>
+        <link>/2019/12/17/binary-bomb-phase-3/</link>
+        <guid isPermaLink="true">/2019/12/17/binary-bomb-phase-3/</guid>
+        
+        <category>reverse-engineering</category>
+        
+        <category>binary-bomb</category>
+        
+        <category>gdb</category>
+        
+        <category>x86-64</category>
+        
+        
+        <category>reverse-engineering</category>
+        
+        <category>x86-64</category>
+        
+      </item>
+    
+      <item>
+        <title>Binary Bomb: Phase 2</title>
+        <description>Phase 2 is a little more difficult than Phase 1. In the first part of this document I go through solving the phase without gdb, and then in the second part, I solve it with gdb and a more in-depth explanation.</description>
+        <pubDate>Mon, 16 Dec 2019 15:36:41 +0000</pubDate>
+        <link>/2019/12/16/binary-bomb-phase-2/</link>
+        <guid isPermaLink="true">/2019/12/16/binary-bomb-phase-2/</guid>
+        
+        <category>reverse-engineering</category>
+        
+        <category>binary-bomb</category>
+        
+        <category>gdb</category>
+        
+        <category>x86-64</category>
+        
+        
+        <category>reverse-engineering</category>
+        
+        <category>x86-64</category>
+        
+      </item>
+    
+      <item>
+        <title>Binary Bomb: Phase 1</title>
+        <description>The first thing we'll always want to do after launching gdb is to set a breakpoint on explode_bomb. A breakpoint stops the code from executing it is reached. If you make a mistake, this will prevent the bomb from exploding.</description>
+        <pubDate>Fri, 13 Dec 2019 14:33:28 +0000</pubDate>
+        <link>/2019/12/13/binary-bomb-phase-1/</link>
+        <guid isPermaLink="true">/2019/12/13/binary-bomb-phase-1/</guid>
+        
+        <category>reverse-engineering</category>
+        
+        <category>binary-bomb</category>
+        
+        <category>gdb</category>
+        
+        <category>x86-64</category>
+        
+        
+        <category>reverse-engineering</category>
+        
+        <category>x86-64</category>
+        
+      </item>
+    
+      <item>
+        <title>Binary Bomb: Phase 0</title>
+        <description>This isn't an official phase of the binary bomb lab. This is meant to document what we need to do before launching the bomb for the first time.</description>
+        <pubDate>Thu, 12 Dec 2019 21:14:54 +0000</pubDate>
+        <link>/2019/12/12/binary-bomb-phase-0/</link>
+        <guid isPermaLink="true">/2019/12/12/binary-bomb-phase-0/</guid>
+        
+        <category>reverse-engineering</category>
+        
+        <category>binary-bomb</category>
+        
+        <category>objdump</category>
+        
+        <category>x86-64</category>
+        
+        
+        <category>reverse-engineering</category>
+        
+        <category>x86-64</category>
+        
+      </item>
+    
   </channel>
 </rss>

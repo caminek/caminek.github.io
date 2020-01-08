@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description" content="Phase 2 is a little more difficult than Phase 1. In the first part of this document I go through solving the phase without gdb, and then in the second part, ...">
+
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.Cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/assets/css/main.min.css ">
+    <link rel="canonical" href="/2019/12/16/binary-bomb-phase-2/">
+    <link rel="alternate" type="application/rss+xml" title="Caminek" href="/feed.xml ">
+    
+    <!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Binary Bomb: Phase 2 | Caminek</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Binary Bomb: Phase 2" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Phase 2 is a little more difficult than Phase 1. In the first part of this document I go through solving the phase without gdb, and then in the second part, I solve it with gdb and a more in-depth explanation." />
+<meta property="og:description" content="Phase 2 is a little more difficult than Phase 1. In the first part of this document I go through solving the phase without gdb, and then in the second part, I solve it with gdb and a more in-depth explanation." />
+<link rel="canonical" href="/2019/12/16/binary-bomb-phase-2/" />
+<meta property="og:url" content="/2019/12/16/binary-bomb-phase-2/" />
+<meta property="og:site_name" content="Caminek" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-12-16T15:36:41+00:00" />
+<script type="application/ld+json">
+{"description":"Phase 2 is a little more difficult than Phase 1. In the first part of this document I go through solving the phase without gdb, and then in the second part, I solve it with gdb and a more in-depth explanation.","mainEntityOfPage":{"@type":"WebPage","@id":"/2019/12/16/binary-bomb-phase-2/"},"@type":"BlogPosting","url":"/2019/12/16/binary-bomb-phase-2/","headline":"Binary Bomb: Phase 2","dateModified":"2019-12-16T15:36:41+00:00","datePublished":"2019-12-16T15:36:41+00:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+
+
+
+
+</head>
+
+
+  <body>
+
+    <header id="top">
+    <div class="wrapper">
+        
+            <img src="/assets/img/misc/avatar.png" alt="site.icon" width="32" height="32" style="vertical-align:middle"/>
+        
+        <a href="/" class="brand">Caminek</a>
+        <small></small>
+        <button id="headerMenu" class="menu"><i class="fa fa-bars"></i></button>
+        <nav id="headerNav">
+            <ul>
+                <li>
+                    
+                    <a href="/">
+                    
+                        <i class="fa fa-home"></i>Home
+                    </a>
+                </li>
+
+                
+                    
+                    <li>
+                        
+                        <a href="/archive/">
+                        
+                            <i class="fa fa-archive"></i>Archives
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/category/">
+                        
+                            <i class="fa fa-th-list"></i>Categories
+                        </a>
+                    </li>
+                    
+                
+                    
+                    <li>
+                        
+                        <a href="/tag/">
+                        
+                            <i class="fa fa-tags"></i>Tags
+                        </a>
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+        <div class="page clearfix" index>
+    <div class="left">
+        <h1>Binary Bomb: Phase 2</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i> 2019-12-16
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+                
+            </div>
+
+            <div class="label-card">
+            
+
+
+<!-- <span class="point">•</span> -->
+<span class="categories">
+  <i class="fa fa-th-list"></i>
+  
+    
+        <a href="/category/#reverse-engineering" title="Category: reverse-engineering" rel="category">reverse-engineering</a>&nbsp;
+    
+        <a href="/category/#x86-64" title="Category: x86-64" rel="category">x86-64</a>
+    
+  
+
+  <!-- <span class="point">•</span> -->
+</span>
+
+
+            </div>
+
+            <div class="label-card">
+            
+<!-- <span class="point">•</span> -->
+<span class="pageTag">
+  <i class="fa fa-tags"></i>
+  
+    
+        <!--a href="/tag/#reverse-engineering" title="Tag: reverse-engineering" rel="tag">reverse-engineering</a-->
+        <a href="/tag/#reverse-engineering" title="Tag: reverse-engineering" rel="tag">reverse-engineering</a>&nbsp;
+    
+        <!--a href="/tag/#binary-bomb" title="Tag: binary-bomb" rel="tag">binary-bomb</a-->
+        <a href="/tag/#binary-bomb" title="Tag: binary-bomb" rel="tag">binary-bomb</a>&nbsp;
+    
+        <!--a href="/tag/#gdb" title="Tag: gdb" rel="tag">gdb</a-->
+        <a href="/tag/#gdb" title="Tag: gdb" rel="tag">gdb</a>&nbsp;
+    
+        <!--a href="/tag/#x86-64" title="Tag: x86-64" rel="tag">x86-64</a-->
+        <a href="/tag/#x86-64" title="Tag: x86-64" rel="tag">x86-64</a>
+    
+  
+
+</span>
+
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+            <p>Phase 2 is a little more difficult than Phase 1. In the first part of this document I go through solving the phase without gdb, and then in the second part, I solve it with gdb and a more in-depth explanation.</p>
+
+<h1 id="phase-2">Phase 2</h1>
+
+<p>Navigate to the directory in which you extracted the bomb from and start the gdb debugging session by typing the following:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gdb bomb
+</code></pre></div></div>
+
+<p>Set a breakpoint for explode_bomb:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>b explode_bomb
+</code></pre></div></div>
+
+<p>Disassemble phase_2:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>disas phase_2
+</code></pre></div></div>
+
+<p>We see there’s a function named read_six_numbers. We could go through the function and study it, but we don’t need to solve this challenge. Its enough to see the state of the registers and stack after the number has been run, or if we’ve entered the explode_bomb function.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Dump of assembler code for function phase_2:
+   0x0000000000400efc &lt;+0&gt;: 	push   rbp
+   0x0000000000400efd &lt;+1&gt;: 	push   rbx
+   0x0000000000400efe &lt;+2&gt;: 	sub    rsp,0x28
+   0x0000000000400f02 &lt;+6&gt;: 	mov    rsi,rsp
+   0x0000000000400f05 &lt;+9&gt;: 	call   0x40145c &lt;read_six_numbers&gt;
+   0x0000000000400f0a &lt;+14&gt;:	cmp    DWORD PTR [rsp],0x1
+   ...
+</code></pre></div></div>
+
+<p>Let’s set our breakpoint for the address after read_six_numbers returns.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>b *0x400f0a
+</code></pre></div></div>
+
+<p>Pass the answer file:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>r answers.txt
+</code></pre></div></div>
+
+<p>Now enter the following 6 numbers:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>7 8 9 4 5 6
+</code></pre></div></div>
+
+<p>Press Enter and you should now see we’ve stopped on the breakpoint we just set. Let’s see what was placed on the stack:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x/6w $rsp
+</code></pre></div></div>
+<p>This means we want to examine 6 words starting at the stack pointer.</p>
+
+<p>You should see:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0x7fffffffe440:	0x00000007	0x00000008	0x00000009	0x00000004
+0x7fffffffe450:	0x00000005	0x00000006
+</code></pre></div></div>
+
+<p>Here’s the instruction we stopped on.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x0000000000400f0a &lt;+14&gt;:	cmp    DWORD PTR [rsp],0x1
+</code></pre></div></div>
+
+<p>This instruction hasn’t been executed. We can proceed, instruction by instruction from this point to see what will happen. In this line, we can see the address of the stack pointer will be dereferenced and compared to the number 0x1. Looking at our previous output, we can see the referenced number is 0x00000007.</p>
+
+<p>To execute the next instruction, type:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ni
+</code></pre></div></div>
+
+<p>In the background, the CMP instruction performs a subtraction. The result of this subtraction is not stored, but the status registers are affected. The CMP command subtracts the first number we entered, 7, from 0x1. Since 1 - 7 does not equal zero, the zero flag is not set.</p>
+
+<p>The following instruction only concerns itself with the status of the zero flag. The other flags that were set are not considered.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x0000000000400f0e &lt;+18&gt;:	je     0x400f30 &lt;phase_2+52&gt;
+</code></pre></div></div>
+
+<p>Instruction JE, means jump if equal. Since the zero flag was not set, this jump will not be taken.</p>
+
+<p>Enter ni and see where we wind up.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x0000000000400f10 &lt;+20&gt;:	call   0x40143a &lt;explode_bomb&gt;
+</code></pre></div></div>
+
+<p>We now know that we must set that zero flag to proceed. if we changed out first number to 1, we could make it past this check. Let’s restart and see what happens next.</p>
+
+<p>Press Ctrl-C to exit the running session. You should still be inside of gdb. If you accidentally closed out of gdb, you’ll need to start it back up and set your breakpoint for explode_bomb and the address after read_six_lines. If you didn’t, you don’t have to worry about resetting the breakpoints. They’ll remain until you delete them or close out of gdb entirely.</p>
+
+<p>If you’d like to verify that they’re still there, enter:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>info breakpoints
+</code></pre></div></div>
+
+<p>If you’d like to save a few keystrokes, you can also type:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>i b
+</code></pre></div></div>
+
+<p>Run the bomb again. If you exited the bomb, you’ll need to pass the answer file once again, otherwise you can just enter ‘r’ and gdb will read the answer file without needing to be told.</p>
+
+<p>This time enter the following:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1 8 9 4 5 6
+</code></pre></div></div>
+
+<p>Execute the next instruction:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ni
+</code></pre></div></div>
+
+<p>We’re now sitting on the jump, that we were unable to take last time. Execute the next instruction:</p>
+
+<p>Now we see that we were able to take the jump. We know for certain that this number is correct. In the next three lines we see:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x0000000000400f30 &lt;+52&gt;:    lea    rbx,[rsp+0x4]
+   0x0000000000400f35 &lt;+57&gt;:    lea    rbp,[rsp+0x18]
+   0x0000000000400f3a &lt;+62&gt;:    jmp    0x400f17 &lt;phase_2+27&gt;
+</code></pre></div></div>
+
+<p>The LEA instruction, or Load Equivalent Address, is being used to calculate two different address. In C/C++ this would be pointer arithmetic. Let’s see what the first line is doing:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x/w $rsp+4
+</code></pre></div></div>
+
+<p>Sure enough, the address of the second number is been placed into the RBX register.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0x7fffffffe444:	0x00000008
+</code></pre></div></div>
+
+<p>As the numbers are stored in a contiguous block on the stack, and RBP has been assigned an address that’s 0x18 or 24 bytes away from the first, we can deduce that this would be our last entered number. You can check this if you’d like in the same manner that we checked the what RBX was being set to.</p>
+
+<p>Let’s look at the next block of code:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x0000000000400f17 &lt;+27&gt;:    mov    eax,DWORD PTR [rbx-0x4]
+   0x0000000000400f1a &lt;+30&gt;:    add    eax,eax
+   0x0000000000400f1c &lt;+32&gt;:    cmp    DWORD PTR [rbx],eax
+   0x0000000000400f1e &lt;+34&gt;:    je     0x400f25 &lt;phase_2+41&gt;
+   0x0000000000400f20 &lt;+36&gt;:    call   0x40143a &lt;explode_bomb&gt;
+   0x0000000000400f25 &lt;+41&gt;:    add    rbx,0x4
+   0x0000000000400f29 &lt;+45&gt;:    cmp    rbx,rbp
+   0x0000000000400f2c &lt;+48&gt;:    jne    0x400f17 &lt;phase_2+27&gt;
+   0x0000000000400f2e &lt;+50&gt;:    jmp    0x400f3c &lt;phase_2+64&gt;
+   ...
+   0x0000000000400f3c &lt;+64&gt;:    add    rsp,0x28
+   0x0000000000400f40 &lt;+68&gt;:    pop    rbx
+   0x0000000000400f41 &lt;+69&gt;:    pop    rbp
+   0x0000000000400f42 &lt;+70&gt;:    ret 
+</code></pre></div></div>
+
+<p>This is a for loop. If we look at the three jumps: one that allows us to jump over explode_bomb, one that puts us back at the top of this block, and one that jumps us out of Phase 2 entirely.</p>
+
+<p>Let’s look at the first three lines:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x0000000000400f17 &lt;+27&gt;:    mov    eax,DWORD PTR [rbx-0x4]
+   0x0000000000400f1a &lt;+30&gt;:    add    eax,eax
+   0x0000000000400f1c &lt;+32&gt;:    cmp    DWORD PTR [rbx],eax
+</code></pre></div></div>
+
+<p>Before jumping into this code block, RBX was set to the next number of our input. In our example, this would be the number 8. Now, we’re dereferencing the address stored in RBX - 0x4 to access the previous number. In our example, this would be the number 1, and stores that into EAX.</p>
+
+<p>Execute the MOV instruction. Now look at the value stored in EAX my entering the following:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x/w $eax
+</code></pre></div></div>
+
+<p>The next line adds EAX to itself stores the result back into EAX. Execute this instruction and then examine EAX.</p>
+
+<p>The third line compares what is stored in the address of RBX, which for us is 8, with the value that is stored in eax, which for us is 2. Because 2 - 8 != 0, the Zero flag will not be set. Once again, we end up calling explode_bomb.</p>
+
+<p>To save time, lets imagine we had entered:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1 2 9 4 5 6
+</code></pre></div></div>
+
+<p>In this scenario, we would have pass the compare check since 2 - 2 = 0. Let’s look to see if we can tell without gdb what would happen.</p>
+
+<p>The JE instruction would have occured, which would have made the next instruction:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x0000000000400f25 &lt;+41&gt;:    add    rbx,0x4
+</code></pre></div></div>
+
+<p>We know that RBX contain the address of the second number in our array of integers. By adding 0x4 to RBX, we’ve now got a pointer to the third number in the array, which in this scenario is 9.</p>
+
+<p>Next comparison is seeing if RBX and RBP are the same value.  This will only occur after we’ve gone through all six numbers. Since we’ve only gone through two, this condition won’t be met and we jump back to the top of the code block.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x0000000000400f17 &lt;+27&gt;:    mov    eax,DWORD PTR [rbx-0x4]
+   0x0000000000400f1a &lt;+30&gt;:    add    eax,eax
+   0x0000000000400f1c &lt;+32&gt;:    cmp    DWORD PTR [rbx],eax
+</code></pre></div></div>
+
+<p>Again it will set EAX to the previous number, which is two. it will then add double the value in EAX and see if that doubled value equals 9, our third number.</p>
+
+<p>Since we were forced to start with the number one, and we must have six number that must double each time, the only possible answer is:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1 2 4 8 16 32
+</code></pre></div></div>
+
+<h1 id="cleaning-up-and-testing">Cleaning up and testing</h1>
+
+<p>If you wanted to, you could restart the bomb with the numbers above, but you still have a breakpoint set. You could continue execution of the program by entering ‘c’, but if you happened to set a breakpoint in a loop, you’d hit it each time. You’d also hit the breakpoint every time you restarted the bomb, even if you’re working on later phases.</p>
+
+<p>You should shut down and relaunch gdb which would clear all breakpoints, including explode_bomb. So if you were to do that, you’d have to reset that breakpoint before doing anything else. The easiest way to proceed is to delete or disable the breakpoint.</p>
+
+<p>Enter ‘i b’ into gdb and you should see something similar.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Num     Type           Disp Enb Address            What
+1       breakpoint     keep y   0x000000000040143a &lt;explode_bomb&gt;
+2       breakpoint     keep y   0x0000000000400f0a &lt;phase_2+14&gt;
+</code></pre></div></div>
+
+<p>The numbers used to select which breakpoint you want to interact with. Here we see two breakpoints and their locations. We can also see they’re both enabled. To temporarily disable a breakpoint, such as the one at address 0x400f0a, you’d use the disable command:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>disable 2
+</code></pre></div></div>
+
+<p>Type ‘i b’ once again and you’ll still see the breakpoint listed, but with an ‘n’ in the enabled column.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Num     Type           Disp Enb Address            What
+1       breakpoint     keep y   0x000000000040143a &lt;explode_bomb&gt;
+2       breakpoint     keep n   0x0000000000400f0a &lt;phase_2+14&gt;
+</code></pre></div></div>
+
+<p>Since we’re not going to need this breakpoint again, we can go ahead and delete it with the delete command, or del for short.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>del 2
+</code></pre></div></div>
+
+<p>Enter ‘i b’ one more time and you’ll see it’s now gone.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Num     Type           Disp Enb Address            What
+1       breakpoint     keep y   0x000000000040143a &lt;explode_bomb&gt;
+</code></pre></div></div>
+
+<p>With the breakpoint deleted we can restart the bomb and test our answer:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Welcome to my fiendish little bomb. You have 6 phases with
+which to blow yourself up. Have a nice day!
+Phase 1 defused. How about the next one?
+1 2 4 8 16 32
+That's number 2.  Keep going!
+</code></pre></div></div>
+
+<p>That did it! Don’t forget to save those numbers to your answer file.</p>
+
+        </article>
+        <hr>
+        
+
+        <div class="post-recent">
+    <div class="pre" style="display:inline-block; margin-top: 20px;">
+        
+        <p><i class="fa fa-arrow-left"></i> <a href="/2019/12/13/binary-bomb-phase-1/">Binary Bomb: Phase 1</a></p>
+        
+    </div>
+    <div class="nex" style="display:inline-block; margin-top: 20px; float:right;">
+        
+        <p><a href="/2019/12/17/binary-bomb-phase-3/">Binary Bomb: Phase 3</a> <i class="fa fa-arrow-right"></i></p>
+        
+    </div>
+</div>
+
+        
+        
+        
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <!-- <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div> -->
+            <!-- Put other div boxes here -->
+            <!-- <div class="side">bbbb</div> -->
+            <div class="side">
+                <div>
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    Recent Posts
+                </div>
+                <ul class="content-ul" recent>
+                    
+                        <li><a href="/2019/12/20/binary-bomb-secret-phase/">Binary Bomb: Secret Phase</a></li>
+                    
+                        <li><a href="/2019/12/18/binary-bomb-phase-6/">Binary Bomb: Phase 6</a></li>
+                    
+                        <li><a href="/2019/12/18/binary-bomb-phase-5/">Binary Bomb: Phase 5</a></li>
+                    
+                        <li><a href="/2019/12/17/binary-bomb-phase-4/">Binary Bomb: Phase 4</a></li>
+                    
+                        <li><a href="/2019/12/17/binary-bomb-phase-3/">Binary Bomb: Phase 3</a></li>
+                    
+                        <li><a href="/2019/12/16/binary-bomb-phase-2/">Binary Bomb: Phase 2</a></li>
+                    
+                        <li><a href="/2019/12/13/binary-bomb-phase-1/">Binary Bomb: Phase 1</a></li>
+                    
+                        <li><a href="/2019/12/12/binary-bomb-phase-0/">Binary Bomb: Phase 0</a></li>
+                    
+                </ul>
+            </div>
+
+            <!-- Content -->
+            <div class="side ">
+                <div>
+                    <i class="fa fa-th-list"></i>
+                    Categories
+                </div>
+                <ul class="content-ul" cate>
+                    
+                    <li>
+                        <a href="/category/#reverse-engineering" class="categories-list-item" cate="reverse-engineering">
+                            <span class="name">
+                                reverse-engineering
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#x86-64" class="categories-list-item" cate="x86-64">
+                            <span class="name">
+                                x86-64
+                            </span>
+                            <span class="badge">8</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+            </div>
+            <!-- Put other div boxes here -->
+            <div class="side">
+                <div>
+                    <i class="fa fa-tags"></i>
+                    Tags
+                </div>
+                <div class="tags-cloud">
+                    
+                    
+                    
+                    
+
+                    
+
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#reverse-engineering" style="font-size: 18pt; color: #000;">reverse-engineering</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#binary-bomb" style="font-size: 18pt; color: #000;">binary-bomb</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#objdump" style="font-size: 9pt; color: #999;">objdump</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#x86-64" style="font-size: 18pt; color: #000;">x86-64</a>
+                    
+                      
+                      
+                      
+                      
+                      
+                      <a href="/tag/#gdb" style="font-size: 16.5pt; color: #111;">gdb</a>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<!-- <script src="/assets/js/pageContent.js " charset="utf-8"></script> -->
+
+
+    <footer class="site-footer">
+
+
+    <div class="wrapper">
+
+        <p class="description">
+            
+        </p>
+        <p class="contact">
+            Find me on: 
+            <a href="https://github.com/caminek" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a> 
+             
+        </p>
+        <p class="power">
+            <span>
+                Site powered by <a href="https://jekyllrb.com/">Jekyll</a> & <a href="https://pages.github.com/">Github Pages</a>.
+            </span>
+            <span>
+                Theme designed by <a href="https://github.com/Gaohaoyang">HyG</a>, and modified by <a href="https://github.com/caminek">caminek</a>.
+            </span>
+        </p>
+    </div>
+</footer>
+
+    <div class="back-to-top">
+    <a href="#top" data-scroll>
+        <i class="fa fa-arrow-up" aria-hidden="true"></i>
+    </a>
+</div>
+
+    <!-- <script src=" /assets/js/main.js " charset="utf-8"></script>
+    <script src=" /assets/js/smooth-scroll.min.js " charset="utf-8"></script> -->
+    <script src=" /assets/js/all.js " charset="utf-8"></script>
+    <script type="text/javascript">
+      smoothScroll.init({
+        speed: 500, // Integer. How fast to complete the scroll in milliseconds
+        easing: 'easeInOutCubic', // Easing pattern to use
+        offset: 20, // Integer. How far to offset the scrolling anchor location in pixels
+      });
+    </script>
+    <!-- <script src=" /assets/js/scroll.min.js " charset="utf-8"></script> -->
+  </body>
+
+</html>
