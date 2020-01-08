@@ -11,7 +11,7 @@ icon: /assets/img/misc/avatar.png
 brief-intro:        # appears to the right of the title 
 heading:            # appears on the main page, above the post listings
 baseurl: ""         # the subpath of your site, e.g. /blog
-url: "https://caminek.rocks/"             # the base hostname & protocol for your site
+url: ""             # the base hostname & protocol for your site
 
 permalink: /:year/:month/:day/:title/
 

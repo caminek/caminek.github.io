@@ -1,0 +1,26 @@
+language: node_js
+
+node_js:
+  - "stable"
+
+env:
+  global:
+  - NOKOGIRI_USE_SYSTEM_LIBRARIES=true  # speeds up installation of html-proofer
+
+cache:
+  directories:
+  - node_modules                  # Should increase build speed
+
+before_script:
+ - chmod +x ./_scripts/cibuild.sh # Make sure script is executabe
+
+script:
+  - ./_scripts/cibuild.sh         # scripts to be run
+
+deploy:
+  provider: pages                 # TravisCI configs for deploying to GitHub Pages
+  skip_cleanup: true              # Don't remove files
+  github_token: $GITHUB_TOKEN     # Private token set in TravisCI dashboard
+  local_dir: _site                # Deploy the _site folder
+  on:
+    branch: master                # TravisCI is triggered by changes to this branch
