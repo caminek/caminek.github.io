@@ -6,29 +6,29 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta name="description" content="This isn't an official phase of the binary bomb lab. This is meant to document what we need to do before launching the bomb for the first time.">
+    <meta name="description" content="This is Software Revision 02. We have received reports that the prior version of the lock was bypassable without knowing the password. We have fixed this and...">
 
     <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
     <link rel="icon" href="/favicon.ico?" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.Cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="/assets/css/main.min.css ">
-    <link rel="canonical" href="https://caminek.rocks/2019/12/12/binary-bomb-phase-0/">
+    <link rel="canonical" href="https://caminek.rocks/2020/01/10/microcorruption-sydney/">
     <link rel="alternate" type="application/rss+xml" title="Caminek" href="https://caminek.rocks/feed.xml ">
     
     <!-- Begin Jekyll SEO tag v2.6.1 -->
-<title>Binary Bomb: Phase 0 | Caminek</title>
+<title>Microcorruption: Sydney | Caminek</title>
 <meta name="generator" content="Jekyll v4.0.0" />
-<meta property="og:title" content="Binary Bomb: Phase 0" />
+<meta property="og:title" content="Microcorruption: Sydney" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="This isn’t an official phase of the binary bomb lab. This is meant to document what we need to do before launching the bomb for the first time." />
-<meta property="og:description" content="This isn’t an official phase of the binary bomb lab. This is meant to document what we need to do before launching the bomb for the first time." />
-<link rel="canonical" href="https://caminek.rocks/2019/12/12/binary-bomb-phase-0/" />
-<meta property="og:url" content="https://caminek.rocks/2019/12/12/binary-bomb-phase-0/" />
+<meta name="description" content="This is Software Revision 02. We have received reports that the prior version of the lock was bypassable without knowing the password. We have fixed this and removed the password from memory." />
+<meta property="og:description" content="This is Software Revision 02. We have received reports that the prior version of the lock was bypassable without knowing the password. We have fixed this and removed the password from memory." />
+<link rel="canonical" href="https://caminek.rocks/2020/01/10/microcorruption-sydney/" />
+<meta property="og:url" content="https://caminek.rocks/2020/01/10/microcorruption-sydney/" />
 <meta property="og:site_name" content="Caminek" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2019-12-12T21:14:54+00:00" />
+<meta property="article:published_time" content="2020-01-10T17:26:02+00:00" />
 <script type="application/ld+json">
-{"description":"This isn’t an official phase of the binary bomb lab. This is meant to document what we need to do before launching the bomb for the first time.","mainEntityOfPage":{"@type":"WebPage","@id":"https://caminek.rocks/2019/12/12/binary-bomb-phase-0/"},"@type":"BlogPosting","url":"https://caminek.rocks/2019/12/12/binary-bomb-phase-0/","headline":"Binary Bomb: Phase 0","dateModified":"2019-12-12T21:14:54+00:00","datePublished":"2019-12-12T21:14:54+00:00","@context":"https://schema.org"}</script>
+{"description":"This is Software Revision 02. We have received reports that the prior version of the lock was bypassable without knowing the password. We have fixed this and removed the password from memory.","mainEntityOfPage":{"@type":"WebPage","@id":"https://caminek.rocks/2020/01/10/microcorruption-sydney/"},"@type":"BlogPosting","url":"https://caminek.rocks/2020/01/10/microcorruption-sydney/","headline":"Microcorruption: Sydney","dateModified":"2020-01-10T17:26:02+00:00","datePublished":"2020-01-10T17:26:02+00:00","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -106,11 +106,11 @@
 
         <div class="page clearfix" index>
     <div class="left">
-        <h1>Binary Bomb: Phase 0</h1>
+        <h1>Microcorruption: Sydney</h1>
         <div class="label">
 
             <div class="label-card">
-                <i class="fa fa-calendar"></i> 2019-12-12
+                <i class="fa fa-calendar"></i> 2020-01-10
             </div>
 
             <div class="label-card">
@@ -132,7 +132,7 @@
     
         <a href="/category/#reverse-engineering" title="Category: reverse-engineering" rel="category">reverse-engineering</a>&nbsp;
     
-        <a href="/category/#x86-64" title="Category: x86-64" rel="category">x86-64</a>
+        <a href="/category/#ctf" title="Category: ctf" rel="category">ctf</a>
     
   
 
@@ -152,14 +152,11 @@
         <!--a href="/tag/#reverse-engineering" title="Tag: reverse-engineering" rel="tag">reverse-engineering</a-->
         <a href="/tag/#reverse-engineering" title="Tag: reverse-engineering" rel="tag">reverse-engineering</a>&nbsp;
     
-        <!--a href="/tag/#binary-bomb" title="Tag: binary-bomb" rel="tag">binary-bomb</a-->
-        <a href="/tag/#binary-bomb" title="Tag: binary-bomb" rel="tag">binary-bomb</a>&nbsp;
+        <!--a href="/tag/#ctf" title="Tag: ctf" rel="tag">ctf</a-->
+        <a href="/tag/#ctf" title="Tag: ctf" rel="tag">ctf</a>&nbsp;
     
-        <!--a href="/tag/#objdump" title="Tag: objdump" rel="tag">objdump</a-->
-        <a href="/tag/#objdump" title="Tag: objdump" rel="tag">objdump</a>&nbsp;
-    
-        <!--a href="/tag/#x86-64" title="Tag: x86-64" rel="tag">x86-64</a-->
-        <a href="/tag/#x86-64" title="Tag: x86-64" rel="tag">x86-64</a>
+        <!--a href="/tag/#microcorruption" title="Tag: microcorruption" rel="tag">microcorruption</a-->
+        <a href="/tag/#microcorruption" title="Tag: microcorruption" rel="tag">microcorruption</a>
     
   
 
@@ -170,139 +167,52 @@
         </div>
         <hr>
         <article itemscope itemtype="http://schema.org/BlogPosting">
-            <h1 id="about">About</h1>
+            <p>Once again we’ll start by searching for the <strong>main</strong> function within Disassembly.</p>
 
-<p>These writeups document the steps needed to defuse the self-study version of the <a href="https://csapp.cs.cmu.edu/3e/labs.html">CMU Bomb Lab</a>. The installation and configuration of the tools and environments are left for the reader.</p>
-
-<p>The phases are initially verbose in their explanation of tools and certain assembly instructions. As we move through the phases, they will become less so. This is due to the increasing complexity of the phases and the expectation that the reader now understands these concepts.</p>
-
-<h1 id="phase-0">Phase 0</h1>
-
-<p>This isn’t an official phase of the binary bomb lab.  This is meant to document what we need to do before launching the bomb for the first time.  Mainly, we need to gather a little information about the bomb and make sure our tools are in place.</p>
-
-<h2 id="tools">Tools</h2>
-
-<p>The only tools we’ll need are gdb and objdump. While strings can be used, I found that it tends to lead people into guessing.  There’s plenty of false flags to frustrate you. There’s some valuable information to be gained, but nothing we won’t find in gdb. I won’t be using strings in this writeup, but you’re welcome to try it if you’d like.</p>
-
-<p>You might also be interested in gdb enhancements, such as <a href="https://gef.readthedocs.io/en/master/">gef</a>. While helpful, they’re not required for this lab.</p>
-
-<h2 id="configure-gdb">Configure gdb</h2>
-
-<p>One configuration you’ll need to make to work with these writeups is to use Intel notation instead of the default AT&amp;T notation.  You could type the following after starting every gdb session:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>set disassembly-flavor intel
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>4438 &lt;main&gt;
+4438:  3150 9cff      add	#0xff9c, sp
+443c:  3f40 b444      mov	#0x44b4 "Enter the password to continue.", r15
+4440:  b012 6645      call	#0x4566 &lt;puts&gt;
+4444:  0f41           mov	sp, r15
+4446:  b012 8044      call	#0x4480 &lt;get_password&gt;
+444a:  0f41           mov	sp, r15
+444c:  b012 8a44      call	#0x448a &lt;check_password&gt;
+4450:  0f93           tst	r15
+4452:  0520           jnz	#0x445e &lt;main+0x26&gt;
+4454:  3f40 d444      mov	#0x44d4 "Invalid password; try again.", r15
+4458:  b012 6645      call	#0x4566 &lt;puts&gt;
+445c:  093c           jmp	#0x4470 &lt;main+0x38&gt;
+445e:  3f40 f144      mov	#0x44f1 "Access Granted!", r15
+4462:  b012 6645      call	#0x4566 &lt;puts&gt;
+4466:  3012 7f00      push	#0x7f
+446a:  b012 0245      call	#0x4502 &lt;INT&gt;
+446e:  2153           incd	sp
+4470:  0f43           clr	r15
+4472:  3150 6400      add	#0x64, sp
 </code></pre></div></div>
 
-<p>The other option is to include this line in .gdbinit:</p>
+<p>We know from the last challenge that there’s nothing for us within the <strong>get_password</strong> function. It displays the GUI that we use to enter in the password.</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">echo</span> <span class="s2">"set disassembly-flavor intel"</span> <span class="o">&gt;&gt;</span> ~/.gdbinit
+<p>Let’s look into the <strong>check_password</strong> function:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>448a &lt;check_password&gt;
+448a:  bf90 7325 0000 cmp	#0x2573, 0x0(r15)
+4490:  0d20           jnz	$+0x1c
+4492:  bf90 6e38 0200 cmp	#0x386e, 0x2(r15)
+4498:  0920           jnz	$+0x14
+449a:  bf90 2276 0400 cmp	#0x7622, 0x4(r15)
+44a0:  0520           jne	#0x44ac &lt;check_password+0x22&gt;
+44a2:  1e43           mov	#0x1, r14
+44a4:  bf90 6c35 0600 cmp	#0x356c, 0x6(r15)
+44aa:  0124           jeq	#0x44ae &lt;check_password+0x24&gt;
+44ac:  0e43           clr	r14
+44ae:  0f4e           mov	r14, r15
+44b0:  3041           ret
 </code></pre></div></div>
 
-<p>If you opt to use gef, you won’t need to add this line. It’s part of the default configuration.</p>
+<p>Here we see that our input, which was stored in <strong>r15</strong> is being compared with hardcoded values every two bytes. The password was moved from memory and split up within the code.  Since the system is little-endian, we’ll need to reverse the byte order.</p>
 
-<h1 id="gathering-information">Gathering Information</h1>
-
-<p>Download the bomb from the CMU Bomb Lab, and extract it. You’ll see two files of interest, <strong>bomb.c</strong>, and <strong>bomb</strong>.</p>
-
-<h2 id="bombc">bomb.c</h2>
-
-<p>In bomb.c, we see some valuable information:</p>
-
-<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">printf</span><span class="p">(</span><span class="s">"Welcome to my fiendish little bomb. You have 6 phases with</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
-    <span class="n">printf</span><span class="p">(</span><span class="s">"which to blow yourself up. Have a nice day!</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
-    
-    <span class="n">input</span> <span class="o">=</span> <span class="n">read_line</span><span class="p">();</span>
-    <span class="n">phase_1</span><span class="p">(</span><span class="n">input</span><span class="p">);</span>
-    
-    <span class="cm">/* Wow, they got it!  But isn't something... missing?  Perhaps
-     * something they overlooked?  Mua ha ha ha ha! */</span>
-</code></pre></div></div>
-
-<p>Here we can see that the bomb has 6 phases, each phase has a function named after it, and we’re likely going to miss something.</p>
-
-<h2 id="bomb">bomb</h2>
-
-<h3 id="objdump--t">objdump -t</h3>
-
-<p>Since the bomb contains debugging info, we’ll be able to recover the name of the functions in the program. As we saw in bomb.c, the author used descriptive function names. Let’s see what other functions might be included. Open a terminal and navigate to the directory that contains the bomb file.</p>
-
-<p>Enter the following:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>objdump <span class="nt">-t</span> bomb | <span class="nb">grep </span>text | <span class="nb">awk</span> <span class="s1">'{print $NF}'</span> | <span class="nb">grep</span> <span class="nt">-v</span> <span class="s2">"^_"</span> | <span class="nb">sort</span>
-</code></pre></div></div>
-
-<p>The -t flag tells objdump that we’re only interested in the symbol table. We pipe the results into grep to give us only the .text section since that contains a list of the entry points (functions, variables, etc…) within the program.</p>
-
-<p>Since we’re only interested in the function names, and not their entry points, we use awk to clean up the output. Using $NF will get us the last field in every line which happens to be the names.</p>
-
-<p>Next, we send the output to grep to match any name that does not start with an underscore. While this isn’t strictly necessary given that there are only 4 matches, it does make the output cleaner.</p>
-
-<p>Lastly, we sort the output alphabetically.</p>
-
-<p>Here’s what you should see:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>blank_line
-call_gmon_start
-deregister_tm_clones
-driver_post
-explode_bomb
-frame_dummy
-fun7
-func4
-init_driver
-initialize_bomb
-initialize_bomb_solve
-init_timeout
-invalid_phase
-main
-phase_1
-phase_2
-phase_3
-phase_4
-phase_5
-phase_6
-phase_defused
-read_line
-read_six_numbers
-register_tm_clones
-rio_readlineb
-secret_phase
-sigalrm_handler
-sig_handler
-skip
-string_length
-strings_not_equal
-submitr
-.text
-</code></pre></div></div>
-
-<p>Reading through the list, we see a couple of interesting names: <strong>explode_bomb</strong> and <strong>secret_phase</strong>.</p>
-
-<p>The explode_bomb function is what is called when we enter bad input.  Knowing its name, we can watch for this function to be called and stop the program from executing it. TThis will save us from detonating the bomb if we supply the wrong information.</p>
-
-<p>The secret_phase function would appear to be the thing we were likely going to miss. Now that we know its there, we can search for it.</p>
-
-<h3 id="optional-objdump--d">Optional: objdump -d</h3>
-
-<p>You can use objdump to disassemble the bomb for further analysis. While I won’t be using this, I’ve included it for the sake of completeness. I’ll use gdb for disassembly and including that within the individual phase writeups.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>objdump <span class="nt">-M</span> intel <span class="nt">-d</span> bomb <span class="o">&gt;</span> bomb-objdump.txt
-</code></pre></div></div>
-
-<p>By default, objdump will disassemble into AT&amp;T syntax. While it looks similar, it reads differently than the Intel syntax. We’ll use the -M option to convert the output.</p>
-
-<p>By using the -d option you can exclude non-executable sections of the bomb. If you’d prefer, use -D and everything will be included in the output.</p>
-
-<h1 id="what-we-know-so-far">What we know so far</h1>
-
-<ul>
-  <li>We have six functions named the six phases of the bomb.</li>
-  <li>There’s a secret phase</li>
-  <li>The phase_defused function plays some role in accessing the secret phase</li>
-  <li>There’s a function named explode_bomb that we watch for to prevent the bomb from exploding</li>
-</ul>
-
-<p>With this, we’re ready to start phase 1!</p>
+<p>Enter <strong>solve</strong> into the debugger. When prompted, enter <strong>73256e3822766c35</strong> as your password. Make sure the hex input checkbox is checked, and press send. The door should now be unlocked.</p>
 
         </article>
         <hr>
@@ -311,10 +221,10 @@ submitr
         <div class="post-recent">
     <div class="pre" style="display:inline-block; margin-top: 20px;">
         
+        <p><i class="fa fa-arrow-left"></i> <a href="/2020/01/10/microcorruption-new-orleans/">Microcorruption: New Orleans</a></p>
+        
     </div>
     <div class="nex" style="display:inline-block; margin-top: 20px; float:right;">
-        
-        <p><a href="/2019/12/13/binary-bomb-phase-1/">Binary Bomb: Phase 1</a> <i class="fa fa-arrow-right"></i></p>
         
     </div>
 </div>

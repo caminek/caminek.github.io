@@ -5,9 +5,49 @@
     <description></description>
     <link>https://caminek.rocks/</link>
     <atom:link href="https://caminek.rocks/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 09 Jan 2020 16:49:43 +0000</pubDate>
-    <lastBuildDate>Thu, 09 Jan 2020 16:49:43 +0000</lastBuildDate>
+    <pubDate>Fri, 10 Jan 2020 22:49:56 +0000</pubDate>
+    <lastBuildDate>Fri, 10 Jan 2020 22:49:56 +0000</lastBuildDate>
     <generator>Jekyll v4.0.0</generator>
+    
+      <item>
+        <title>Microcorruption: Sydney</title>
+        <description>This is Software Revision 02. We have received reports that the prior version of the lock was bypassable without knowing the password. We have fixed this and removed the password from memory.</description>
+        <pubDate>Fri, 10 Jan 2020 17:26:02 +0000</pubDate>
+        <link>https://caminek.rocks/2020/01/10/microcorruption-sydney/</link>
+        <guid isPermaLink="true">https://caminek.rocks/2020/01/10/microcorruption-sydney/</guid>
+        
+        <category>reverse-engineering</category>
+        
+        <category>ctf</category>
+        
+        <category>microcorruption</category>
+        
+        
+        <category>reverse-engineering</category>
+        
+        <category>ctf</category>
+        
+      </item>
+    
+      <item>
+        <title>Microcorruption: New Orleans</title>
+        <description>This is the first level after completing the tutorial. You'll want to complete that before starting here as none of the debugging commands or GUI components will be explained.</description>
+        <pubDate>Fri, 10 Jan 2020 14:16:53 +0000</pubDate>
+        <link>https://caminek.rocks/2020/01/10/microcorruption-new-orleans/</link>
+        <guid isPermaLink="true">https://caminek.rocks/2020/01/10/microcorruption-new-orleans/</guid>
+        
+        <category>reverse-engineering</category>
+        
+        <category>ctf</category>
+        
+        <category>microcorruption</category>
+        
+        
+        <category>reverse-engineering</category>
+        
+        <category>ctf</category>
+        
+      </item>
     
       <item>
         <title>Binary Bomb: Secret Phase</title>
