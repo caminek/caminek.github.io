@@ -169,9 +169,9 @@
         </div>
         <hr>
         <article itemscope itemtype="http://schema.org/BlogPosting">
-            <p>The locks have been changed once again. Now the password is stored within an app we don’t have access to. We’re told that if the correct password is entered into the app andif correct a flag will be set allowing entry.</p>
+            <p>The locks have been changed once again. Now the password is stored within an app we don’t have access to. We’re told that if the correct password is entered into the app and if correct a flag will be set allowing entry.</p>
 
-<p>The password prompt reminds us that the password must be between 8 - 16 characters in length. While that might be the intent of the developer, it’s possible that it might be suceptible to a buffer overflow attack.  Lets see what we haveto work with.</p>
+<p>The password prompt reminds us that the password must be between 8 - 16 characters in length. While that might be the intent of the developer, it might be susceptible to a buffer overflow attack.  Let’s see what we have to work with.</p>
 
 <p>The following was entered into a Python REPL to generate our password string. This should show us how long our input can be.</p>
 
@@ -180,9 +180,9 @@
 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 </code></pre></div></div>
 
-<p>Use <strong>abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</strong> as your password and press <strong>send</strong>.  You should see the password string starting at memory location <strong>2400</strong>.  The last character of the passsword in memory is <strong>B</strong>.  This means we’ve got 28 characters that will be accepted. We now know for certain that we can overflow the buffer.</p>
+<p>Use <strong>abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</strong> as your password and press <strong>send</strong>.  You should see the password string starting at memory location <strong>2400</strong>.  The last character of the password in memory is <strong>B</strong>.  This means we’ve got 28 characters that will be accepted. We now know for certain that we can overflow the buffer.</p>
 
-<p>Let’s take alook at the <strong>main</strong> function:</p>
+<p>Let’s take a look at the <strong>main</strong> function:</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>4438 &lt;main&gt;
 4438:  b012 2045      call	#0x4520 &lt;login&gt;
@@ -266,7 +266,7 @@
 456a:  b012 4844      call	#0x4448 &lt;unlock_door&gt;
 </code></pre></div></div>
 
-<p>If <strong>r15</strong> is zero we jump to a string which is then displayed on the screen. We then see the memory location <strong>2410</strong> is compared to <strong>0x7d</strong>, our valid password flag. If that flag is found we’re told we have access and then the <strong>unlock_door</strong> function is called.</p>
+<p>If <strong>r15</strong> is zero we jump to a string that is then displayed on the screen. We then see the memory location <strong>2410</strong> is compared to <strong>0x7d</strong>, our valid password flag. If that flag is found we’re told we have access and then the <strong>unlock_door</strong> function is called.</p>
 
 <p>The address <strong>2410</strong> is immediately after our password. We need the 17th byte of the password to be <strong>7d</strong>.  The first 16 can be any printable. I’ve chosen to use <strong>41</strong> which is A.</p>
 
