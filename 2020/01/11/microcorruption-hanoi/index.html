@@ -6,29 +6,29 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta name="description" content="This is the first level after completing the tutorial. You'll want to complete that before starting here as none of the debugging commands or GUI components ...">
+    <meta name="description" content="LockIT Pro Hardware Security Module 1 stores the login password, ensuring users can not access the password through other means. The LockIT Pro can send the ...">
 
     <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
     <link rel="icon" href="/favicon.ico?" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.Cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="/assets/css/main.min.css ">
-    <link rel="canonical" href="https://caminek.rocks/2020/01/10/microcorruption-new-orleans/">
+    <link rel="canonical" href="https://caminek.rocks/2020/01/11/microcorruption-hanoi/">
     <link rel="alternate" type="application/rss+xml" title="Caminek" href="https://caminek.rocks/feed.xml ">
     
     <!-- Begin Jekyll SEO tag v2.6.1 -->
-<title>Microcorruption: New Orleans | Caminek</title>
+<title>Microcorruption: Hanoi | Caminek</title>
 <meta name="generator" content="Jekyll v4.0.0" />
-<meta property="og:title" content="Microcorruption: New Orleans" />
+<meta property="og:title" content="Microcorruption: Hanoi" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="This is the first level after completing the tutorial. You’ll want to complete that before starting here as none of the debugging commands or GUI components will be explained." />
-<meta property="og:description" content="This is the first level after completing the tutorial. You’ll want to complete that before starting here as none of the debugging commands or GUI components will be explained." />
-<link rel="canonical" href="https://caminek.rocks/2020/01/10/microcorruption-new-orleans/" />
-<meta property="og:url" content="https://caminek.rocks/2020/01/10/microcorruption-new-orleans/" />
+<meta name="description" content="LockIT Pro Hardware Security Module 1 stores the login password, ensuring users can not access the password through other means. The LockIT Pro can send the LockIT Pro HSM-1 a password, and the HSM will return if the password is correct by setting a flag in memory." />
+<meta property="og:description" content="LockIT Pro Hardware Security Module 1 stores the login password, ensuring users can not access the password through other means. The LockIT Pro can send the LockIT Pro HSM-1 a password, and the HSM will return if the password is correct by setting a flag in memory." />
+<link rel="canonical" href="https://caminek.rocks/2020/01/11/microcorruption-hanoi/" />
+<meta property="og:url" content="https://caminek.rocks/2020/01/11/microcorruption-hanoi/" />
 <meta property="og:site_name" content="Caminek" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2020-01-10T14:16:53+00:00" />
+<meta property="article:published_time" content="2020-01-11T18:08:53+00:00" />
 <script type="application/ld+json">
-{"description":"This is the first level after completing the tutorial. You’ll want to complete that before starting here as none of the debugging commands or GUI components will be explained.","mainEntityOfPage":{"@type":"WebPage","@id":"https://caminek.rocks/2020/01/10/microcorruption-new-orleans/"},"@type":"BlogPosting","url":"https://caminek.rocks/2020/01/10/microcorruption-new-orleans/","headline":"Microcorruption: New Orleans","dateModified":"2020-01-10T14:16:53+00:00","datePublished":"2020-01-10T14:16:53+00:00","@context":"https://schema.org"}</script>
+{"description":"LockIT Pro Hardware Security Module 1 stores the login password, ensuring users can not access the password through other means. The LockIT Pro can send the LockIT Pro HSM-1 a password, and the HSM will return if the password is correct by setting a flag in memory.","mainEntityOfPage":{"@type":"WebPage","@id":"https://caminek.rocks/2020/01/11/microcorruption-hanoi/"},"@type":"BlogPosting","url":"https://caminek.rocks/2020/01/11/microcorruption-hanoi/","headline":"Microcorruption: Hanoi","dateModified":"2020-01-11T18:08:53+00:00","datePublished":"2020-01-11T18:08:53+00:00","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -108,11 +108,11 @@
 
         <div class="page clearfix" index>
     <div class="left">
-        <h1>Microcorruption: New Orleans</h1>
+        <h1>Microcorruption: Hanoi</h1>
         <div class="label">
 
             <div class="label-card">
-                <i class="fa fa-calendar"></i> 2020-01-10
+                <i class="fa fa-calendar"></i> 2020-01-11
             </div>
 
             <div class="label-card">
@@ -169,92 +169,110 @@
         </div>
         <hr>
         <article itemscope itemtype="http://schema.org/BlogPosting">
-            <p>Let’s start by searching for the <strong>main</strong> function within Disassembly.</p>
+            <p>The locks have been changed once again. Now the password is stored within an app we don’t have access to. We’re told that if the correct password is entered into the app andif correct a flag will be set allowing entry.</p>
+
+<p>The password prompt reminds us that the password must be between 8 - 16 characters in length. While that might be the intent of the developer, it’s possible that it might be suceptible to a buffer overflow attack.  Lets see what we haveto work with.</p>
+
+<p>The following was entered into a Python REPL to generate our password string. This should show us how long our input can be.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt;&gt;&gt; import string
+&gt;&gt;&gt; string.ascii_letters
+'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+</code></pre></div></div>
+
+<p>Use <strong>abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</strong> as your password and press <strong>send</strong>.  You should see the password string starting at memory location <strong>2400</strong>.  The last character of the passsword in memory is <strong>B</strong>.  This means we’ve got 28 characters that will be accepted. We now know for certain that we can overflow the buffer.</p>
+
+<p>Let’s take alook at the <strong>main</strong> function:</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>4438 &lt;main&gt;
-4438:  3150 9cff      add	#0xff9c, sp
-443c:  b012 7e44      call	#0x447e &lt;create_password&gt;
-4440:  3f40 e444      mov	#0x44e4 "Enter the password to continue", r15
-4444:  b012 9445      call	#0x4594 &lt;puts&gt;
-4448:  0f41           mov	sp, r15
-444a:  b012 b244      call	#0x44b2 &lt;get_password&gt;
-444e:  0f41           mov	sp, r15
-4450:  b012 bc44      call	#0x44bc &lt;check_password&gt;
-4454:  0f93           tst	r15
-4456:  0520           jnz	#0x4462 &lt;main+0x2a&gt;
-4458:  3f40 0345      mov	#0x4503 "Invalid password; try again.", r15
-445c:  b012 9445      call	#0x4594 &lt;puts&gt;
-4460:  063c           jmp	#0x446e &lt;main+0x36&gt;
-4462:  3f40 2045      mov	#0x4520 "Access Granted!", r15
-4466:  b012 9445      call	#0x4594 &lt;puts&gt;
-446a:  b012 d644      call	#0x44d6 &lt;unlock_door&gt;
-446e:  0f43           clr	r15
-4470:  3150 6400      add	#0x64, sp
+4438:  b012 2045      call	#0x4520 &lt;login&gt;
+443c:  0f43           clr	r15
 </code></pre></div></div>
 
-<p>Three password-related functions are being called: <strong>create_password</strong>, <strong>get_password</strong>, and <strong>check_password</strong>.</p>
+<p>Not much going on there. Looks like everything happens within <strong>login</strong> now.  Let’s take a look at that:</p>
 
-<p>Let’s start with the <strong>create_password</strong> function:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>447e &lt;create_password&gt;
-447e:  3f40 0024      mov	#0x2400, r15
-4482:  ff40 6300 0000 mov.b	#0x63, 0x0(r15)
-4488:  ff40 3c00 0100 mov.b	#0x3c, 0x1(r15)
-448e:  ff40 6900 0200 mov.b	#0x69, 0x2(r15)
-4494:  ff40 3d00 0300 mov.b	#0x3d, 0x3(r15)
-449a:  ff40 6200 0400 mov.b	#0x62, 0x4(r15)
-44a0:  ff40 4b00 0500 mov.b	#0x4b, 0x5(r15)
-44a6:  ff40 5800 0600 mov.b	#0x58, 0x6(r15)
-44ac:  cf43 0700      mov.b	#0x0, 0x7(r15)
-44b0:  3041           ret
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>4520 &lt;login&gt;
+4520:  c243 1024      mov.b	#0x0, &amp;0x2410
+4524:  3f40 7e44      mov	#0x447e "Enter the password to continue.", r15
+4528:  b012 de45      call	#0x45de &lt;puts&gt;
+452c:  3f40 9e44      mov	#0x449e "Remember: passwords are between 8 and 16 characters.", r15
+4530:  b012 de45      call	#0x45de &lt;puts&gt;
+4534:  3e40 1c00      mov	#0x1c, r14
+4538:  3f40 0024      mov	#0x2400, r15
+453c:  b012 ce45      call	#0x45ce &lt;getsn&gt;
+4540:  3f40 0024      mov	#0x2400, r15
+4544:  b012 5444      call	#0x4454 &lt;test_password_valid&gt;
+4548:  0f93           tst	r15
+454a:  0324           jz	$+0x8
+454c:  f240 4900 1024 mov.b	#0x49, &amp;0x2410
+4552:  3f40 d344      mov	#0x44d3 "Testing if password is valid.", r15
+4556:  b012 de45      call	#0x45de &lt;puts&gt;
+455a:  f290 7d00 1024 cmp.b	#0x7d, &amp;0x2410
+4560:  0720           jne	#0x4570 &lt;login+0x50&gt;
+4562:  3f40 f144      mov	#0x44f1 "Access granted.", r15
+4566:  b012 de45      call	#0x45de &lt;puts&gt;
+456a:  b012 4844      call	#0x4448 &lt;unlock_door&gt;
+456e:  3041           ret
+4570:  3f40 0145      mov	#0x4501 "That password is not correct.", r15
+4574:  b012 de45      call	#0x45de &lt;puts&gt;
+4578:  3041           ret
 </code></pre></div></div>
 
-<p>Here we see the string <strong>c&lt;i=bKX</strong> being built from hex and stored at the address <strong>2400</strong>.</p>
+<p>We have two interesting functions here, <strong>test_password_valid</strong> and <strong>unlock_door</strong>. According to the manual shown at the start of the level, we need a flag to be set before unlocking the door.</p>
 
-<p>Let’s look at <strong>get_password</strong> and <strong>getsn</strong>:</p>
+<p>Let’s look at <strong>test_password_valid</strong>:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>44b2 &lt;get_password&gt;
-44b2:  3e40 6400      mov	#0x64, r14
-44b6:  b012 8445      call	#0x4584 &lt;getsn&gt;
-44ba:  3041           ret
-...
-4584 &lt;getsn&gt;
-4584:  0e12           push	r14
-4586:  0f12           push	r15
-4588:  2312           push	#0x2
-458a:  b012 3045      call	#0x4530 &lt;INT&gt;
-458e:  3150 0600      add	#0x6, sp
-4592:  3041           ret
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>4454 &lt;test_password_valid&gt;
+4454:  0412           push	r4
+4456:  0441           mov	sp, r4
+4458:  2453           incd	r4
+445a:  2183           decd	sp
+445c:  c443 fcff      mov.b	#0x0, -0x4(r4)
+4460:  3e40 fcff      mov	#0xfffc, r14
+4464:  0e54           add	r4, r14
+4466:  0e12           push	r14
+4468:  0f12           push	r15
+446a:  3012 7d00      push	#0x7d
+446e:  b012 7a45      call	#0x457a &lt;INT&gt;
+4472:  5f44 fcff      mov.b	-0x4(r4), r15
+4476:  8f11           sxt	r15
+4478:  3152           add	#0x8, sp
+447a:  3441           pop	r4
+447c:  3041           ret
 </code></pre></div></div>
 
-<p>It’s difficult to tell what’s happening here by looking at just the assembly. The <strong>get_password</strong> function puts <strong>0x64</strong> into <strong>r14</strong> for an unknown reason and then calls <strong>getsn</strong>. The <strong>getsn</strong> pushes 3 registers onto the stack and calls <strong>INT</strong>. This appears similar to a Linux Syscall, but I was unable to find any information confirming that this is the case.</p>
+<p>There are two registers and an unknown value being pushed to the stack before calling <strong>INT</strong>.</p>
 
-<p>After <strong>INT</strong> is called, the GUI appears and we’re prompted to enter a password. After we enter a password, we see it stored at <strong>439c</strong>.  The return from both <strong>getsn</strong> and <strong>get_password</strong> sets the stack pointer to <strong>439c</strong>. This address is stored in <strong>r15</strong> before calling <strong>check_password</strong>.</p>
+<p>From the Lock Manual:</p>
 
-<p>Let’s look at <strong>check_password</strong>:</p>
+<blockquote>
+  <p>The Model 1 of the hardware security module contains a simple interface which allows the MCU to test if an entered password is valid. By default, the interrupt 0x7D will pass a given password to the HSM, and will set a byte in memory if the password entered matches the stored password.</p>
+</blockquote>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>44bc &lt;check_password&gt;
-44bc:  0e43           clr	r14
-44be:  0d4f           mov	r15, r13
-44c0:  0d5e           add	r14, r13
-44c2:  ee9d 0024      cmp.b	@r13, 0x2400(r14)
-44c6:  0520           jne	#0x44d2 &lt;check_password+0x16&gt;
-44c8:  1e53           inc	r14
-44ca:  3e92           cmp	#0x8, r14
-44cc:  f823           jne	#0x44be &lt;check_password+0x2&gt;
-44ce:  1f43           mov	#0x1, r15
-44d0:  3041           ret
-44d2:  0f43           clr	r15
-44d4:  3041           ret
+<p>Since this is set by the application we don’t have access to, set see what happens after we exit this function. Something must be looking for <strong>0x7d</strong> somewhere within memory.</p>
+
+<p>Here’s <strong>login</strong> right after we exit from <strong>test_password_valid</strong>:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>4544:  b012 5444      call	#0x4454 &lt;test_password_valid&gt;
+4548:  0f93           tst	r15
+454a:  0324           jz	$+0x8
+454c:  f240 4900 1024 mov.b	#0x49, &amp;0x2410
+4552:  3f40 d344      mov	#0x44d3 "Testing if password is valid.", r15
+4556:  b012 de45      call	#0x45de &lt;puts&gt;
+455a:  f290 7d00 1024 cmp.b	#0x7d, &amp;0x2410
+4560:  0720           jne	#0x4570 &lt;login+0x50&gt;
+4562:  3f40 f144      mov	#0x44f1 "Access granted.", r15
+4566:  b012 de45      call	#0x45de &lt;puts&gt;
+456a:  b012 4844      call	#0x4448 &lt;unlock_door&gt;
 </code></pre></div></div>
 
-<p>Here we see <strong>r14</strong> is cleared, and our input at <strong>r15</strong> is mov’d to <strong>r13</strong>. The value in <strong>r14</strong> is added to and stored in <strong>r13</strong>. A byte is compared from <strong>r13</strong> and whatever is at address <strong>0x2400</strong> and indexed by <strong>r14</strong>.  The data at address <strong>2400</strong> was set by the <strong>create_password</strong> function.</p>
+<p>If <strong>r15</strong> is zero we jump to a string which is then displayed on the screen. We then see the memory location <strong>2410</strong> is compared to <strong>0x7d</strong>, our valid password flag. If that flag is found we’re told we have access and then the <strong>unlock_door</strong> function is called.</p>
 
-<p>The <strong>check_password</strong> function compares our input to the string generated by <strong>create_password</strong>.</p>
+<p>The address <strong>2410</strong> is immediately after our password. We need the 17th byte of the password to be <strong>7d</strong>.  The first 16 can be any printable. I’ve chosen to use <strong>41</strong> which is A.</p>
 
-<p>Looking a little further down, we can see this is a loop with <strong>r14</strong> serving as the counter. The loop will continue until <strong>r14</strong> equals 8.  This means our password must be 8 characters long, which the string at <strong>0x2400</strong> is when you include the null terminator.</p>
+<p>Reset the machine and enter <strong>414141414141414141414141414141417d</strong> as your password.  Make certain that the box for hex input is check and press <strong>send</strong>. The door should now be unlocked.</p>
 
-<p>Reset the device and enter <strong>solve</strong> into the debugger. When prompted, enter <strong>c&lt;i=bKX</strong> as your password. Make sure the hex input checkbox is unchecked, and press <strong>send</strong>. The door should now be unlocked.</p>
+<p>Enter solve into the debugger and submit the above password to complete the level.</p>
 
         </article>
         <hr>
@@ -263,12 +281,10 @@
         <div class="post-recent">
     <div class="pre" style="display:inline-block; margin-top: 20px;">
         
-        <p><i class="fa fa-arrow-left"></i> <a href="/2019/12/20/binary-bomb-secret-phase/">Binary Bomb: Secret Phase</a></p>
+        <p><i class="fa fa-arrow-left"></i> <a href="/2020/01/10/microcorruption-sydney/">Microcorruption: Sydney</a></p>
         
     </div>
     <div class="nex" style="display:inline-block; margin-top: 20px; float:right;">
-        
-        <p><a href="/2020/01/10/microcorruption-sydney/">Microcorruption: Sydney</a> <i class="fa fa-arrow-right"></i></p>
         
     </div>
 </div>

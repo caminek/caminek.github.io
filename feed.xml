@@ -5,9 +5,29 @@
     <description></description>
     <link>https://caminek.rocks/</link>
     <atom:link href="https://caminek.rocks/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 11 Jan 2020 23:06:06 +0000</pubDate>
-    <lastBuildDate>Sat, 11 Jan 2020 23:06:06 +0000</lastBuildDate>
+    <pubDate>Sun, 12 Jan 2020 00:26:00 +0000</pubDate>
+    <lastBuildDate>Sun, 12 Jan 2020 00:26:00 +0000</lastBuildDate>
     <generator>Jekyll v4.0.0</generator>
+    
+      <item>
+        <title>Microcorruption: Hanoi</title>
+        <description>LockIT Pro Hardware Security Module 1 stores the login password, ensuring users can not access the password through other means. The LockIT Pro can send the LockIT Pro HSM-1 a password, and the HSM will return if the password is correct by setting a flag in memory.</description>
+        <pubDate>Sat, 11 Jan 2020 18:08:53 +0000</pubDate>
+        <link>https://caminek.rocks/2020/01/11/microcorruption-hanoi/</link>
+        <guid isPermaLink="true">https://caminek.rocks/2020/01/11/microcorruption-hanoi/</guid>
+        
+        <category>reverse-engineering</category>
+        
+        <category>ctf</category>
+        
+        <category>microcorruption</category>
+        
+        
+        <category>reverse-engineering</category>
+        
+        <category>ctf</category>
+        
+      </item>
     
       <item>
         <title>Microcorruption: Sydney</title>
@@ -193,28 +213,6 @@
         <category>binary-bomb</category>
         
         <category>gdb</category>
-        
-        <category>x86-64</category>
-        
-        
-        <category>reverse-engineering</category>
-        
-        <category>x86-64</category>
-        
-      </item>
-    
-      <item>
-        <title>Binary Bomb: Phase 0</title>
-        <description>This isn't an official phase of the binary bomb lab. This is meant to document what we need to do before launching the bomb for the first time.</description>
-        <pubDate>Thu, 12 Dec 2019 21:14:54 +0000</pubDate>
-        <link>https://caminek.rocks/2019/12/12/binary-bomb-phase-0/</link>
-        <guid isPermaLink="true">https://caminek.rocks/2019/12/12/binary-bomb-phase-0/</guid>
-        
-        <category>reverse-engineering</category>
-        
-        <category>binary-bomb</category>
-        
-        <category>objdump</category>
         
         <category>x86-64</category>
         
