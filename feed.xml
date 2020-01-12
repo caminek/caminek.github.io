@@ -5,13 +5,13 @@
     <description></description>
     <link>https://caminek.rocks/</link>
     <atom:link href="https://caminek.rocks/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 12 Jan 2020 01:34:47 +0000</pubDate>
-    <lastBuildDate>Sun, 12 Jan 2020 01:34:47 +0000</lastBuildDate>
+    <pubDate>Sun, 12 Jan 2020 14:02:34 +0000</pubDate>
+    <lastBuildDate>Sun, 12 Jan 2020 14:02:34 +0000</lastBuildDate>
     <generator>Jekyll v4.0.0</generator>
     
       <item>
         <title>Microcorruption: Hanoi</title>
-        <description>LockIT Pro Hardware Security Module 1 stores the login password, ensuring users can not access the password through other means. The LockIT Pro can send the LockIT Pro HSM-1 a password, and the HSM will return if the password is correct by setting a flag in memory.</description>
+        <description>The password is now validated by an external application. Since we don't have access to this application, we'll need to take a new approach to hack the lock.</description>
         <pubDate>Sat, 11 Jan 2020 18:08:53 +0000</pubDate>
         <link>https://caminek.rocks/2020/01/11/microcorruption-hanoi/</link>
         <guid isPermaLink="true">https://caminek.rocks/2020/01/11/microcorruption-hanoi/</guid>
@@ -31,7 +31,7 @@
     
       <item>
         <title>Microcorruption: Sydney</title>
-        <description>This is Software Revision 02. We have received reports that the prior version of the lock was bypassable without knowing the password. We have fixed this and removed the password from memory.</description>
+        <description>The password is no longer stored within memory. We'll have to find another way in.</description>
         <pubDate>Fri, 10 Jan 2020 17:26:02 +0000</pubDate>
         <link>https://caminek.rocks/2020/01/10/microcorruption-sydney/</link>
         <guid isPermaLink="true">https://caminek.rocks/2020/01/10/microcorruption-sydney/</guid>

@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta name="description" content="This is Software Revision 02. We have received reports that the prior version of the lock was bypassable without knowing the password. We have fixed this and...">
+    <meta name="description" content="The password is no longer stored within memory. We'll have to find another way in.">
 
     <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
     <link rel="icon" href="/favicon.ico?" type="image/x-icon">
@@ -20,15 +20,15 @@
 <meta name="generator" content="Jekyll v4.0.0" />
 <meta property="og:title" content="Microcorruption: Sydney" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="This is Software Revision 02. We have received reports that the prior version of the lock was bypassable without knowing the password. We have fixed this and removed the password from memory." />
-<meta property="og:description" content="This is Software Revision 02. We have received reports that the prior version of the lock was bypassable without knowing the password. We have fixed this and removed the password from memory." />
+<meta name="description" content="The password is no longer stored within memory. We’ll have to find another way in." />
+<meta property="og:description" content="The password is no longer stored within memory. We’ll have to find another way in." />
 <link rel="canonical" href="https://caminek.rocks/2020/01/10/microcorruption-sydney/" />
 <meta property="og:url" content="https://caminek.rocks/2020/01/10/microcorruption-sydney/" />
 <meta property="og:site_name" content="Caminek" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2020-01-10T17:26:02+00:00" />
 <script type="application/ld+json">
-{"description":"This is Software Revision 02. We have received reports that the prior version of the lock was bypassable without knowing the password. We have fixed this and removed the password from memory.","mainEntityOfPage":{"@type":"WebPage","@id":"https://caminek.rocks/2020/01/10/microcorruption-sydney/"},"@type":"BlogPosting","url":"https://caminek.rocks/2020/01/10/microcorruption-sydney/","headline":"Microcorruption: Sydney","dateModified":"2020-01-10T17:26:02+00:00","datePublished":"2020-01-10T17:26:02+00:00","@context":"https://schema.org"}</script>
+{"description":"The password is no longer stored within memory. We’ll have to find another way in.","mainEntityOfPage":{"@type":"WebPage","@id":"https://caminek.rocks/2020/01/10/microcorruption-sydney/"},"@type":"BlogPosting","url":"https://caminek.rocks/2020/01/10/microcorruption-sydney/","headline":"Microcorruption: Sydney","dateModified":"2020-01-10T17:26:02+00:00","datePublished":"2020-01-10T17:26:02+00:00","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -169,7 +169,13 @@
         </div>
         <hr>
         <article itemscope itemtype="http://schema.org/BlogPosting">
-            <p>Once again we’ll start by searching for the <strong>main</strong> function within Disassembly.</p>
+            <p>From the manual:</p>
+
+<blockquote>
+  <p>This is Software Revision 02. We have received reports that the prior version of the lock was bypassable without knowing the password. We have fixed this and removed the password from memory.</p>
+</blockquote>
+
+<p>Let’s look into the <strong>main</strong> function to see what has changed.</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>4438 &lt;main&gt;
 4438:  3150 9cff      add	#0xff9c, sp
