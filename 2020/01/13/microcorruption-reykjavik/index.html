@@ -6,29 +6,29 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta name="description" content="This is the first level after completing the tutorial. You'll want to complete that before starting here as none of the debugging commands or GUI components ...">
+    <meta name="description" content="The program has been revised once again. Now we have "military-grade encryption" to contend with.">
 
     <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
     <link rel="icon" href="/favicon.ico?" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.Cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="/assets/css/main.min.css ">
-    <link rel="canonical" href="https://caminek.rocks/2020/01/10/microcorruption-new-orleans/">
+    <link rel="canonical" href="https://caminek.rocks/2020/01/13/microcorruption-reykjavik/">
     <link rel="alternate" type="application/rss+xml" title="Caminek" href="https://caminek.rocks/feed.xml ">
     
     <!-- Begin Jekyll SEO tag v2.6.1 -->
-<title>Microcorruption: New Orleans | Caminek</title>
+<title>Microcorruption: Reykjavik | Caminek</title>
 <meta name="generator" content="Jekyll v4.0.0" />
-<meta property="og:title" content="Microcorruption: New Orleans" />
+<meta property="og:title" content="Microcorruption: Reykjavik" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="This is the first level after completing the tutorial. You’ll want to complete that before starting here as none of the debugging commands or GUI components will be explained." />
-<meta property="og:description" content="This is the first level after completing the tutorial. You’ll want to complete that before starting here as none of the debugging commands or GUI components will be explained." />
-<link rel="canonical" href="https://caminek.rocks/2020/01/10/microcorruption-new-orleans/" />
-<meta property="og:url" content="https://caminek.rocks/2020/01/10/microcorruption-new-orleans/" />
+<meta name="description" content="The program has been revised once again. Now we have “military-grade encryption” to contend with." />
+<meta property="og:description" content="The program has been revised once again. Now we have “military-grade encryption” to contend with." />
+<link rel="canonical" href="https://caminek.rocks/2020/01/13/microcorruption-reykjavik/" />
+<meta property="og:url" content="https://caminek.rocks/2020/01/13/microcorruption-reykjavik/" />
 <meta property="og:site_name" content="Caminek" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2020-01-10T14:16:53+00:00" />
+<meta property="article:published_time" content="2020-01-13T06:59:34+00:00" />
 <script type="application/ld+json">
-{"description":"This is the first level after completing the tutorial. You’ll want to complete that before starting here as none of the debugging commands or GUI components will be explained.","mainEntityOfPage":{"@type":"WebPage","@id":"https://caminek.rocks/2020/01/10/microcorruption-new-orleans/"},"@type":"BlogPosting","url":"https://caminek.rocks/2020/01/10/microcorruption-new-orleans/","headline":"Microcorruption: New Orleans","dateModified":"2020-01-10T14:16:53+00:00","datePublished":"2020-01-10T14:16:53+00:00","@context":"https://schema.org"}</script>
+{"description":"The program has been revised once again. Now we have “military-grade encryption” to contend with.","mainEntityOfPage":{"@type":"WebPage","@id":"https://caminek.rocks/2020/01/13/microcorruption-reykjavik/"},"@type":"BlogPosting","url":"https://caminek.rocks/2020/01/13/microcorruption-reykjavik/","headline":"Microcorruption: Reykjavik","dateModified":"2020-01-13T06:59:34+00:00","datePublished":"2020-01-13T06:59:34+00:00","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -118,11 +118,11 @@
 
         <div class="page clearfix" index>
     <div class="left">
-        <h1>Microcorruption: New Orleans</h1>
+        <h1>Microcorruption: Reykjavik</h1>
         <div class="label">
 
             <div class="label-card">
-                <i class="fa fa-calendar"></i> 2020-01-10
+                <i class="fa fa-calendar"></i> 2020-01-13
             </div>
 
             <div class="label-card">
@@ -179,92 +179,71 @@
         </div>
         <hr>
         <article itemscope itemtype="http://schema.org/BlogPosting">
-            <p>Let’s start by searching for the <strong>main</strong> function within Disassembly.</p>
+            <p>From the manual:</p>
+
+<blockquote>
+  <p>This is Software Revision 02. This release contains military-grade encryption so users can be confident that the passwords they enter can not be read from memory. We apologize for making it too easy for the password to be recovered on prior versions. The engineers responsible have been sacked.</p>
+</blockquote>
+
+<p>Let’s look at <strong>main</strong>:</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>4438 &lt;main&gt;
-4438:  3150 9cff      add	#0xff9c, sp
-443c:  b012 7e44      call	#0x447e &lt;create_password&gt;
-4440:  3f40 e444      mov	#0x44e4 "Enter the password to continue", r15
-4444:  b012 9445      call	#0x4594 &lt;puts&gt;
-4448:  0f41           mov	sp, r15
-444a:  b012 b244      call	#0x44b2 &lt;get_password&gt;
-444e:  0f41           mov	sp, r15
-4450:  b012 bc44      call	#0x44bc &lt;check_password&gt;
-4454:  0f93           tst	r15
-4456:  0520           jnz	#0x4462 &lt;main+0x2a&gt;
-4458:  3f40 0345      mov	#0x4503 "Invalid password; try again.", r15
-445c:  b012 9445      call	#0x4594 &lt;puts&gt;
-4460:  063c           jmp	#0x446e &lt;main+0x36&gt;
-4462:  3f40 2045      mov	#0x4520 "Access Granted!", r15
-4466:  b012 9445      call	#0x4594 &lt;puts&gt;
-446a:  b012 d644      call	#0x44d6 &lt;unlock_door&gt;
-446e:  0f43           clr	r15
-4470:  3150 6400      add	#0x64, sp
+4438:  3e40 2045      mov	#0x4520, r14
+443c:  0f4e           mov	r14, r15
+443e:  3e40 f800      mov	#0xf8, r14
+4442:  3f40 0024      mov	#0x2400, r15
+4446:  b012 8644      call	#0x4486 &lt;enc&gt;
+444a:  b012 0024      call	#0x2400
+444e:  0f43           clr	r15
 </code></pre></div></div>
 
-<p>Three password-related functions are being called: <strong>create_password</strong>, <strong>get_password</strong>, and <strong>check_password</strong>.</p>
+<p>Here we have two functions, one named <strong>enc</strong> with is undoubtedly the encryption function and a function with no debugging symbols at address <strong>2400</strong>. I figured I’d start with <strong>2400</strong> since it comes after the encryption; meaning that the encryption function likely isn’t performing the validation or unlocking.</p>
 
-<p>Let’s start with the <strong>create_password</strong> function:</p>
+<p>To examine what’s at <strong>2400</strong> we’ll have to set a breakpoint for the address and step through the instructions. We get to just after <strong>2440</strong> before the password prompt appears.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>447e &lt;create_password&gt;
-447e:  3f40 0024      mov	#0x2400, r15
-4482:  ff40 6300 0000 mov.b	#0x63, 0x0(r15)
-4488:  ff40 3c00 0100 mov.b	#0x3c, 0x1(r15)
-448e:  ff40 6900 0200 mov.b	#0x69, 0x2(r15)
-4494:  ff40 3d00 0300 mov.b	#0x3d, 0x3(r15)
-449a:  ff40 6200 0400 mov.b	#0x62, 0x4(r15)
-44a0:  ff40 4b00 0500 mov.b	#0x4b, 0x5(r15)
-44a6:  ff40 5800 0600 mov.b	#0x58, 0x6(r15)
-44ac:  cf43 0700      mov.b	#0x0, 0x7(r15)
-44b0:  3041           ret
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>2400:   0b12 0412 0441 2452 3150 e0ff 3b40 2045   .....A$R1P..;@ E
+2410:   073c 1b53 8f11 0f12 0312 b012 6424 2152   .&lt;.S........d$!R
+2420:   6f4b 4f93 f623 3012 0a00 0312 b012 6424   oKO..#0.......d$
+2430:   2152 3012 1f00 3f40 dcff 0f54 0f12 2312   !R0...?@...T..#.
+2440:   b012 6424 3150 0600 b490 b7a0 dcff 0520   ..d$1P......... 
 </code></pre></div></div>
 
-<p>Here we see the string <strong>c&lt;i=bKX</strong> being built from hex and stored at the address <strong>2400</strong>.</p>
+<p>Let’s disassemble the above with the <strong>Assembler</strong> option on the top menu.</p>
 
-<p>Let’s look at <strong>get_password</strong> and <strong>getsn</strong>:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>44b2 &lt;get_password&gt;
-44b2:  3e40 6400      mov	#0x64, r14
-44b6:  b012 8445      call	#0x4584 &lt;getsn&gt;
-44ba:  3041           ret
-...
-4584 &lt;getsn&gt;
-4584:  0e12           push	r14
-4586:  0f12           push	r15
-4588:  2312           push	#0x2
-458a:  b012 3045      call	#0x4530 &lt;INT&gt;
-458e:  3150 0600      add	#0x6, sp
-4592:  3041           ret
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0b12           push	r11
+0412           push	r4
+0441           mov	sp, r4
+2452           add	#0x4, r4
+3150 e0ff      add	#0xffe0, sp
+3b40 2045      mov	#0x4520, r11
+073c           jmp	$+0x10
+1b53           inc	r11
+8f11           sxt	r15
+0f12           push	r15
+0312           push	#0x0
+b012 6424      call	#0x2464
+2152           add	#0x4, sp
+6f4b           mov.b	@r11, r15
+4f93           tst.b	r15
+f623           jnz	$-0x12
+3012 0a00      push	#0xa
+0312           push	#0x0
+b012 6424      call	#0x2464
+2152           add	#0x4, sp
+3012 1f00      push	#0x1f
+3f40 dcff      mov	#0xffdc, r15
+0f54           add	r4, r15
+0f12           push	r15
+2312           push	#0x2
+b012 6424      call	#0x2464
+3150 0600      add	#0x6, sp
+b490 b7a0 dcff cmp	#0xa0b7, -0x24(r4)
+0520           jnz	$+0xc
 </code></pre></div></div>
 
-<p>It’s difficult to tell what’s happening here by looking at just the assembly. The <strong>get_password</strong> function puts <strong>0x64</strong> into <strong>r14</strong> for an unknown reason and then calls <strong>getsn</strong>. The <strong>getsn</strong> pushes 3 registers onto the stack and calls <strong>INT</strong>. This appears similar to a Linux Syscall, but I was unable to find any information confirming that this is the case.</p>
+<p>On the second to last line, we see a comparison between <strong>#0xa0b7</strong> and <strong>-0x24(r4)</strong>.  Let’s enter <strong>b7a0</strong> as our input. Reset the program and try the aforementioned input.  The door will now unlock. You can now solve this level.</p>
 
-<p>After <strong>INT</strong> is called, the GUI appears and we’re prompted to enter a password. After we enter a password, we see it stored at <strong>439c</strong>.  The return from both <strong>getsn</strong> and <strong>get_password</strong> sets the stack pointer to <strong>439c</strong>. This address is stored in <strong>r15</strong> before calling <strong>check_password</strong>.</p>
-
-<p>Let’s look at <strong>check_password</strong>:</p>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>44bc &lt;check_password&gt;
-44bc:  0e43           clr	r14
-44be:  0d4f           mov	r15, r13
-44c0:  0d5e           add	r14, r13
-44c2:  ee9d 0024      cmp.b	@r13, 0x2400(r14)
-44c6:  0520           jne	#0x44d2 &lt;check_password+0x16&gt;
-44c8:  1e53           inc	r14
-44ca:  3e92           cmp	#0x8, r14
-44cc:  f823           jne	#0x44be &lt;check_password+0x2&gt;
-44ce:  1f43           mov	#0x1, r15
-44d0:  3041           ret
-44d2:  0f43           clr	r15
-44d4:  3041           ret
-</code></pre></div></div>
-
-<p>Here we see <strong>r14</strong> is cleared, and our input at <strong>r15</strong> is mov’d to <strong>r13</strong>. The value in <strong>r14</strong> is added to and stored in <strong>r13</strong>. A byte is compared from <strong>r13</strong> and whatever is at address <strong>0x2400</strong> and indexed by <strong>r14</strong>.  The data at address <strong>2400</strong> was set by the <strong>create_password</strong> function.</p>
-
-<p>The <strong>check_password</strong> function compares our input to the string generated by <strong>create_password</strong>.</p>
-
-<p>Looking a little further down, we can see this is a loop with <strong>r14</strong> serving as the counter. The loop will continue until <strong>r14</strong> equals 8.  This means our password must be 8 characters long, which the string at <strong>0x2400</strong> is when you include the null terminator.</p>
-
-<p>Reset the device and enter <strong>solve</strong> into the debugger. When prompted, enter <strong>c&lt;i=bKX</strong> as your password. Make sure the hex input checkbox is unchecked, and press <strong>send</strong>. The door should now be unlocked.</p>
+<p>When first completing this level, I had expected to find a comparison or a key within this function and that the password entered would be mutated by the <strong>enc</strong> function. It was a bit surprising to see the <strong>enc</strong> function could be bypassed entirely.</p>
 
         </article>
         <hr>
@@ -273,12 +252,10 @@
         <div class="post-recent">
     <div class="pre" style="display:inline-block; margin-top: 20px;">
         
-        <p><i class="fa fa-arrow-left"></i> <a href="/2019/12/20/binary-bomb-secret-phase/">Binary Bomb: Secret Phase</a></p>
+        <p><i class="fa fa-arrow-left"></i> <a href="/2020/01/13/microcorruption-cusco/">Microcorruption: Cusco</a></p>
         
     </div>
     <div class="nex" style="display:inline-block; margin-top: 20px; float:right;">
-        
-        <p><a href="/2020/01/10/microcorruption-sydney/">Microcorruption: Sydney</a> <i class="fa fa-arrow-right"></i></p>
         
     </div>
 </div>
@@ -331,7 +308,7 @@
                         
                             <li>
                                 
-                                    <strong>Microcorruption: New Orleans</strong>
+                                    <a href="/2020/01/10/microcorruption-new-orleans/">Microcorruption: New Orleans</a>
                                 
                             </li>
                         
@@ -363,7 +340,7 @@
                         
                             <li>
                                 
-                                    <a href="/2020/01/13/microcorruption-reykjavik/">Microcorruption: Reykjavik</a>
+                                    <strong>Microcorruption: Reykjavik</strong>
                                 
                             </li>
                         
