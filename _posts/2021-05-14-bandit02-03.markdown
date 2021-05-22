@@ -1,0 +1,34 @@
+---
+layout: post
+title:  "Bandit Level 2 → Level 3"
+date:   2021-05-14 12:50:55
+categories: ctf wargames linux
+tags: wargames ctf overthewire linux
+series: "OverTheWire: Bandit"
+excerpt: Spaces, the next frontier
+mathjax: false
+---
+
+## Level Goal
+The password for the next level is stored in a file called **spaces in this filename** located in the home directory.
+
+
+## Solution
+```bash
+bandit2@bandit:~$ ls
+spaces in this filename
+bandit2@bandit:~$ cat "spaces in this filename"
+U------------------------------K
+bandit2@bandit:~$ cat spaces\ in\ this\ filename
+U------------------------------K
+```
+
+## Explanation
+Typing **spaces in this filename** without using either quotes or escaping the spaces will be interpreted as:
+
+```bash
+cat spaces
+cat in
+cat this
+cat filename
+```

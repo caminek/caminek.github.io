@@ -1,0 +1,76 @@
+---
+layout: default
+title: Series
+permalink: /series/
+icon: book
+type: page
+---
+
+
+<div class="page clearfix">
+    {% assign series-posts = site.posts | reverse %}
+    {% assign current-series = "" %}
+    {% assign series-array = "" | split: ',' %}
+
+    {% for post in series-posts %}
+        {% assign match-found = false %}
+
+        {% if post.series %}
+            {% if post.series != current-series %}
+                {% assign current-series = post.series %}
+
+                {% for s in series-array %}
+                    {% if s == post.series %}
+                        {% assign match-found = true %}
+                    {% endif %}
+                {% endfor %}
+
+                {% if match-found == false %}
+                    {% assign series-array = series-array | push: post.series %}
+                {% endif %}
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+
+    <div class="left">
+        <h1>{{page.title}}</h1>
+        <hr>
+        <ul>
+            {% for s in series-array %}
+                <h2 id="{{s}}">{{s}}</h2>
+                <table class="series">
+                    <tbody>
+                        {% for post in series-posts %}
+                            {% if post.series == s %}
+                                <tr>
+                                    <td><li class="series"><a class="title" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a></li></td>
+                                    <td><li class="series">{% include category.html %}</li></td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    {% for item in series-array  %}
+                        <li>
+                            <a data-scroll href="#{{item}}">{{ item }} </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,36 @@
+---
+layout: post
+title:  "Bandit Level 3 → Level 4"
+date:   2021-05-14 12:52:55
+categories: ctf wargames linux
+tags: wargames ctf overthewire linux
+series: "OverTheWire: Bandit"
+excerpt: Hide and seek
+mathjax: false
+---
+
+## Level Goal
+The password for the next level is stored in a hidden file in the inhere directory.
+
+
+## Solution
+```bash
+bandit3@bandit:~$ ls
+inhere
+bandit3@bandit:~$ cd inhere
+bandit3@bandit:~/inhere$ ls
+bandit3@bandit:~/inhere$ ls -a
+.  ..  .hidden
+bandit3@bandit:~/inhere$ cat .hidden 
+p------------------------------B
+```
+
+## Explanation
+Files or folders that start with **.** are hidden.
+
+From **man ls**:
+```bash
+DESCRIPTION
+        -a, --all
+              do not ignore entries starting with .
+```

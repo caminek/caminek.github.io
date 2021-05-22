@@ -1,0 +1,22 @@
+---
+layout: post
+title:  "Bandit Level 0 → Level 1"
+date:   2021-05-14 12:46:55
+categories: ctf wargames linux
+tags: wargames ctf overthewire linux
+series: "OverTheWire: Bandit"
+excerpt: cat is friend
+mathjax: false
+---
+
+## Level Goal
+The password for the next level is stored in a file called readme located in the home directory.
+
+
+## Solution
+Read the contents of the readme file.
+
+```bash
+bandit0@bandit:~$ cat readme 
+b------------------------------1
+```

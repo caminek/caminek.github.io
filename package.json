@@ -1,0 +1,39 @@
+{
+  "name": "caminek.github.io",
+  "version": "1.0.0",
+  "description": "GitHub Pages blog",
+  "main": "gulpfile.js",
+  "browserslist": [
+    "last 2 version",
+    "> 2%"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "cssnano": "^5.0.4",
+    "del": "^6.0.0",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-imagemin": "^7.1.0",
+    "gulp-newer": "^1.4.0",
+    "gulp-plumber": "^1.2.1",
+    "gulp-postcss": "^9.0.0",
+    "gulp-rename": "^2.0.0",
+    "gulp-sass": "^4.1.0",
+    "gulp-uglify": "^3.0.2",
+    "merge-stream": "^2.0.0",
+    "readable-stream": "^3.6.0",
+    "xmlhttprequest-ssl": "^1.6.3",
+    "gulp-gh-pages": "^0.6.0-6"
+  },
+  "dependencies": {
+    "autoprefixer": "^10.2.5",
+    "browser-sync": "^2.26.14",
+    "gulp": "^4.0.2",
+    "node-sass": "^6.0.0",
+    "postcss": "^8.3.0"
+  }
+}

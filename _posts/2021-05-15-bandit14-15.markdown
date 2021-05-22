@@ -1,0 +1,23 @@
+---
+layout: post
+title:  "Bandit Level 14 → Level 15"
+date:   2021-05-15 16:02:42
+categories: ctf wargames linux
+tags: wargames ctf overthewire linux
+series: "OverTheWire: Bandit"
+excerpt: I can haz passwordz?
+mathjax: false
+---
+
+## Level Goal
+The password for the next level can be retrieved by submitting the password of the current level to port 30000 on localhost.
+
+## Solution
+```bash
+bandit14@bandit:~$ nc localhost 30000 < /etc/bandit_pass/bandit14
+Correct!
+B------------------------------r
+```
+
+## Explanation
+This level requires you to know about nc (a.k.a. netcat) and how to use it.

@@ -1,0 +1,27 @@
+---
+layout: post
+title:  "Bandit Level 1 → Level 2"
+date:   2021-05-14 12:48:55
+categories: ctf wargames linux
+tags: wargames ctf overthewire linux
+series: "OverTheWire: Bandit"
+excerpt: Dashes, how do they work?
+mathjax: false
+---
+
+## Level Goal
+The password for the next level is stored in a file called - located in the home directory.
+
+
+## Solution
+```bash
+bandit1@bandit:~$ ls
+-
+bandit1@bandit:~$ cat ./-
+C------------------------------9
+```
+
+## Explanation
+If you were to type **cat -** you'd see the terminal scroll one line and do nothing afterwards. Typing any character and pressing Enter would result in the duplication of said  characters. 
+
+The **-** is telling cat to use standard input or output instead of a filename. Prepending **./** tells cat you're looking for a file named - in the current directory.

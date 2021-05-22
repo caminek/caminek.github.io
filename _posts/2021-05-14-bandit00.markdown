@@ -1,0 +1,54 @@
+---
+layout: post
+title:  "Bandit Level 0"
+date:   2021-05-14 12:44:55
+categories: ctf wargames linux
+tags: wargames ctf overthewire linux
+series: "OverTheWire: Bandit"
+excerpt: Introduction and connection information
+mathjax: false
+---
+
+# Introduction
+Bandit is the entry level wargame from OverTheWire. Its focus is working with the Linux command line.
+
+Each level will include the relevant portions of the **Level Goal** from level's page. 
+
+The **Commands you may need to solve this level** are not included as this section is only needed if you're both unfamiliar with how to handle the task and not consulting a writeup for the level.
+
+The **Solution** and **Explanation** sections contain the commands used to complete the Level Goal. 
+
+The passwords for each level have been redacted.
+
+# Level 0
+
+## Connection Information
+From the [Bandit Level 0](https://overthewire.org/wargames/bandit/bandit0.html) page, we're giving the following credentials and connection information:
+
+~~~~
+SSH Information
+Host: bandit.labs.overthewire.org
+Port: 2220
+
+The username is bandit0 and the password is bandit0. 
+~~~~
+
+## Level Goal
+Once logged in, go to the [Level 1](https://overthewire.org/wargames/bandit/bandit1.html) page to find out how to beat Level 1.
+
+
+## Tip
+The server address and the port will remain the same throughout the wargame. The only portions that will change are the username and password. 
+
+By specifying the login name at the end, you'll be able to press your up arrow once and change the login name. The login name will alway be the wargame server and the level number.
+
+The following works for both Linux and macOS:
+```bash
+ssh bandit.labs.overthewire.org -p 2220 -l bandit0
+```
+
+The **-p** is to specify the port to use.
+
+The **-l** is to specify the login name to use.
+
+You will be prompted for the password.

@@ -1,0 +1,70 @@
+---
+layout: post
+title:  "Bandit Level 12 → Level 13"
+date:   2021-05-14 13:06:55
+categories: ctf wargames linux
+tags: wargames ctf overthewire linux
+series: "OverTheWire: Bandit"
+excerpt: Some people shouldn't be allowed to use computers
+mathjax: false
+---
+
+## Level Goal
+The password for the next level is stored in the file data.txt, which is a hexdump of a file that has been repeatedly compressed. For this level it may be useful to create a directory under /tmp in which you can work using mkdir.
+
+## Solution
+```bash
+bandit12@bandit:~$ ls
+data.txt
+bandit12@bandit:~$ cd `mktemp -d`
+bandit12@bandit:/tmp/tmp.WO4FNzPkgF$ cp ~/data.txt .
+bandit12@bandit:/tmp/tmp.WO4FNzPkgF$ xxd -r data.txt data
+bandit12@bandit:/tmp/tmp.WO4FNzPkgF$ ls
+data  data.txt
+bandit12@bandit:/tmp/tmp.WO4FNzPkgF$ file data
+data: gzip compressed data, was "data2.bin", last modified: Thu May  7 18:14:30 2020, max compression, from Unix
+bandit12@bandit:/tmp/tmp.WO4FNzPkgF$ gunzip -c data > data_unzipped
+bandit12@bandit:/tmp/tmp.WO4FNzPkgF$ ls 
+data  data.txt  data_unzipped
+bandit12@bandit:/tmp/tmp.WO4FNzPkgF$ file data_unzipped 
+data_unzipped: bzip2 compressed data, block size = 900k
+bandit12@bandit:/tmp/tmp.WO4FNzPkgF$ bzip2 -cd data_unzipped > data_unbz2ed
+bandit12@bandit:/tmp/tmp.WO4FNzPkgF$ ls
+data  data.txt  data_unbz2ed  data_unzipped
+bandit12@bandit:/tmp/tmp.WO4FNzPkgF$ file data_unbz2ed 
+data_unbz2ed: gzip compressed data, was "data4.bin", last modified: Thu May  7 18:14:30 2020, max compression, from Unix
+bandit12@bandit:/tmp/tmp.WO4FNzPkgF$ gunzip -c data_unbz2ed > data_unzipped2
+bandit12@bandit:/tmp/tmp.WO4FNzPkgF$ ls
+data  data.txt  data_unbz2ed  data_unzipped  data_unzipped2
+bandit12@bandit:/tmp/tmp.WO4FNzPkgF$ file data_unzipped2 
+data_unzipped2: POSIX tar archive (GNU)
+bandit12@bandit:/tmp/tmp.WO4FNzPkgF$ tar xvOf data_unzipped2 > data_untar 
+data5.bin
+bandit12@bandit:/tmp/tmp.WO4FNzPkgF$ ls
+data  data.txt  data_unbz2ed  data_untar  data_unzipped  data_unzipped2
+bandit12@bandit:/tmp/tmp.WO4FNzPkgF$ file data_untar
+data_untar: POSIX tar archive (GNU)
+bandit12@bandit:/tmp/tmp.WO4FNzPkgF$ tar xvOf data_untar > data_untar2
+data6.bin
+bandit12@bandit:/tmp/tmp.WO4FNzPkgF$ ls
+data  data.txt  data_unbz2ed  data_untar  data_untar2  data_unzipped  data_unzipped2
+bandit12@bandit:/tmp/tmp.WO4FNzPkgF$ file data_untar2
+data_untar2: bzip2 compressed data, block size = 900k
+bandit12@bandit:/tmp/tmp.WO4FNzPkgF$ bzip2 -cd data_untar2 > data7.bin
+bandit12@bandit:/tmp/tmp.WO4FNzPkgF$ file data7.bin
+data7.bin: POSIX tar archive (GNU)
+bandit12@bandit:/tmp/tmp.WO4FNzPkgF$ tar xvOf data7.bin > data8.bin
+data8.bin
+bandit12@bandit:/tmp/tmp.WO4FNzPkgF$ file data8.bin
+data8.bin: gzip compressed data, was "data9.bin", last modified: Thu May  7 18:14:30 2020, max compression, from Unix
+bandit12@bandit:/tmp/tmp.WO4FNzPkgF$ gunzip -c data8.bin > data9.bin
+bandit12@bandit:/tmp/tmp.WO4FNzPkgF$ file data9.bin
+data9.bin: ASCII text
+bandit12@bandit:/tmp/tmp.WO4FNzPkgF$ cat data9.bin
+The password is 8------------------------------L
+```
+
+## Explanation
+Here you need to know several different compression methods and how to extract them. You also needed to use file to determine what the filetypes were.
+
+The Level Goal tells you that you'll need to create a temp directory to work in. instead of creating a directory and trying to come up with a unique name it, I used **mktemp -d** to create a randomly named unique directory. By enclosing this command in backticks and prepending **cd**, I was placed in the directory after it was created. Doing this is not necessary, but done for convenience.

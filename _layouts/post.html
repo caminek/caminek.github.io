@@ -1,0 +1,236 @@
+---
+layout: default
+---
+
+<div class="page clearfix" index>
+    <div class="left">
+        <h1>{{page.title}}</h1>
+        <div class="label">
+
+            <div class="label-card">
+                <i class="fa fa-calendar"></i>{{ page.date | date: " %F" }}
+            </div>
+
+            <div class="label-card">
+                {% if page.author %}<i class="fa fa-user"></i>{{ page.author }}
+                {% endif %}
+            </div>
+
+            <div class="label-card">
+                {% if page.meta %}<i class="fa fa-key"></i>{{ page.meta }}  {% endif %}
+            </div>
+
+            <div class="label-card">
+            {% include category.html %}
+            </div>
+
+            <div class="label-card">
+            {% include tag.html %}
+            </div>
+
+        </div>
+        <hr>
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+            {{ content }}
+        </article>
+        <hr>
+        {% if site.similar-posts == "show" or site.similar-posts == "Show" %}
+            {% assign hasSimilar = '' %}
+            {% for post in site.related_posts %}
+                {% assign postHasSimilar = false %}
+                {% for tag in post.tags %}
+                    {% for thisTag in page.tags %}
+                        {% if postHasSimilar == false and hasSimilar.size < 6 and post != page and tag == thisTag %}
+                            {% if hasSimilar.size == 0 %}
+                            <h2 id="similar-posts">Similar Posts</h2>
+                            <ul>
+                            {% endif %}
+                            <li class="relatedPost">
+                                <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}
+                                {% if post.series %}
+                                    (Series: {{ post.series }})
+                                {% endif %}
+                                </a>
+                            </li>
+                            {% capture hasSimilar %}{{ hasSimilar }}*{% endcapture %}
+                            {% assign postHasSimilar = true %}
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            {% endfor %}
+            {% if hasSimilar.size > 0 %}
+                </ul>
+            {% endif %}
+        {% endif %}
+
+        {% include previousAndNext.html %}
+        
+        {% if site.disqus_shortname or site.disqus_shortname %}
+            <h2 id="comments">Comments</h2>
+            {% include comments.html %}
+        {% endif %}
+        
+
+    </div>
+    <button class="anchor"><i class="fa fa-anchor"></i></button>
+    <div class="right">
+        <div class="wrap">
+
+            <!-- Content -->
+            <!-- <div class="side content">
+                <div>
+                    Content
+                </div>
+                <ul id="content-side" class="content-ul">
+                    {% if hasSimilar.size > 0 %}
+                    <li><a href="#similar_posts">Similar Posts</a></li>
+                    {% endif %}
+                    <li><a href="#comments">Comments</a></li>
+                </ul>
+            </div> -->
+
+            <!-- Series -->
+            {% if page.series %}
+            <div class="side">
+                <div>
+                    <i class="fa fa-book" aria-hidden="true"></i>
+                    Series
+                </div>
+ 
+                <ul class="content-ul" recent>
+                    {% assign series-length = -1 %} <!--for loop is 0 based. this prevents off-by-one errors -->
+                    {% assign series-offset = -1 %}
+
+                    {% for post in site.posts %}
+                        {% if post.series == page.series %}
+                            {% assign series-length = series-length | plus: 1 %}
+                        {% endif %}
+
+                        {% if post.url == page.url %}
+                            {% assign series-offset = series-length | minus: 2 %}
+
+                            <!-- prevent Series from showing < 5 entries when near the end of series -->
+                            {% if series-offset < 0 %}
+                                {% assign series-offset = 0 %} 
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                    
+
+                    <!-- prevent Series from showing < 5 entries when near the start of series -->
+                    {% assign sentinel = series-length | minus: site.recent-post-count | plus: 1 %}
+
+                    {% if series-offset > sentinel %}
+                        {% assign series-offset = sentinel %}
+                    {% endif %}
+
+
+                    {% for post in site.posts reversed limit: site.recent-post-count offset: series-offset %}
+                        {% if post.series == page.series %}
+                            <li>
+                                {% if post.url == page.url %}
+                                    <strong>{{ post.title }}</strong>
+                                {% else %}
+                                    <a href="{{ post.url }}">{{ post.title }}</a>
+                                {% endif %}
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
+            
+            <div class="side">
+                <div>
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    Recent Posts
+                </div>
+                <ul class="content-ul" recent>
+                    {% for post in site.posts limit: site.recent-post-count %}
+                        <li><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <!-- Content -->
+            <div class="side ">
+                <div>
+                    <i class="fa fa-th-list"></i>
+                    Categories
+                </div>
+                <ul class="content-ul" cate>
+                    {% for category in site.categories %}
+                    <li>
+                        <a href="{{ root_url }}/{{ site.category_dir }}#{{ category | first }}" class="categories-list-item" cate="{{ category | first }}">
+                            <span class="name">
+                                {{ category | first }}
+                            </span>
+                            <span class="badge">{{ category | last | size }}</span>
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <!-- Tag Cloud -->
+            {% if site.show-tag-cloud-in-posts == "Show" or site.show-tag-cloud-in-posts == "show" %}
+                <div class="side">
+                    <div>
+                        <i class="fa fa-tags"></i>
+                        Tags
+                    </div>
+                    <div class="tags-cloud">
+                        {% assign first = site.tags.first %}
+                        {% assign max = first[1].size %}
+                        {% assign min = max %}
+                        {% for tag in site.tags offset:1 %}
+                        {% if tag[1].size > max %}
+                            {% assign max = tag[1].size %}
+                        {% elsif tag[1].size < min %}
+                            {% assign min = tag[1].size %}
+                        {% endif %}
+                        {% endfor %}
+
+                        {% if max == min %}
+                            {% assign diff = 1 %}
+                        {% else %}
+                            {% assign diff = max | minus: min %}
+                        {% endif %}
+
+                        {% for tag in site.tags %}
+                        {% assign temp = tag[1].size | minus: min | times: 36 | divided_by: diff %}
+                        {% assign base = temp | divided_by: 4 %}
+                        {% assign remain = temp | modulo: 4 %}
+                        {% if remain == 0 %}
+                            {% assign size = base | plus: 9 %}
+                        {% elsif remain == 1 or remain == 2 %}
+                            {% assign size = base | plus: 9 | append: '.5' %}
+                        {% else %}
+                            {% assign size = base | plus: 10 %}
+                        {% endif %}
+                        {% if remain == 0 or remain == 1 %}
+                            {% assign color = 9 | minus: base %}
+                        {% else %}
+                            {% assign color = 8 | minus: base %}
+                        {% endif %}
+                        <a href="{{ root_url }}/{{ site.tag_dir }}#{{ tag[0] }}" style="font-size: {{ size }}pt; color: #{{ color }}{{ color }}{{ color }};">{{ tag[0] }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<script>
+/**
+ * target _blank
+ */
+(function() {
+    var aTags = document.querySelectorAll('article a:not([id])')
+    for (var i = 0; i < aTags.length; i++) {
+        aTags[i].setAttribute('target', '_blank')
+    }
+}());
+</script>
+<!-- <script src="{{ "/assets/js/pageContent.js " | prepend: site.baseurl }}" charset="utf-8"></script> -->

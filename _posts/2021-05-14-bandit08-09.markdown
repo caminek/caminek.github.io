@@ -1,0 +1,24 @@
+---
+layout: post
+title:  "Bandit Level 8 → Level 9"
+date:   2021-05-14 13:02:55
+categories: ctf wargames linux
+tags: wargames ctf overthewire linux
+series: "OverTheWire: Bandit"
+excerpt: Needle in a haystack
+mathjax: false
+---
+
+## Level Goal
+The password for the next level is stored in the file data.txt and is the only line of text that occurs only once.
+
+## Solution
+```bash
+bandit8@bandit:~$ ls
+data.txt
+bandit8@bandit:~$ cat data.txt | sort | uniq -u
+U------------------------------R
+```
+
+## Explanation
+This level requires knowledge of sort, uniq, and pipes. The sort command is self-explanitory. The uniq command requires -u in order to output only unique lines. Other options, such as -c will provide a count for each occurrance of a match.

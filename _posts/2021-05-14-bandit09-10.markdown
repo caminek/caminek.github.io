@@ -1,0 +1,34 @@
+---
+layout: post
+title:  "Bandit Level 9 → Level 10"
+date:   2021-05-14 13:02:55
+categories: ctf wargames linux
+tags: wargames ctf overthewire linux
+series: "OverTheWire: Bandit"
+excerpt: Strings and things
+mathjax: false
+---
+
+## Level Goal
+The password for the next level is stored in the file data.txt in one of the few human-readable strings, preceded by several ‘=’ characters.
+
+## Solution
+```bash
+bandit9@bandit:~$ ls
+data.txt
+bandit9@bandit:~$ strings data.txt | grep =
+========== the*2i"4
+=:G e
+========== password
+<I=zsGi
+Z)========== is
+A=|t&E
+Zdb=
+c^ LAh=3G
+*SF=s
+&========== t------------------------------k
+S=A.H&^
+```
+
+## Explanation
+While the file is named data.txt, it is not an ASCII file. **cat data.txt** outputs garbage to the screen. Using the strings command will allow us to see ASCII strings within a binary. To limit the output, we search for output that contains **=**.
