@@ -1,0 +1,31 @@
+---
+layout: post
+title:  "Bandit Level 18 → Level 19"
+date:   2021-05-22 15:24:44
+categories: ctf wargames linux
+tags: wargames ctf overthewire linux
+series: "OverTheWire: Bandit"
+excerpt: Bye bye bye
+mathjax: false
+---
+
+## Level Goal
+The password for the next level is stored in a file readme in the homedirectory. Unfortunately, someone has modified .bashrc to log you out when you log in with SSH.
+
+
+## Solution
+```bash
+ssh bandit.labs.overthewire.org -p 2220 -l bandit18 -t /bin/sh
+
+This is a OverTheWire game server. More information on http://www.overthewire.org/wargames
+
+bandit18@bandit.labs.overthewire.org's password: 
+$ ls
+readme
+$ cat readme	
+I------------------------------x
+```
+
+
+## Explanation
+In order to log into the server, we need to use another shell. To do this we use the -t option to tell ssh to "force pseudo-terminal allocation." In order words, we'd like to use the specified shell instead of the default shell. While there are other shells we could have used, the most likely to be on the remote system was sh.

@@ -1,0 +1,31 @@
+---
+layout: post
+title:  "Bandit Level 17 → Level 18"
+date:   2021-05-22 15:22:44
+categories: ctf wargames linux
+tags: wargames ctf overthewire linux
+series: "OverTheWire: Bandit"
+excerpt: Spot the difference
+mathjax: false
+---
+
+## Level Goal
+There are 2 files in the homedirectory: passwords.old and passwords.new. The password for the next level is in passwords.new and is the only line that has been changed between passwords.old and passwords.new
+
+
+## Solution
+```bash
+bandit17@bandit:~$ ls
+passwords.new  passwords.old
+bandit17@bandit:~$ diff passwords.old passwords.new 
+42c42
+< w0Yfolrc5bwjS4qw5mq1nnQi6mF03bii
+---
+> k------------------------------d
+```
+
+
+## Explanation
+This level requires you to use diff and be able to understand its output. 
+
+The **<** indicates a difference in the first file passed to diff, in this case passwords.old.  The **>** indicates a difference in the second file passed to diff, in this case passwords.new.  This tells us that the old password was the one that started with a 'w', and the new password starts with a 'k'.

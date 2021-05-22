@@ -1,0 +1,219 @@
+---
+layout: post
+title:  "Bandit Level 16 → Level 17"
+date:   2021-05-21 23:34:17
+categories: ctf wargames linux
+tags: wargames ctf overthewire linux
+series: "OverTheWire: Bandit"
+excerpt: Insecurity As A Service
+mathjax: false
+---
+
+## Level Goal
+The credentials for the next level can be retrieved by submitting the password of the current level to a port on localhost in the range 31000 to 32000. First find out which of these ports have a server listening on them. Then find out which of those speak SSL and which don’t. There is only 1 server that will give the next credentials, the others will simply send back to you whatever you send to it.
+
+
+## Solution
+```bash
+bandit16@bandit:~$ nmap -sV -vvvv -Pn -p31000-32000 localhost
+
+Starting Nmap 7.40 ( https://nmap.org ) at 2021-05-22 05:40 CEST
+NSE: Loaded 40 scripts for scanning.
+Initiating Connect Scan at 05:40
+Scanning localhost (127.0.0.1) [1001 ports]
+Discovered open port 31518/tcp on 127.0.0.1
+Discovered open port 31960/tcp on 127.0.0.1
+Discovered open port 31691/tcp on 127.0.0.1
+Discovered open port 31790/tcp on 127.0.0.1
+Discovered open port 31046/tcp on 127.0.0.1
+Completed Connect Scan at 05:40, 0.05s elapsed (1001 total ports)
+Initiating Service scan at 05:40
+Scanning 5 services on localhost (127.0.0.1)
+Service scan Timing: About 20.00% done; ETC: 05:43 (0:02:44 remaining)
+Completed Service scan at 05:41, 88.97s elapsed (5 services on 1 host)
+NSE: Script scanning 127.0.0.1.
+NSE: Starting runlevel 1 (of 2) scan.
+Initiating NSE at 05:41
+Completed NSE at 05:41, 0.01s elapsed
+NSE: Starting runlevel 2 (of 2) scan.
+Initiating NSE at 05:41
+Completed NSE at 05:41, 0.01s elapsed
+Nmap scan report for localhost (127.0.0.1)
+Host is up, received user-set (0.00025s latency).
+Scanned at 2021-05-22 05:40:01 CEST for 89s
+Not shown: 996 closed ports
+Reason: 996 conn-refused
+PORT      STATE SERVICE     REASON  VERSION
+31046/tcp open  echo        syn-ack
+31518/tcp open  ssl/echo    syn-ack
+31691/tcp open  echo        syn-ack
+31790/tcp open  ssl/unknown syn-ack
+31960/tcp open  echo        syn-ack
+1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :
+SF-Port31790-TCP:V=7.40%T=SSL%I=7%D=5/22%Time=60A87D22%P=x86_64-pc-linux-g
+SF:nu%r(GenericLines,31,"Wrong!\x20Please\x20enter\x20the\x20correct\x20cu
+SF:rrent\x20password\n")%r(GetRequest,31,"Wrong!\x20Please\x20enter\x20the
+SF:\x20correct\x20current\x20password\n")%r(HTTPOptions,31,"Wrong!\x20Plea
+SF:se\x20enter\x20the\x20correct\x20current\x20password\n")%r(RTSPRequest,
+SF:31,"Wrong!\x20Please\x20enter\x20the\x20correct\x20current\x20password\
+SF:n")%r(Help,31,"Wrong!\x20Please\x20enter\x20the\x20correct\x20current\x
+SF:20password\n")%r(SSLSessionReq,31,"Wrong!\x20Please\x20enter\x20the\x20
+SF:correct\x20current\x20password\n")%r(TLSSessionReq,31,"Wrong!\x20Please
+SF:\x20enter\x20the\x20correct\x20current\x20password\n")%r(Kerberos,31,"W
+SF:rong!\x20Please\x20enter\x20the\x20correct\x20current\x20password\n")%r
+SF:(FourOhFourRequest,31,"Wrong!\x20Please\x20enter\x20the\x20correct\x20c
+SF:urrent\x20password\n")%r(LPDString,31,"Wrong!\x20Please\x20enter\x20the
+SF:\x20correct\x20current\x20password\n")%r(LDAPSearchReq,31,"Wrong!\x20Pl
+SF:ease\x20enter\x20the\x20correct\x20current\x20password\n")%r(SIPOptions
+SF:,31,"Wrong!\x20Please\x20enter\x20the\x20correct\x20current\x20password
+SF:\n");
+
+Read data files from: /usr/bin/../share/nmap
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 89.78 seconds
+bandit16@bandit:~$ cat /etc/bandit_pass/bandit16 | openssl s_client -quiet -connect localhost:31790
+depth=0 CN = localhost
+verify error:num=18:self signed certificate
+verify return:1
+depth=0 CN = localhost
+verify return:1
+Correct!
+-----BEGIN RSA PRIVATE KEY-----
+MIIEogIBAAKCAQEAvmOkuifmMg6HL2YPIOjon6iWfbp7c3jx34YkYWqUH57SUdyJ
+
+...
+
+vBgsyi/sN3RqRBcGU40fOoZyfAMT8s1m/uYv52O6IgeuZ/ujbjY=
+-----END RSA PRIVATE KEY-----
+
+```
+
+Redirect the output into a file called ssh.key. While the output will add extra information to the top of the key file, it does not affect the key itself. 
+
+We're unable to write to the home directory, so we'll need to make the key file within the temp directory.
+
+```bash
+bandit16@bandit:~$ cd `mktemp -d`
+bandit16@bandit:/tmp/tmp.DMNd3qIku0$ echo cluFn7wTiGryunymYOu4RcffSxQluehd | openssl s_client -quiet -connect localhost:31790 > ssh.key 
+depth=0 CN = localhost
+verify error:num=18:self signed certificate
+verify return:1
+depth=0 CN = localhost
+verify return:1
+bandit16@bandit:/tmp/tmp.DMNd3qIku0$ ssh -i ssh.key localhost -l bandit17
+Could not create directory '/home/bandit16/.ssh'.
+The authenticity of host 'localhost (127.0.0.1)' can't be established.
+ECDSA key fingerprint is SHA256:98UL0ZWr85496EtCRkKlo20X3OPnyPSB5tB5RPbhczc.
+Are you sure you want to continue connecting (yes/no)? yes
+Failed to add the host to the list of known hosts (/home/bandit16/.ssh/known_hosts).
+This is a OverTheWire game server. More information on http://www.overthewire.org/wargames
+
+Linux bandit.otw.local 5.4.8 x86_64 GNU/Linux
+
+      ,----..            ,----,          .---.
+     /   /   \         ,/   .`|         /. ./|
+    /   .     :      ,`   .'  :     .--'.  ' ;
+   .   /   ;.  \   ;    ;     /    /__./ \ : |
+  .   ;   /  ` ; .'___,/    ,' .--'.  '   \' .
+  ;   |  ; \ ; | |    :     | /___/ \ |    ' '
+  |   :  | ; | ' ;    |.';  ; ;   \  \;      :
+  .   |  ' ' ' : `----'  |  |  \   ;  `      |
+  '   ;  \; /  |     '   :  ;   .   \    .\  ;
+   \   \  ',  /      |   |  '    \   \   ' \ |
+    ;   :    /       '   :  |     :   '  |--"
+     \   \ .'        ;   |.'       \   \ ;
+  www. `---` ver     '---' he       '---" ire.org
+
+
+Welcome to OverTheWire!
+
+If you find any problems, please report them to Steven or morla on
+irc.overthewire.org.
+
+--[ Playing the games ]--
+
+  This machine might hold several wargames.
+  If you are playing "somegame", then:
+
+    * USERNAMES are somegame0, somegame1, ...
+    * Most LEVELS are stored in /somegame/.
+    * PASSWORDS for each level are stored in /etc/somegame_pass/.
+
+  Write-access to homedirectories is disabled. It is advised to create a
+  working directory with a hard-to-guess name in /tmp/.  You can use the
+  command "mktemp -d" in order to generate a random and hard to guess
+  directory in /tmp/.  Read-access to both /tmp/ and /proc/ is disabled
+  so that users can not snoop on eachother. Files and directories with
+  easily guessable or short names will be periodically deleted!
+
+  Please play nice:
+
+    * don't leave orphan processes running
+    * don't leave exploit-files laying around
+    * don't annoy other players
+    * don't post passwords or spoilers
+    * again, DONT POST SPOILERS!
+      This includes writeups of your solution on your blog or website!
+
+--[ Tips ]--
+
+  This machine has a 64bit processor and many security-features enabled
+  by default, although ASLR has been switched off.  The following
+  compiler flags might be interesting:
+
+    -m32                    compile for 32bit
+    -fno-stack-protector    disable ProPolice
+    -Wl,-z,norelro          disable relro
+
+  In addition, the execstack tool can be used to flag the stack as
+  executable on ELF binaries.
+
+  Finally, network-access is limited for most levels by a local
+  firewall.
+
+--[ Tools ]--
+
+ For your convenience we have installed a few usefull tools which you can find
+ in the following locations:
+
+    * gef (https://github.com/hugsy/gef) in /usr/local/gef/
+    * pwndbg (https://github.com/pwndbg/pwndbg) in /usr/local/pwndbg/
+    * peda (https://github.com/longld/peda.git) in /usr/local/peda/
+    * gdbinit (https://github.com/gdbinit/Gdbinit) in /usr/local/gdbinit/
+    * pwntools (https://github.com/Gallopsled/pwntools)
+    * radare2 (http://www.radare.org/)
+    * checksec.sh (http://www.trapkit.de/tools/checksec.html) in /usr/local/bin/checksec.sh
+
+--[ More information ]--
+
+  For more information regarding individual wargames, visit
+  http://www.overthewire.org/wargames/
+
+  For support, questions or comments, contact us through IRC on
+  irc.overthewire.org #wargames.
+
+  Enjoy your stay!
+
+bandit17@bandit:~$ cat /etc/bandit_pass/bandit17 
+x------------------------------n
+```
+
+
+## Explanation
+This level requires you to know of and use nmap. The rest of the requirements were met in previous levels.
+
+The options passed to nmap were:
+~~~
+-sV           : check service versions
+-vvvv         : use verbose output
+-Pn           : Don't test ports to see if they're open, treat them as if they were
+-p31000-32000 : scan ports 31000 - 32000
+~~~
+
+The -sV, -vvvv, and most likely -Pn were optional. Without -sV we would have recieved a list of open ports very quickly, but with no information as to what they were. We could have tested them since the level description described how both correct and incorrect ports worked. Using this option caused the can to run for almost 90 seconds, were without it it would have likely been a couple seconds.
+
+The -vvvv option provided information about what the scan was doing. This was to make sure the scan would complete in a reasonable time. Without it, I wouldn't have known how long the scanner would need to run. Given that these are public servers, I wanted to make sure I would live to see it complete.
+
+The -Pn most likely wouldn't have been necessary for this level. It tells nmap to scan the ports without bothering to test if they're open first. If this were required, nmap would recommend it after completing the scan.
+
+The -p option tells nmap what port(s) to scan.
