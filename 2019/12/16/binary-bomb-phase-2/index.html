@@ -15,9 +15,9 @@
     <link rel="canonical" href="https://caminek.rocks/2019/12/16/binary-bomb-phase-2/">
     <link rel="alternate" type="application/rss+xml" title="Caminek" href="https://caminek.rocks/feed.xml ">
     
-    <!-- Begin Jekyll SEO tag v2.6.1 -->
+    <!-- Begin Jekyll SEO tag v2.7.1 -->
 <title>Binary Bomb: Phase 2 | Caminek</title>
-<meta name="generator" content="Jekyll v4.0.0" />
+<meta name="generator" content="Jekyll v4.2.0" />
 <meta property="og:title" content="Binary Bomb: Phase 2" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Phase 2 is a little more difficult than Phase 1. In the first part of this document I go through solving the phase without gdb, and then in the second part, I solve it with gdb and a more in-depth explanation." />
@@ -26,9 +26,11 @@
 <meta property="og:url" content="https://caminek.rocks/2019/12/16/binary-bomb-phase-2/" />
 <meta property="og:site_name" content="Caminek" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2019-12-16T15:36:41+00:00" />
+<meta property="article:published_time" content="2019-12-16T10:36:41-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Binary Bomb: Phase 2" />
 <script type="application/ld+json">
-{"description":"Phase 2 is a little more difficult than Phase 1. In the first part of this document I go through solving the phase without gdb, and then in the second part, I solve it with gdb and a more in-depth explanation.","mainEntityOfPage":{"@type":"WebPage","@id":"https://caminek.rocks/2019/12/16/binary-bomb-phase-2/"},"@type":"BlogPosting","url":"https://caminek.rocks/2019/12/16/binary-bomb-phase-2/","headline":"Binary Bomb: Phase 2","dateModified":"2019-12-16T15:36:41+00:00","datePublished":"2019-12-16T15:36:41+00:00","@context":"https://schema.org"}</script>
+{"@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://caminek.rocks/2019/12/16/binary-bomb-phase-2/"},"description":"Phase 2 is a little more difficult than Phase 1. In the first part of this document I go through solving the phase without gdb, and then in the second part, I solve it with gdb and a more in-depth explanation.","headline":"Binary Bomb: Phase 2","dateModified":"2019-12-16T10:36:41-05:00","url":"https://caminek.rocks/2019/12/16/binary-bomb-phase-2/","datePublished":"2019-12-16T10:36:41-05:00","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -98,6 +100,12 @@
                             <i class="fa fa-tags"></i>Tags
                         </a>
                     </li>
+                    
+                
+                    
+                
+                    
+                
                     
                 
                     
@@ -193,17 +201,17 @@
 
 <p>Set a breakpoint for explode_bomb:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>b explode_bomb
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>b explode_bomb
 </code></pre></div></div>
 
 <p>Disassemble phase_2:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>disas phase_2
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>disas phase_2
 </code></pre></div></div>
 
 <p>We see there’s a function named read_six_numbers. We could go through the function and study it, but we don’t need to solve this challenge. Its enough to see the state of the registers and stack after the number has been run, or if we’ve entered the explode_bomb function.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Dump of assembler code for function phase_2:
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Dump of assembler code for function phase_2:
    0x0000000000400efc &lt;+0&gt;: 	push   rbp
    0x0000000000400efd &lt;+1&gt;: 	push   rbx
    0x0000000000400efe &lt;+2&gt;: 	sub    rsp,0x28
@@ -215,55 +223,55 @@
 
 <p>Let’s set our breakpoint for the address after read_six_numbers returns.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>b *0x400f0a
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>b *0x400f0a
 </code></pre></div></div>
 
 <p>Pass the answer file:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>r answers.txt
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>r answers.txt
 </code></pre></div></div>
 
 <p>Now enter the following 6 numbers:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>7 8 9 4 5 6
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>7 8 9 4 5 6
 </code></pre></div></div>
 
 <p>Press Enter and you should now see we’ve stopped on the breakpoint we just set. Let’s see what was placed on the stack:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x/6w $rsp
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x/6w $rsp
 </code></pre></div></div>
 <p>This means we want to examine 6 words starting at the stack pointer.</p>
 
 <p>You should see:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0x7fffffffe440:	0x00000007	0x00000008	0x00000009	0x00000004
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0x7fffffffe440:	0x00000007	0x00000008	0x00000009	0x00000004
 0x7fffffffe450:	0x00000005	0x00000006
 </code></pre></div></div>
 
 <p>Here’s the instruction we stopped on.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x0000000000400f0a &lt;+14&gt;:	cmp    DWORD PTR [rsp],0x1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x0000000000400f0a &lt;+14&gt;:	cmp    DWORD PTR [rsp],0x1
 </code></pre></div></div>
 
 <p>This instruction hasn’t been executed. We can proceed, instruction by instruction from this point to see what will happen. In this line, we can see the address of the stack pointer will be dereferenced and compared to the number 0x1. Looking at our previous output, we can see the referenced number is 0x00000007.</p>
 
 <p>To execute the next instruction, type:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ni
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ni
 </code></pre></div></div>
 
 <p>In the background, the CMP instruction performs a subtraction. The result of this subtraction is not stored, but the status registers are affected. The CMP command subtracts the first number we entered, 7, from 0x1. Since 1 - 7 does not equal zero, the zero flag is not set.</p>
 
 <p>The following instruction only concerns itself with the status of the zero flag. The other flags that were set are not considered.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x0000000000400f0e &lt;+18&gt;:	je     0x400f30 &lt;phase_2+52&gt;
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x0000000000400f0e &lt;+18&gt;:	je     0x400f30 &lt;phase_2+52&gt;
 </code></pre></div></div>
 
 <p>Instruction JE, means jump if equal. Since the zero flag was not set, this jump will not be taken.</p>
 
 <p>Enter ni and see where we wind up.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x0000000000400f10 &lt;+20&gt;:	call   0x40143a &lt;explode_bomb&gt;
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x0000000000400f10 &lt;+20&gt;:	call   0x40143a &lt;explode_bomb&gt;
 </code></pre></div></div>
 
 <p>We now know that we must set that zero flag to proceed. if we changed out first number to 1, we could make it past this check. Let’s restart and see what happens next.</p>
@@ -272,50 +280,50 @@
 
 <p>If you’d like to verify that they’re still there, enter:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>info breakpoints
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>info breakpoints
 </code></pre></div></div>
 
 <p>If you’d like to save a few keystrokes, you can also type:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>i b
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>i b
 </code></pre></div></div>
 
 <p>Run the bomb again. If you exited the bomb, you’ll need to pass the answer file once again, otherwise you can just enter ‘r’ and gdb will read the answer file without needing to be told.</p>
 
 <p>This time enter the following:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1 8 9 4 5 6
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1 8 9 4 5 6
 </code></pre></div></div>
 
 <p>Execute the next instruction:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ni
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ni
 </code></pre></div></div>
 
 <p>We’re now sitting on the jump, that we were unable to take last time. Execute the next instruction:</p>
 
 <p>Now we see that we were able to take the jump. We know for certain that this number is correct. In the next three lines we see:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x0000000000400f30 &lt;+52&gt;:    lea    rbx,[rsp+0x4]
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x0000000000400f30 &lt;+52&gt;:    lea    rbx,[rsp+0x4]
    0x0000000000400f35 &lt;+57&gt;:    lea    rbp,[rsp+0x18]
    0x0000000000400f3a &lt;+62&gt;:    jmp    0x400f17 &lt;phase_2+27&gt;
 </code></pre></div></div>
 
 <p>The LEA instruction, or Load Equivalent Address, is being used to calculate two different address. In C/C++ this would be pointer arithmetic. Let’s see what the first line is doing:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x/w $rsp+4
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x/w $rsp+4
 </code></pre></div></div>
 
 <p>Sure enough, the address of the second number is been placed into the RBX register.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0x7fffffffe444:	0x00000008
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0x7fffffffe444:	0x00000008
 </code></pre></div></div>
 
 <p>As the numbers are stored in a contiguous block on the stack, and RBP has been assigned an address that’s 0x18 or 24 bytes away from the first, we can deduce that this would be our last entered number. You can check this if you’d like in the same manner that we checked the what RBX was being set to.</p>
 
 <p>Let’s look at the next block of code:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x0000000000400f17 &lt;+27&gt;:    mov    eax,DWORD PTR [rbx-0x4]
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x0000000000400f17 &lt;+27&gt;:    mov    eax,DWORD PTR [rbx-0x4]
    0x0000000000400f1a &lt;+30&gt;:    add    eax,eax
    0x0000000000400f1c &lt;+32&gt;:    cmp    DWORD PTR [rbx],eax
    0x0000000000400f1e &lt;+34&gt;:    je     0x400f25 &lt;phase_2+41&gt;
@@ -335,7 +343,7 @@
 
 <p>Let’s look at the first three lines:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x0000000000400f17 &lt;+27&gt;:    mov    eax,DWORD PTR [rbx-0x4]
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x0000000000400f17 &lt;+27&gt;:    mov    eax,DWORD PTR [rbx-0x4]
    0x0000000000400f1a &lt;+30&gt;:    add    eax,eax
    0x0000000000400f1c &lt;+32&gt;:    cmp    DWORD PTR [rbx],eax
 </code></pre></div></div>
@@ -344,7 +352,7 @@
 
 <p>Execute the MOV instruction. Now look at the value stored in EAX my entering the following:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x/w $eax
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x/w $eax
 </code></pre></div></div>
 
 <p>The next line adds EAX to itself stores the result back into EAX. Execute this instruction and then examine EAX.</p>
@@ -353,21 +361,21 @@
 
 <p>To save time, lets imagine we had entered:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1 2 9 4 5 6
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1 2 9 4 5 6
 </code></pre></div></div>
 
 <p>In this scenario, we would have pass the compare check since 2 - 2 = 0. Let’s look to see if we can tell without gdb what would happen.</p>
 
 <p>The JE instruction would have occured, which would have made the next instruction:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x0000000000400f25 &lt;+41&gt;:    add    rbx,0x4
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x0000000000400f25 &lt;+41&gt;:    add    rbx,0x4
 </code></pre></div></div>
 
 <p>We know that RBX contain the address of the second number in our array of integers. By adding 0x4 to RBX, we’ve now got a pointer to the third number in the array, which in this scenario is 9.</p>
 
 <p>Next comparison is seeing if RBX and RBP are the same value.  This will only occur after we’ve gone through all six numbers. Since we’ve only gone through two, this condition won’t be met and we jump back to the top of the code block.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x0000000000400f17 &lt;+27&gt;:    mov    eax,DWORD PTR [rbx-0x4]
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x0000000000400f17 &lt;+27&gt;:    mov    eax,DWORD PTR [rbx-0x4]
    0x0000000000400f1a &lt;+30&gt;:    add    eax,eax
    0x0000000000400f1c &lt;+32&gt;:    cmp    DWORD PTR [rbx],eax
 </code></pre></div></div>
@@ -376,7 +384,7 @@
 
 <p>Since we were forced to start with the number one, and we must have six number that must double each time, the only possible answer is:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1 2 4 8 16 32
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1 2 4 8 16 32
 </code></pre></div></div>
 
 <h1 id="cleaning-up-and-testing">Cleaning up and testing</h1>
@@ -387,37 +395,37 @@
 
 <p>Enter ‘i b’ into gdb and you should see something similar.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Num     Type           Disp Enb Address            What
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Num     Type           Disp Enb Address            What
 1       breakpoint     keep y   0x000000000040143a &lt;explode_bomb&gt;
 2       breakpoint     keep y   0x0000000000400f0a &lt;phase_2+14&gt;
 </code></pre></div></div>
 
 <p>The numbers used to select which breakpoint you want to interact with. Here we see two breakpoints and their locations. We can also see they’re both enabled. To temporarily disable a breakpoint, such as the one at address 0x400f0a, you’d use the disable command:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>disable 2
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>disable 2
 </code></pre></div></div>
 
 <p>Type ‘i b’ once again and you’ll still see the breakpoint listed, but with an ‘n’ in the enabled column.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Num     Type           Disp Enb Address            What
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Num     Type           Disp Enb Address            What
 1       breakpoint     keep y   0x000000000040143a &lt;explode_bomb&gt;
 2       breakpoint     keep n   0x0000000000400f0a &lt;phase_2+14&gt;
 </code></pre></div></div>
 
 <p>Since we’re not going to need this breakpoint again, we can go ahead and delete it with the delete command, or del for short.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>del 2
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>del 2
 </code></pre></div></div>
 
 <p>Enter ‘i b’ one more time and you’ll see it’s now gone.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Num     Type           Disp Enb Address            What
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Num     Type           Disp Enb Address            What
 1       breakpoint     keep y   0x000000000040143a &lt;explode_bomb&gt;
 </code></pre></div></div>
 
 <p>With the breakpoint deleted we can restart the bomb and test our answer:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Welcome to my fiendish little bomb. You have 6 phases with
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Welcome to my fiendish little bomb. You have 6 phases with
 which to blow yourself up. Have a nice day!
 Phase 1 defused. How about the next one?
 1 2 4 8 16 32
@@ -438,7 +446,7 @@ That's number 2.  Keep going!
     </div>
     <div class="nex" style="display:inline-block; margin-top: 20px; float:right;">
         
-        <p><a href="/2019/12/17/binary-bomb-phase-3/">Binary Bomb: Phase 3</a> <i class="fa fa-arrow-right"></i></p>
+        <p><a href="/2019/12/16/binary-bomb-phase-3/">Binary Bomb: Phase 3</a> <i class="fa fa-arrow-right"></i></p>
         
     </div>
 </div>
@@ -470,71 +478,145 @@ That's number 2.  Keep going!
                     <i class="fa fa-book" aria-hidden="true"></i>
                     Series
                 </div>
+ 
                 <ul class="content-ul" recent>
+                     <!--for loop is 0 based. this prevents off-by-one errors -->
+                    
+
                     
                         
-                            <li>
-                                
-                                    <a href="/2019/12/12/binary-bomb-phase-0/">Binary Bomb: Phase 0</a>
-                                
-                            </li>
-                        
-                    
-                        
-                            <li>
-                                
-                                    <a href="/2019/12/13/binary-bomb-phase-1/">Binary Bomb: Phase 1</a>
-                                
-                            </li>
+
                         
                     
                         
-                            <li>
-                                
-                                    <strong>Binary Bomb: Phase 2</strong>
-                                
-                            </li>
+
                         
                     
                         
-                            <li>
-                                
-                                    <a href="/2019/12/17/binary-bomb-phase-3/">Binary Bomb: Phase 3</a>
-                                
-                            </li>
+
                         
                     
                         
-                            <li>
-                                
-                                    <a href="/2019/12/17/binary-bomb-phase-4/">Binary Bomb: Phase 4</a>
-                                
-                            </li>
+
                         
                     
                         
-                            <li>
-                                
-                                    <a href="/2019/12/18/binary-bomb-phase-5/">Binary Bomb: Phase 5</a>
-                                
-                            </li>
+
                         
                     
                         
-                            <li>
-                                
-                                    <a href="/2019/12/18/binary-bomb-phase-6/">Binary Bomb: Phase 6</a>
-                                
-                            </li>
+
                         
                     
                         
-                            <li>
-                                
-                                    <a href="/2019/12/20/binary-bomb-secret-phase/">Binary Bomb: Secret Phase</a>
-                                
-                            </li>
+
                         
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                            
+
+                            <!-- prevent Series from showing < 5 entries when near the end of series -->
+                            
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                    
+
+                    <!-- prevent Series from showing < 5 entries when near the start of series -->
+                    
+
+                    
+
+
                     
                         
                     
@@ -550,7 +632,7 @@ That's number 2.  Keep going!
             </div>
             
 
-
+            
             <div class="side">
                 <div>
                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
@@ -558,15 +640,15 @@ That's number 2.  Keep going!
                 </div>
                 <ul class="content-ul" recent>
                     
-                        <li><a href="/2020/01/13/microcorruption-reykjavik/">Microcorruption: Reykjavik</a></li>
+                        <li><a href="/2021/05/15/bandit15-16/">Bandit Level 15 → Level 16</a></li>
                     
-                        <li><a href="/2020/01/13/microcorruption-cusco/">Microcorruption: Cusco</a></li>
+                        <li><a href="/2021/05/15/bandit14-15/">Bandit Level 14 → Level 15</a></li>
                     
-                        <li><a href="/2020/01/11/microcorruption-hanoi/">Microcorruption: Hanoi</a></li>
+                        <li><a href="/2021/05/15/bandit13-14/">Bandit Level 13 → Level 14</a></li>
                     
-                        <li><a href="/2020/01/10/microcorruption-sydney/">Microcorruption: Sydney</a></li>
+                        <li><a href="/2021/05/14/bandit12-13/">Bandit Level 12 → Level 13</a></li>
                     
-                        <li><a href="/2020/01/10/microcorruption-new-orleans/">Microcorruption: New Orleans</a></li>
+                        <li><a href="/2021/05/14/bandit11-12/">Bandit Level 11 → Level 12</a></li>
                     
                 </ul>
             </div>
@@ -602,12 +684,31 @@ That's number 2.  Keep going!
                             <span class="name">
                                 ctf
                             </span>
-                            <span class="badge">5</span>
+                            <span class="badge">22</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#wargames" class="categories-list-item" cate="wargames">
+                            <span class="name">
+                                wargames
+                            </span>
+                            <span class="badge">17</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#linux" class="categories-list-item" cate="linux">
+                            <span class="name">
+                                linux
+                            </span>
+                            <span class="badge">17</span>
                         </a>
                     </li>
                     
                 </ul>
             </div>
+
             <!-- Tag Cloud -->
             
         </div>

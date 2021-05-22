@@ -15,9 +15,9 @@
     <link rel="canonical" href="https://caminek.rocks/2020/01/10/microcorruption-new-orleans/">
     <link rel="alternate" type="application/rss+xml" title="Caminek" href="https://caminek.rocks/feed.xml ">
     
-    <!-- Begin Jekyll SEO tag v2.6.1 -->
+    <!-- Begin Jekyll SEO tag v2.7.1 -->
 <title>Microcorruption: New Orleans | Caminek</title>
-<meta name="generator" content="Jekyll v4.0.0" />
+<meta name="generator" content="Jekyll v4.2.0" />
 <meta property="og:title" content="Microcorruption: New Orleans" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="This is the first level after completing the tutorial. You’ll want to complete that before starting here as none of the debugging commands or GUI components will be explained." />
@@ -26,9 +26,11 @@
 <meta property="og:url" content="https://caminek.rocks/2020/01/10/microcorruption-new-orleans/" />
 <meta property="og:site_name" content="Caminek" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2020-01-10T14:16:53+00:00" />
+<meta property="article:published_time" content="2020-01-10T09:16:53-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Microcorruption: New Orleans" />
 <script type="application/ld+json">
-{"description":"This is the first level after completing the tutorial. You’ll want to complete that before starting here as none of the debugging commands or GUI components will be explained.","mainEntityOfPage":{"@type":"WebPage","@id":"https://caminek.rocks/2020/01/10/microcorruption-new-orleans/"},"@type":"BlogPosting","url":"https://caminek.rocks/2020/01/10/microcorruption-new-orleans/","headline":"Microcorruption: New Orleans","dateModified":"2020-01-10T14:16:53+00:00","datePublished":"2020-01-10T14:16:53+00:00","@context":"https://schema.org"}</script>
+{"@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://caminek.rocks/2020/01/10/microcorruption-new-orleans/"},"description":"This is the first level after completing the tutorial. You’ll want to complete that before starting here as none of the debugging commands or GUI components will be explained.","headline":"Microcorruption: New Orleans","dateModified":"2020-01-10T09:16:53-05:00","url":"https://caminek.rocks/2020/01/10/microcorruption-new-orleans/","datePublished":"2020-01-10T09:16:53-05:00","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -98,6 +100,12 @@
                             <i class="fa fa-tags"></i>Tags
                         </a>
                     </li>
+                    
+                
+                    
+                
+                    
+                
                     
                 
                     
@@ -181,7 +189,7 @@
         <article itemscope itemtype="http://schema.org/BlogPosting">
             <p>Let’s start by searching for the <strong>main</strong> function within Disassembly.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>4438 &lt;main&gt;
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>4438 &lt;main&gt;
 4438:  3150 9cff      add	#0xff9c, sp
 443c:  b012 7e44      call	#0x447e &lt;create_password&gt;
 4440:  3f40 e444      mov	#0x44e4 "Enter the password to continue", r15
@@ -206,7 +214,7 @@
 
 <p>Let’s start with the <strong>create_password</strong> function:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>447e &lt;create_password&gt;
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>447e &lt;create_password&gt;
 447e:  3f40 0024      mov	#0x2400, r15
 4482:  ff40 6300 0000 mov.b	#0x63, 0x0(r15)
 4488:  ff40 3c00 0100 mov.b	#0x3c, 0x1(r15)
@@ -223,7 +231,7 @@
 
 <p>Let’s look at <strong>get_password</strong> and <strong>getsn</strong>:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>44b2 &lt;get_password&gt;
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>44b2 &lt;get_password&gt;
 44b2:  3e40 6400      mov	#0x64, r14
 44b6:  b012 8445      call	#0x4584 &lt;getsn&gt;
 44ba:  3041           ret
@@ -243,7 +251,7 @@
 
 <p>Let’s look at <strong>check_password</strong>:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>44bc &lt;check_password&gt;
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>44bc &lt;check_password&gt;
 44bc:  0e43           clr	r14
 44be:  0d4f           mov	r15, r13
 44c0:  0d5e           add	r14, r13
@@ -310,7 +318,145 @@
                     <i class="fa fa-book" aria-hidden="true"></i>
                     Series
                 </div>
+ 
                 <ul class="content-ul" recent>
+                     <!--for loop is 0 based. this prevents off-by-one errors -->
+                    
+
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                            
+
+                            <!-- prevent Series from showing < 5 entries when near the end of series -->
+                            
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                    
+
+                    <!-- prevent Series from showing < 5 entries when near the start of series -->
+                    
+
+                    
+
+
                     
                         
                     
@@ -320,59 +466,13 @@
                     
                         
                     
-                        
-                    
-                        
-                    
-                        
-                    
-                        
-                    
-                        
-                            <li>
-                                
-                                    <strong>Microcorruption: New Orleans</strong>
-                                
-                            </li>
-                        
-                    
-                        
-                            <li>
-                                
-                                    <a href="/2020/01/10/microcorruption-sydney/">Microcorruption: Sydney</a>
-                                
-                            </li>
-                        
-                    
-                        
-                            <li>
-                                
-                                    <a href="/2020/01/11/microcorruption-hanoi/">Microcorruption: Hanoi</a>
-                                
-                            </li>
-                        
-                    
-                        
-                            <li>
-                                
-                                    <a href="/2020/01/13/microcorruption-cusco/">Microcorruption: Cusco</a>
-                                
-                            </li>
-                        
-                    
-                        
-                            <li>
-                                
-                                    <a href="/2020/01/13/microcorruption-reykjavik/">Microcorruption: Reykjavik</a>
-                                
-                            </li>
                         
                     
                 </ul>
             </div>
             
 
-
+            
             <div class="side">
                 <div>
                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
@@ -380,15 +480,15 @@
                 </div>
                 <ul class="content-ul" recent>
                     
-                        <li><a href="/2020/01/13/microcorruption-reykjavik/">Microcorruption: Reykjavik</a></li>
+                        <li><a href="/2021/05/15/bandit15-16/">Bandit Level 15 → Level 16</a></li>
                     
-                        <li><a href="/2020/01/13/microcorruption-cusco/">Microcorruption: Cusco</a></li>
+                        <li><a href="/2021/05/15/bandit14-15/">Bandit Level 14 → Level 15</a></li>
                     
-                        <li><a href="/2020/01/11/microcorruption-hanoi/">Microcorruption: Hanoi</a></li>
+                        <li><a href="/2021/05/15/bandit13-14/">Bandit Level 13 → Level 14</a></li>
                     
-                        <li><a href="/2020/01/10/microcorruption-sydney/">Microcorruption: Sydney</a></li>
+                        <li><a href="/2021/05/14/bandit12-13/">Bandit Level 12 → Level 13</a></li>
                     
-                        <li><a href="/2020/01/10/microcorruption-new-orleans/">Microcorruption: New Orleans</a></li>
+                        <li><a href="/2021/05/14/bandit11-12/">Bandit Level 11 → Level 12</a></li>
                     
                 </ul>
             </div>
@@ -424,12 +524,31 @@
                             <span class="name">
                                 ctf
                             </span>
-                            <span class="badge">5</span>
+                            <span class="badge">22</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#wargames" class="categories-list-item" cate="wargames">
+                            <span class="name">
+                                wargames
+                            </span>
+                            <span class="badge">17</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#linux" class="categories-list-item" cate="linux">
+                            <span class="name">
+                                linux
+                            </span>
+                            <span class="badge">17</span>
                         </a>
                     </li>
                     
                 </ul>
             </div>
+
             <!-- Tag Cloud -->
             
         </div>

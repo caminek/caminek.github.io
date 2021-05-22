@@ -15,9 +15,9 @@
     <link rel="canonical" href="https://caminek.rocks/2019/12/20/binary-bomb-secret-phase/">
     <link rel="alternate" type="application/rss+xml" title="Caminek" href="https://caminek.rocks/feed.xml ">
     
-    <!-- Begin Jekyll SEO tag v2.6.1 -->
+    <!-- Begin Jekyll SEO tag v2.7.1 -->
 <title>Binary Bomb: Secret Phase | Caminek</title>
-<meta name="generator" content="Jekyll v4.0.0" />
+<meta name="generator" content="Jekyll v4.2.0" />
 <meta property="og:title" content="Binary Bomb: Secret Phase" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Unlike previous phases, we can’t start by jumping directly into the secret_phase function. We first have to figure out how to get into the phase first." />
@@ -26,9 +26,11 @@
 <meta property="og:url" content="https://caminek.rocks/2019/12/20/binary-bomb-secret-phase/" />
 <meta property="og:site_name" content="Caminek" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2019-12-20T13:34:27+00:00" />
+<meta property="article:published_time" content="2019-12-20T08:34:27-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Binary Bomb: Secret Phase" />
 <script type="application/ld+json">
-{"description":"Unlike previous phases, we can’t start by jumping directly into the secret_phase function. We first have to figure out how to get into the phase first.","mainEntityOfPage":{"@type":"WebPage","@id":"https://caminek.rocks/2019/12/20/binary-bomb-secret-phase/"},"@type":"BlogPosting","url":"https://caminek.rocks/2019/12/20/binary-bomb-secret-phase/","headline":"Binary Bomb: Secret Phase","dateModified":"2019-12-20T13:34:27+00:00","datePublished":"2019-12-20T13:34:27+00:00","@context":"https://schema.org"}</script>
+{"@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://caminek.rocks/2019/12/20/binary-bomb-secret-phase/"},"description":"Unlike previous phases, we can’t start by jumping directly into the secret_phase function. We first have to figure out how to get into the phase first.","headline":"Binary Bomb: Secret Phase","dateModified":"2019-12-20T08:34:27-05:00","url":"https://caminek.rocks/2019/12/20/binary-bomb-secret-phase/","datePublished":"2019-12-20T08:34:27-05:00","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -98,6 +100,12 @@
                             <i class="fa fa-tags"></i>Tags
                         </a>
                     </li>
+                    
+                
+                    
+                
+                    
+                
                     
                 
                     
@@ -192,7 +200,7 @@
 
 <p>Start gdb and disassemble phase_defused:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Dump of assembler code for function phase_defused:
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Dump of assembler code for function phase_defused:
    0x4015c4 &lt;+0&gt;:	sub    rsp,0x78
    0x4015c8 &lt;+4&gt;:	mov    rax,QWORD PTR fs:0x28
    0x4015d1 &lt;+13&gt;:	mov    QWORD PTR [rsp+0x68],rax
@@ -233,7 +241,7 @@ End of assembler dump.
 
 <p>Let’s look at that line and the following one:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x4015d8 &lt;+20&gt;:	cmp    DWORD PTR [rip+0x202181],0x6  # 0x603760 &lt;num_input_strings&gt;
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x4015d8 &lt;+20&gt;:	cmp    DWORD PTR [rip+0x202181],0x6  # 0x603760 &lt;num_input_strings&gt;
    0x4015df &lt;+27&gt;:	jne    0x40163f &lt;phase_defused+123&gt;
 </code></pre></div></div>
 
@@ -241,7 +249,7 @@ End of assembler dump.
 
 <p>Here are a few interesting lines. We see a call to sscanf. We know that the format string should be above the call, but there seem to be two values being prepared.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x4015f0 &lt;+44&gt;:	mov    esi,0x402619
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x4015f0 &lt;+44&gt;:	mov    esi,0x402619
    0x4015f5 &lt;+49&gt;:	mov    edi,0x603870
    0x4015fa &lt;+54&gt;:	call   0x400bf0 &lt;__isoc99_sscanf@plt&gt;
    0x4015ff  &lt;+59&gt;:      cmp    eax,0x3
@@ -250,7 +258,7 @@ End of assembler dump.
 
 <p>Let’s examine these addresses</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x/s 0x402619
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x/s 0x402619
 0x402619:	"%d %d %s"
 
 x/s 0x603870
@@ -261,14 +269,14 @@ x/s 0x603870
 
 <p>Just a few lines down there’s a call to strings_not_equal. Let’s look at what’s being moved into the registers just beforehand.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x401604 &lt;+64&gt;:  mov    esi,0x402622
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x401604 &lt;+64&gt;:  mov    esi,0x402622
    0x401609 &lt;+69&gt;:  lea    rdi,[rsp+0x10]
    0x40160e &lt;+74&gt;:  call   0x401338 &lt;strings_not_equal&gt;
 </code></pre></div></div>
 
 <p>Let’s examine 0x402622:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x/s 0x402622
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x/s 0x402622
 0x402622:	"DrEvil"
 </code></pre></div></div>
 
@@ -280,12 +288,12 @@ x/s 0x603870
 
 <p>Start gdb and set a breakpoint for explode_bomb. Next set a watchpoint for the constant value:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>watch *0x603870
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>watch *0x603870
 </code></pre></div></div>
 
 <p>Run the bomb and pass the answer file. Once the watchpoint is triggered, examine 0x603870.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x/s 0x603870
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x/s 0x603870
 0x603870 &lt;input_strings+240&gt;:	"3 0"
 </code></pre></div></div>
 
@@ -297,7 +305,7 @@ x/s 0x603870
 
 <p>Once that’s cleared, run the bomb again and you’ll see:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Welcome to my fiendish little bomb. You have 6 phases with
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Welcome to my fiendish little bomb. You have 6 phases with
 which to blow yourself up. Have a nice day!
 Phase 1 defused. How about the next one?
 That's number 2.  Keep going!
@@ -316,7 +324,7 @@ But finding it and solving it are quite different...
 
 <p>We finally have access to the Secret Phase! Let’s start by disassembling seecret_phase and see what’s in it.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Dump of assembler code for function secret_phase:
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Dump of assembler code for function secret_phase:
    0x0000000000401242 &lt;+0&gt;: 	push   rbx
    0x0000000000401243 &lt;+1&gt;: 	call   0x40149e &lt;read_line&gt;
    0x0000000000401248 &lt;+6&gt;: 	mov    edx,0xa
@@ -346,7 +354,7 @@ End of assembler dump.
 
 <p>The middle of the function contains the most interesting parts:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x000000000040125d &lt;+27&gt;:	lea    eax,[rax-0x1]
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x000000000040125d &lt;+27&gt;:	lea    eax,[rax-0x1]
    0x0000000000401260 &lt;+30&gt;:	cmp    eax,0x3e8
    0x0000000000401265 &lt;+35&gt;:	jbe    0x40126c &lt;secret_phase+42&gt;
    0x0000000000401267 &lt;+37&gt;:	call   0x40143a &lt;explode_bomb&gt;
@@ -364,7 +372,7 @@ End of assembler dump.
 
 <p>Next, we see an address being moved into EDI. let’s see what’s there:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x/s 0x6030f0
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x/s 0x6030f0
 0x6030f0 &lt;n1&gt;:	"$"
 </code></pre></div></div>
 
@@ -374,7 +382,7 @@ End of assembler dump.
 
 <p>This is similar to what we saw in Phase 6.  There we had node1.  Let’s increase our search to see if we have another data structure.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x/12x 0x6030f0
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x/12x 0x6030f0
 0x6030f0 &lt;n1&gt;:	0x000024	0x603110
 0x603100 &lt;n1+16&gt;:	0x603130	0x000000
 0x603110 &lt;n21&gt;:	0x000008	0x603190
@@ -385,7 +393,7 @@ End of assembler dump.
 
 <p>This looks like a BST, or binary search tree. Consider the first 4 quad word, or giant words:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x/4g 0x6030f0
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x/4g 0x6030f0
 0x6030f0 &lt;n1&gt;:	0x0000000000000024	0x0000000000603110
 0x603100 &lt;n1+16&gt;:	0x0000000000603130	0x0000000000000000
 </code></pre></div></div>
@@ -395,7 +403,7 @@ End of assembler dump.
 
 <p>Let’s look at the entire tree:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x/60x 0x6030f0
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x/60x 0x6030f0
 0x6030f0 &lt;n1&gt;:	0x000024	0x603110
 0x603100 &lt;n1+16&gt;:	0x603130	0x000000
 0x603110 &lt;n21&gt;:	0x000008	0x603190
@@ -436,7 +444,7 @@ End of assembler dump.
 
 <p>With that said, let’s disassemble fun7:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Dump of assembler code for function fun7:
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Dump of assembler code for function fun7:
    0x401204 &lt;+0&gt;: 	sub    rsp,0x8                  // decrement sp
    0x401208 &lt;+4&gt;: 	test   rdi,rdi                  // rdi is node pointer
    0x40120b &lt;+7&gt;: 	je     0x401238 &lt;fun7+52&gt;       // jump if rdi = 0
@@ -485,7 +493,7 @@ End of assembler dump.
 
 <p>So, without further ado, clear all breakpoints except explode_bomb and run the bomb. Enter in either 20 or 22 and you’ll see the following:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Welcome to my fiendish little bomb. You have 6 phases with
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Welcome to my fiendish little bomb. You have 6 phases with
 which to blow yourself up. Have a nice day!
 Phase 1 defused. How about the next one?
 That's number 2.  Keep going!
@@ -545,71 +553,145 @@ Congratulations! You've defused the bomb!
                     <i class="fa fa-book" aria-hidden="true"></i>
                     Series
                 </div>
+ 
                 <ul class="content-ul" recent>
+                     <!--for loop is 0 based. this prevents off-by-one errors -->
+                    
+
                     
                         
-                            <li>
-                                
-                                    <a href="/2019/12/12/binary-bomb-phase-0/">Binary Bomb: Phase 0</a>
-                                
-                            </li>
-                        
-                    
-                        
-                            <li>
-                                
-                                    <a href="/2019/12/13/binary-bomb-phase-1/">Binary Bomb: Phase 1</a>
-                                
-                            </li>
+
                         
                     
                         
-                            <li>
-                                
-                                    <a href="/2019/12/16/binary-bomb-phase-2/">Binary Bomb: Phase 2</a>
-                                
-                            </li>
+
                         
                     
                         
-                            <li>
-                                
-                                    <a href="/2019/12/17/binary-bomb-phase-3/">Binary Bomb: Phase 3</a>
-                                
-                            </li>
+
                         
                     
                         
-                            <li>
-                                
-                                    <a href="/2019/12/17/binary-bomb-phase-4/">Binary Bomb: Phase 4</a>
-                                
-                            </li>
+
                         
                     
                         
-                            <li>
-                                
-                                    <a href="/2019/12/18/binary-bomb-phase-5/">Binary Bomb: Phase 5</a>
-                                
-                            </li>
+
                         
                     
                         
-                            <li>
-                                
-                                    <a href="/2019/12/18/binary-bomb-phase-6/">Binary Bomb: Phase 6</a>
-                                
-                            </li>
+
                         
                     
                         
-                            <li>
-                                
-                                    <strong>Binary Bomb: Secret Phase</strong>
-                                
-                            </li>
+
                         
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                            
+
+                            <!-- prevent Series from showing < 5 entries when near the end of series -->
+                            
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                    
+
+                    <!-- prevent Series from showing < 5 entries when near the start of series -->
+                    
+
+                    
+
+
                     
                         
                     
@@ -625,7 +707,7 @@ Congratulations! You've defused the bomb!
             </div>
             
 
-
+            
             <div class="side">
                 <div>
                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
@@ -633,15 +715,15 @@ Congratulations! You've defused the bomb!
                 </div>
                 <ul class="content-ul" recent>
                     
-                        <li><a href="/2020/01/13/microcorruption-reykjavik/">Microcorruption: Reykjavik</a></li>
+                        <li><a href="/2021/05/15/bandit15-16/">Bandit Level 15 → Level 16</a></li>
                     
-                        <li><a href="/2020/01/13/microcorruption-cusco/">Microcorruption: Cusco</a></li>
+                        <li><a href="/2021/05/15/bandit14-15/">Bandit Level 14 → Level 15</a></li>
                     
-                        <li><a href="/2020/01/11/microcorruption-hanoi/">Microcorruption: Hanoi</a></li>
+                        <li><a href="/2021/05/15/bandit13-14/">Bandit Level 13 → Level 14</a></li>
                     
-                        <li><a href="/2020/01/10/microcorruption-sydney/">Microcorruption: Sydney</a></li>
+                        <li><a href="/2021/05/14/bandit12-13/">Bandit Level 12 → Level 13</a></li>
                     
-                        <li><a href="/2020/01/10/microcorruption-new-orleans/">Microcorruption: New Orleans</a></li>
+                        <li><a href="/2021/05/14/bandit11-12/">Bandit Level 11 → Level 12</a></li>
                     
                 </ul>
             </div>
@@ -677,12 +759,31 @@ Congratulations! You've defused the bomb!
                             <span class="name">
                                 ctf
                             </span>
-                            <span class="badge">5</span>
+                            <span class="badge">22</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#wargames" class="categories-list-item" cate="wargames">
+                            <span class="name">
+                                wargames
+                            </span>
+                            <span class="badge">17</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#linux" class="categories-list-item" cate="linux">
+                            <span class="name">
+                                linux
+                            </span>
+                            <span class="badge">17</span>
                         </a>
                     </li>
                     
                 </ul>
             </div>
+
             <!-- Tag Cloud -->
             
         </div>

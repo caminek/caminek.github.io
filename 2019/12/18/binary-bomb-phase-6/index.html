@@ -15,9 +15,9 @@
     <link rel="canonical" href="https://caminek.rocks/2019/12/18/binary-bomb-phase-6/">
     <link rel="alternate" type="application/rss+xml" title="Caminek" href="https://caminek.rocks/feed.xml ">
     
-    <!-- Begin Jekyll SEO tag v2.6.1 -->
+    <!-- Begin Jekyll SEO tag v2.7.1 -->
 <title>Binary Bomb: Phase 6 | Caminek</title>
-<meta name="generator" content="Jekyll v4.0.0" />
+<meta name="generator" content="Jekyll v4.2.0" />
 <meta property="og:title" content="Binary Bomb: Phase 6" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="This phase is the hardest yet. I spent longer trying to solve this phase than I did on all the other phases combined." />
@@ -26,9 +26,11 @@
 <meta property="og:url" content="https://caminek.rocks/2019/12/18/binary-bomb-phase-6/" />
 <meta property="og:site_name" content="Caminek" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2019-12-18T19:27:56+00:00" />
+<meta property="article:published_time" content="2019-12-18T14:27:56-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Binary Bomb: Phase 6" />
 <script type="application/ld+json">
-{"description":"This phase is the hardest yet. I spent longer trying to solve this phase than I did on all the other phases combined.","mainEntityOfPage":{"@type":"WebPage","@id":"https://caminek.rocks/2019/12/18/binary-bomb-phase-6/"},"@type":"BlogPosting","url":"https://caminek.rocks/2019/12/18/binary-bomb-phase-6/","headline":"Binary Bomb: Phase 6","dateModified":"2019-12-18T19:27:56+00:00","datePublished":"2019-12-18T19:27:56+00:00","@context":"https://schema.org"}</script>
+{"@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://caminek.rocks/2019/12/18/binary-bomb-phase-6/"},"description":"This phase is the hardest yet. I spent longer trying to solve this phase than I did on all the other phases combined.","headline":"Binary Bomb: Phase 6","dateModified":"2019-12-18T14:27:56-05:00","url":"https://caminek.rocks/2019/12/18/binary-bomb-phase-6/","datePublished":"2019-12-18T14:27:56-05:00","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -98,6 +100,12 @@
                             <i class="fa fa-tags"></i>Tags
                         </a>
                     </li>
+                    
+                
+                    
+                
+                    
+                
                     
                 
                     
@@ -198,7 +206,7 @@
 
 <p>Start gdb, set your breakpoint for explode_bomb, and disassemble phase_6.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Dump of assembler code for function phase_6:
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Dump of assembler code for function phase_6:
    0x00000000004010f4 &lt;+0&gt;: 	push   r14
    0x00000000004010f6 &lt;+2&gt;: 	push   r13
    0x00000000004010f8 &lt;+4&gt;: 	push   r12
@@ -294,7 +302,7 @@ End of assembler dump.
 
 <p>There’s certainly a whole lot more going on here than in the previous phases. Let’s look at the beginning of the function:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x00000000004010f4 &lt;+0&gt;:     push   r14
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x00000000004010f4 &lt;+0&gt;:     push   r14
    0x00000000004010f6 &lt;+2&gt;:     push   r13
    0x00000000004010f8 &lt;+4&gt;:     push   r12
    0x00000000004010fa &lt;+6&gt;:     push   rbp
@@ -316,7 +324,7 @@ End of assembler dump.
 
 <p>Let’s look at the next section of code:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x0000000000401117 &lt;+35&gt;:    mov    eax,DWORD PTR [r13+0x0]
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x0000000000401117 &lt;+35&gt;:    mov    eax,DWORD PTR [r13+0x0]
    0x000000000040111b &lt;+39&gt;:    sub    eax,0x1
    0x000000000040111e &lt;+42&gt;:    cmp    eax,0x5
    0x0000000000401121 &lt;+45&gt;:    jbe    0x401128 &lt;phase_6+52&gt;
@@ -327,7 +335,7 @@ End of assembler dump.
 
 <p>Now that we know how to bypass that block, let’s look at the next block we would next jump to:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x0000000000401128 &lt;+52&gt;:    add    r12d,0x1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x0000000000401128 &lt;+52&gt;:    add    r12d,0x1
    0x000000000040112c &lt;+56&gt;:    cmp    r12d,0x6
    0x0000000000401130 &lt;+60&gt;:    je     0x401153 &lt;phase_6+95&gt;
    0x0000000000401132 &lt;+62&gt;:    mov    ebx,r12d
@@ -346,20 +354,20 @@ End of assembler dump.
 
 <p>Let’s check the next block:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x0000000000401145 &lt;+81&gt;:    add    ebx,0x1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x0000000000401145 &lt;+81&gt;:    add    ebx,0x1
    0x0000000000401148 &lt;+84&gt;:    cmp    ebx,0x5
    0x000000000040114b &lt;+87&gt;:    jle    0x401135 &lt;phase_6+65&gt;
 </code></pre></div></div>
 
 <p>Here we see loop back to the above block. This means that the first number must also be unique.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x000000000040114d &lt;+89&gt;:    add    r13,0x4
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x000000000040114d &lt;+89&gt;:    add    r13,0x4
    0x0000000000401151 &lt;+93&gt;:    jmp    0x401114 &lt;phase_6+32&gt;
 </code></pre></div></div>
 
 <p>Here we see 0x4 being added to r13. The r13 register now points to the second number we entered. Next, we unconditionally jump up to 0x401114. Let’s revisit that code:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x0000000000401114 &lt;+32&gt;:    mov    rbp,r13
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x0000000000401114 &lt;+32&gt;:    mov    rbp,r13
    0x0000000000401117 &lt;+35&gt;:    mov    eax,DWORD PTR [r13+0x0]
    0x000000000040111b &lt;+39&gt;:    sub    eax,0x1
    0x000000000040111e &lt;+42&gt;:    cmp    eax,0x5
@@ -373,7 +381,7 @@ End of assembler dump.
 
 <p>Start gdb and set a breakpoint for explode_bomb. We’ll also need to set a breakpoint for the jump address that takes us out of these loops.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x0000000000401130 &lt;+60&gt;:    je     0x401153 &lt;phase_6+95&gt;
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x0000000000401130 &lt;+60&gt;:    je     0x401153 &lt;phase_6+95&gt;
 </code></pre></div></div>
 
 <hr />
@@ -382,12 +390,12 @@ End of assembler dump.
 
 <p>Set a breakpoint for 0x401153. Run the bomb and use the following as your input:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1 2 3 4 5 6
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1 2 3 4 5 6
 </code></pre></div></div>
 
 <p>Let’s look at our new loop to see what it does:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x0000000000401153 &lt;+95&gt;:    lea    rsi,[rsp+0x18]
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x0000000000401153 &lt;+95&gt;:    lea    rsi,[rsp+0x18]
    0x0000000000401158 &lt;+100&gt;:   mov    rax,r14
    0x000000000040115b &lt;+103&gt;:   mov    ecx,0x7
    0x0000000000401160 &lt;+108&gt;:   mov    edx,ecx
@@ -402,7 +410,7 @@ End of assembler dump.
 
 <p>Since we’ve run a few loops, our registers are now in a different state than when we last used them. It looks like we’ll need to know what’s in RSP+0x18 and r14.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x/w $rsp
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x/w $rsp
 0x7fffffffe3e0:	1
 
 x/w $rsp+0x18
@@ -414,7 +422,7 @@ x/w $r14
 
 <p>Here we can see RSP and r14 both point to the top of the stack.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x/6w $rsp
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x/6w $rsp
 0x7fffffffe3e0:	1	2	3	4
 0x7fffffffe3f0:	5	6
 </code></pre></div></div>
@@ -445,7 +453,7 @@ x/w $r14
 
 <h4 id="this-block-loops-until-we-have-the-node-were-looking-for-which-is-stored-in-ecx">This block loops until we have the node we’re looking for, which is stored in ecx</h4>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x0000000000401176 &lt;+130&gt;:   mov    rdx,QWORD PTR [rdx+0x8]         // node-&gt;next addr
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x0000000000401176 &lt;+130&gt;:   mov    rdx,QWORD PTR [rdx+0x8]         // node-&gt;next addr
    0x000000000040117a &lt;+134&gt;:   add    eax,0x1                         // set to 1 at &lt;+171&gt;
    0x000000000040117d &lt;+137&gt;:   cmp    eax,ecx                         // is EAX our node?
    0x000000000040117f &lt;+139&gt;:   jne    0x401176 &lt;phase_6+130&gt;          // no? loop until it is
@@ -454,7 +462,7 @@ x/w $r14
 
 <h4 id="we-found-the-node-it-was-placed-into-rdx-copy-node-next-into-stack">We found the node. It was placed into rdx. Copy node-&gt;next into stack.</h4>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x0000000000401183 &lt;+143&gt;:   mov    edx,0x6032d0                    // linked list addr
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x0000000000401183 &lt;+143&gt;:   mov    edx,0x6032d0                    // linked list addr
    0x0000000000401188 &lt;+148&gt;:   mov    QWORD PTR [rsp+rsi*2+0x20],rdx  // node-&gt;next addr
    0x000000000040118d &lt;+153&gt;:   add    rsi,0x4                         // node counter
    0x0000000000401191 &lt;+157&gt;:   cmp    rsi,0x18                        // 24/4 = 6 nodes max
@@ -465,7 +473,7 @@ x/w $r14
 
 <h5 id="this-is-the-entry-point-we-unconditionally-jumped-from-stage-2-at-128-the-rsi-register-was-set-to-0x0-in-stage-2-at-123">This is the entry point. We unconditionally jumped from Stage 2 at &lt;+128&gt;. The rsi register was set to 0x0 in Stage 2 at &lt;+123&gt;.</h5>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x0000000000401197 &lt;+163&gt;:   mov    ecx,DWORD PTR [rsp+rsi*1]       // get node number.
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x0000000000401197 &lt;+163&gt;:   mov    ecx,DWORD PTR [rsp+rsi*1]       // get node number.
    0x000000000040119a &lt;+166&gt;:   cmp    ecx,0x1                         // ECX = 1
    0x000000000040119d &lt;+169&gt;:   jle    0x401183 &lt;phase_6+143&gt;          // if node1, jump
    0x000000000040119f &lt;+171&gt;:   mov    eax,0x1                         // EAX = 1
@@ -479,7 +487,7 @@ x/w $r14
 
 <p>This section links the nodes together.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x00000000004011ab &lt;+183&gt;:   mov    rbx,QWORD PTR [rsp+0x20]  // start of Stage 3 addrs
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x00000000004011ab &lt;+183&gt;:   mov    rbx,QWORD PTR [rsp+0x20]  // start of Stage 3 addrs
    0x00000000004011b0 &lt;+188&gt;:   lea    rax,[rsp+0x28]            // second addr on stack
    0x00000000004011b5 &lt;+193&gt;:   lea    rsi,[rsp+0x50]            // terminating addr
    0x00000000004011ba &lt;+198&gt;:   mov    rcx,rbx                   // rcx = stack addr
@@ -501,7 +509,7 @@ x/w $r14
 
 <h4 id="the-rbx-register-holds-the-address-of-the-first-node-in-the-list">The rbx register holds the address of the first node in the list.</h4>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x00000000004011d2 &lt;+222&gt;:   mov    QWORD PTR [rdx+0x8],0x0  // set tail-&gt; to 0x0 
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   0x00000000004011d2 &lt;+222&gt;:   mov    QWORD PTR [rdx+0x8],0x0  // set tail-&gt; to 0x0 
    0x00000000004011da &lt;+230&gt;:   mov    ebp,0x5                  // ebp = 5
 
    0x00000000004011df &lt;+235&gt;:   mov    rax,QWORD PTR [rbx+0x8]  // node addr
@@ -565,7 +573,7 @@ x/w $r14
 
 <p>Here we see the correct order is 3 4 5 6 1 2, but in Stage 2 we saw our input in altered. We need to enter in six numbers, that once passed Stage 2 will become 3 4 5 6 1 2. The formula is 7 - x.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>7 - 3 = 4
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>7 - 3 = 4
 7 - 4 = 3
 7 - 5 = 2
 7 - 6 = 1
@@ -575,12 +583,12 @@ x/w $r14
 
 <p>Clear all breakpoints, except explode_bomb and enter:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>4 3 2 1 6 5
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>4 3 2 1 6 5
 </code></pre></div></div>
 
 <p>You should see:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Welcome to my fiendish little bomb. You have 6 phases with
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Welcome to my fiendish little bomb. You have 6 phases with
 which to blow yourself up. Have a nice day!
 Phase 1 defused. How about the next one?
 That's number 2.  Keep going!
@@ -604,7 +612,7 @@ Congratulations! You've defused the bomb!
         <div class="post-recent">
     <div class="pre" style="display:inline-block; margin-top: 20px;">
         
-        <p><i class="fa fa-arrow-left"></i> <a href="/2019/12/18/binary-bomb-phase-5/">Binary Bomb: Phase 5</a></p>
+        <p><i class="fa fa-arrow-left"></i> <a href="/2019/12/17/binary-bomb-phase-5/">Binary Bomb: Phase 5</a></p>
         
     </div>
     <div class="nex" style="display:inline-block; margin-top: 20px; float:right;">
@@ -641,71 +649,145 @@ Congratulations! You've defused the bomb!
                     <i class="fa fa-book" aria-hidden="true"></i>
                     Series
                 </div>
+ 
                 <ul class="content-ul" recent>
+                     <!--for loop is 0 based. this prevents off-by-one errors -->
+                    
+
                     
                         
-                            <li>
-                                
-                                    <a href="/2019/12/12/binary-bomb-phase-0/">Binary Bomb: Phase 0</a>
-                                
-                            </li>
-                        
-                    
-                        
-                            <li>
-                                
-                                    <a href="/2019/12/13/binary-bomb-phase-1/">Binary Bomb: Phase 1</a>
-                                
-                            </li>
+
                         
                     
                         
-                            <li>
-                                
-                                    <a href="/2019/12/16/binary-bomb-phase-2/">Binary Bomb: Phase 2</a>
-                                
-                            </li>
+
                         
                     
                         
-                            <li>
-                                
-                                    <a href="/2019/12/17/binary-bomb-phase-3/">Binary Bomb: Phase 3</a>
-                                
-                            </li>
+
                         
                     
                         
-                            <li>
-                                
-                                    <a href="/2019/12/17/binary-bomb-phase-4/">Binary Bomb: Phase 4</a>
-                                
-                            </li>
+
                         
                     
                         
-                            <li>
-                                
-                                    <a href="/2019/12/18/binary-bomb-phase-5/">Binary Bomb: Phase 5</a>
-                                
-                            </li>
+
                         
                     
                         
-                            <li>
-                                
-                                    <strong>Binary Bomb: Phase 6</strong>
-                                
-                            </li>
+
                         
                     
                         
-                            <li>
-                                
-                                    <a href="/2019/12/20/binary-bomb-secret-phase/">Binary Bomb: Secret Phase</a>
-                                
-                            </li>
+
                         
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                            
+
+                            <!-- prevent Series from showing < 5 entries when near the end of series -->
+                            
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                    
+
+                    <!-- prevent Series from showing < 5 entries when near the start of series -->
+                    
+
+                    
+
+
                     
                         
                     
@@ -721,7 +803,7 @@ Congratulations! You've defused the bomb!
             </div>
             
 
-
+            
             <div class="side">
                 <div>
                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
@@ -729,15 +811,15 @@ Congratulations! You've defused the bomb!
                 </div>
                 <ul class="content-ul" recent>
                     
-                        <li><a href="/2020/01/13/microcorruption-reykjavik/">Microcorruption: Reykjavik</a></li>
+                        <li><a href="/2021/05/15/bandit15-16/">Bandit Level 15 → Level 16</a></li>
                     
-                        <li><a href="/2020/01/13/microcorruption-cusco/">Microcorruption: Cusco</a></li>
+                        <li><a href="/2021/05/15/bandit14-15/">Bandit Level 14 → Level 15</a></li>
                     
-                        <li><a href="/2020/01/11/microcorruption-hanoi/">Microcorruption: Hanoi</a></li>
+                        <li><a href="/2021/05/15/bandit13-14/">Bandit Level 13 → Level 14</a></li>
                     
-                        <li><a href="/2020/01/10/microcorruption-sydney/">Microcorruption: Sydney</a></li>
+                        <li><a href="/2021/05/14/bandit12-13/">Bandit Level 12 → Level 13</a></li>
                     
-                        <li><a href="/2020/01/10/microcorruption-new-orleans/">Microcorruption: New Orleans</a></li>
+                        <li><a href="/2021/05/14/bandit11-12/">Bandit Level 11 → Level 12</a></li>
                     
                 </ul>
             </div>
@@ -773,12 +855,31 @@ Congratulations! You've defused the bomb!
                             <span class="name">
                                 ctf
                             </span>
-                            <span class="badge">5</span>
+                            <span class="badge">22</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#wargames" class="categories-list-item" cate="wargames">
+                            <span class="name">
+                                wargames
+                            </span>
+                            <span class="badge">17</span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="/category/#linux" class="categories-list-item" cate="linux">
+                            <span class="name">
+                                linux
+                            </span>
+                            <span class="badge">17</span>
                         </a>
                     </li>
                     
                 </ul>
             </div>
+
             <!-- Tag Cloud -->
             
         </div>
