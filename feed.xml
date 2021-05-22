@@ -5,9 +5,57 @@
     <description></description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 22 May 2021 18:50:02 -0400</pubDate>
-    <lastBuildDate>Sat, 22 May 2021 18:50:02 -0400</lastBuildDate>
+    <pubDate>Sat, 22 May 2021 19:51:33 -0400</pubDate>
+    <lastBuildDate>Sat, 22 May 2021 19:51:33 -0400</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
+    
+      <item>
+        <title>Bandit Level 22 → Level 23</title>
+        <description>I prefer Python</description>
+        <pubDate>Sat, 22 May 2021 15:21:22 -0400</pubDate>
+        <link>/2021/05/22/bandit22-23/</link>
+        <guid isPermaLink="true">/2021/05/22/bandit22-23/</guid>
+        
+        <category>wargames</category>
+        
+        <category>ctf</category>
+        
+        <category>overthewire</category>
+        
+        <category>linux</category>
+        
+        
+        <category>ctf</category>
+        
+        <category>wargames</category>
+        
+        <category>linux</category>
+        
+      </item>
+    
+      <item>
+        <title>Bandit Level 21 → Level 22</title>
+        <description>Is this why we&apos;re using systemd?</description>
+        <pubDate>Sat, 22 May 2021 15:21:22 -0400</pubDate>
+        <link>/2021/05/22/bandit21-22/</link>
+        <guid isPermaLink="true">/2021/05/22/bandit21-22/</guid>
+        
+        <category>wargames</category>
+        
+        <category>ctf</category>
+        
+        <category>overthewire</category>
+        
+        <category>linux</category>
+        
+        
+        <category>ctf</category>
+        
+        <category>wargames</category>
+        
+        <category>linux</category>
+        
+      </item>
     
       <item>
         <title>Bandit Level 20 → Level 21</title>
@@ -183,54 +231,6 @@
         <pubDate>Sat, 15 May 2021 12:00:42 -0400</pubDate>
         <link>/2021/05/15/bandit13-14/</link>
         <guid isPermaLink="true">/2021/05/15/bandit13-14/</guid>
-        
-        <category>wargames</category>
-        
-        <category>ctf</category>
-        
-        <category>overthewire</category>
-        
-        <category>linux</category>
-        
-        
-        <category>ctf</category>
-        
-        <category>wargames</category>
-        
-        <category>linux</category>
-        
-      </item>
-    
-      <item>
-        <title>Bandit Level 12 → Level 13</title>
-        <description>Some people shouldn&apos;t be allowed to use computers</description>
-        <pubDate>Fri, 14 May 2021 09:06:55 -0400</pubDate>
-        <link>/2021/05/14/bandit12-13/</link>
-        <guid isPermaLink="true">/2021/05/14/bandit12-13/</guid>
-        
-        <category>wargames</category>
-        
-        <category>ctf</category>
-        
-        <category>overthewire</category>
-        
-        <category>linux</category>
-        
-        
-        <category>ctf</category>
-        
-        <category>wargames</category>
-        
-        <category>linux</category>
-        
-      </item>
-    
-      <item>
-        <title>Bandit Level 11 → Level 12</title>
-        <description>Ebgngr ol 13 cynprf</description>
-        <pubDate>Fri, 14 May 2021 09:06:55 -0400</pubDate>
-        <link>/2021/05/14/bandit11-12/</link>
-        <guid isPermaLink="true">/2021/05/14/bandit11-12/</guid>
         
         <category>wargames</category>
         
