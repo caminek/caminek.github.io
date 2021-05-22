@@ -3,18 +3,42 @@
   <channel>
     <title>Caminek</title>
     <description></description>
-    <link>https://caminek.rocks/</link>
-    <atom:link href="https://caminek.rocks/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 22 May 2021 15:14:02 -0400</pubDate>
-    <lastBuildDate>Sat, 22 May 2021 15:14:02 -0400</lastBuildDate>
+    <link>/</link>
+    <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Sat, 22 May 2021 15:28:24 -0400</pubDate>
+    <lastBuildDate>Sat, 22 May 2021 15:28:24 -0400</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
+    
+      <item>
+        <title>Bandit Level 17 → Level 18</title>
+        <description>Spot the difference</description>
+        <pubDate>Sat, 22 May 2021 11:19:44 -0400</pubDate>
+        <link>/2021/05/22/bandit17-18/</link>
+        <guid isPermaLink="true">/2021/05/22/bandit17-18/</guid>
+        
+        <category>wargames</category>
+        
+        <category>ctf</category>
+        
+        <category>overthewire</category>
+        
+        <category>linux</category>
+        
+        
+        <category>ctf</category>
+        
+        <category>wargames</category>
+        
+        <category>linux</category>
+        
+      </item>
     
       <item>
         <title>Bandit Level 16 → Level 17</title>
         <description>Insecurity As A Service</description>
         <pubDate>Fri, 21 May 2021 19:34:17 -0400</pubDate>
-        <link>https://caminek.rocks/2021/05/21/bandit16-17/</link>
-        <guid isPermaLink="true">https://caminek.rocks/2021/05/21/bandit16-17/</guid>
+        <link>/2021/05/21/bandit16-17/</link>
+        <guid isPermaLink="true">/2021/05/21/bandit16-17/</guid>
         
         <category>wargames</category>
         
@@ -37,8 +61,8 @@
         <title>Bandit Level 15 → Level 16</title>
         <description>Server says!</description>
         <pubDate>Sat, 15 May 2021 12:04:42 -0400</pubDate>
-        <link>https://caminek.rocks/2021/05/15/bandit15-16/</link>
-        <guid isPermaLink="true">https://caminek.rocks/2021/05/15/bandit15-16/</guid>
+        <link>/2021/05/15/bandit15-16/</link>
+        <guid isPermaLink="true">/2021/05/15/bandit15-16/</guid>
         
         <category>wargames</category>
         
@@ -61,8 +85,8 @@
         <title>Bandit Level 14 → Level 15</title>
         <description>I can haz passwordz?</description>
         <pubDate>Sat, 15 May 2021 12:02:42 -0400</pubDate>
-        <link>https://caminek.rocks/2021/05/15/bandit14-15/</link>
-        <guid isPermaLink="true">https://caminek.rocks/2021/05/15/bandit14-15/</guid>
+        <link>/2021/05/15/bandit14-15/</link>
+        <guid isPermaLink="true">/2021/05/15/bandit14-15/</guid>
         
         <category>wargames</category>
         
@@ -85,8 +109,8 @@
         <title>Bandit Level 13 → Level 14</title>
         <description>The Key the Secret</description>
         <pubDate>Sat, 15 May 2021 12:00:42 -0400</pubDate>
-        <link>https://caminek.rocks/2021/05/15/bandit13-14/</link>
-        <guid isPermaLink="true">https://caminek.rocks/2021/05/15/bandit13-14/</guid>
+        <link>/2021/05/15/bandit13-14/</link>
+        <guid isPermaLink="true">/2021/05/15/bandit13-14/</guid>
         
         <category>wargames</category>
         
@@ -109,8 +133,8 @@
         <title>Bandit Level 12 → Level 13</title>
         <description>Some people shouldn&apos;t be allowed to use computers</description>
         <pubDate>Fri, 14 May 2021 09:06:55 -0400</pubDate>
-        <link>https://caminek.rocks/2021/05/14/bandit12-13/</link>
-        <guid isPermaLink="true">https://caminek.rocks/2021/05/14/bandit12-13/</guid>
+        <link>/2021/05/14/bandit12-13/</link>
+        <guid isPermaLink="true">/2021/05/14/bandit12-13/</guid>
         
         <category>wargames</category>
         
@@ -133,8 +157,8 @@
         <title>Bandit Level 11 → Level 12</title>
         <description>Ebgngr ol 13 cynprf</description>
         <pubDate>Fri, 14 May 2021 09:06:55 -0400</pubDate>
-        <link>https://caminek.rocks/2021/05/14/bandit11-12/</link>
-        <guid isPermaLink="true">https://caminek.rocks/2021/05/14/bandit11-12/</guid>
+        <link>/2021/05/14/bandit11-12/</link>
+        <guid isPermaLink="true">/2021/05/14/bandit11-12/</guid>
         
         <category>wargames</category>
         
@@ -157,8 +181,8 @@
         <title>Bandit Level 10 → Level 11</title>
         <description>QmFzZTY0</description>
         <pubDate>Fri, 14 May 2021 09:06:55 -0400</pubDate>
-        <link>https://caminek.rocks/2021/05/14/bandit10-11/</link>
-        <guid isPermaLink="true">https://caminek.rocks/2021/05/14/bandit10-11/</guid>
+        <link>/2021/05/14/bandit10-11/</link>
+        <guid isPermaLink="true">/2021/05/14/bandit10-11/</guid>
         
         <category>wargames</category>
         
@@ -181,8 +205,8 @@
         <title>Bandit Level 9 → Level 10</title>
         <description>Strings and things</description>
         <pubDate>Fri, 14 May 2021 09:02:55 -0400</pubDate>
-        <link>https://caminek.rocks/2021/05/14/bandit09-10/</link>
-        <guid isPermaLink="true">https://caminek.rocks/2021/05/14/bandit09-10/</guid>
+        <link>/2021/05/14/bandit09-10/</link>
+        <guid isPermaLink="true">/2021/05/14/bandit09-10/</guid>
         
         <category>wargames</category>
         
@@ -205,32 +229,8 @@
         <title>Bandit Level 8 → Level 9</title>
         <description>Needle in a haystack</description>
         <pubDate>Fri, 14 May 2021 09:02:55 -0400</pubDate>
-        <link>https://caminek.rocks/2021/05/14/bandit08-09/</link>
-        <guid isPermaLink="true">https://caminek.rocks/2021/05/14/bandit08-09/</guid>
-        
-        <category>wargames</category>
-        
-        <category>ctf</category>
-        
-        <category>overthewire</category>
-        
-        <category>linux</category>
-        
-        
-        <category>ctf</category>
-        
-        <category>wargames</category>
-        
-        <category>linux</category>
-        
-      </item>
-    
-      <item>
-        <title>Bandit Level 7 → Level 8</title>
-        <description>One in a million</description>
-        <pubDate>Fri, 14 May 2021 09:00:55 -0400</pubDate>
-        <link>https://caminek.rocks/2021/05/14/bandit07-08/</link>
-        <guid isPermaLink="true">https://caminek.rocks/2021/05/14/bandit07-08/</guid>
+        <link>/2021/05/14/bandit08-09/</link>
+        <guid isPermaLink="true">/2021/05/14/bandit08-09/</guid>
         
         <category>wargames</category>
         
