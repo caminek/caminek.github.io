@@ -5,9 +5,33 @@
     <description></description>
     <link>https://caminek.rocks/</link>
     <atom:link href="https://caminek.rocks/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 21 May 2021 21:30:45 -0400</pubDate>
-    <lastBuildDate>Fri, 21 May 2021 21:30:45 -0400</lastBuildDate>
+    <pubDate>Sat, 22 May 2021 15:14:02 -0400</pubDate>
+    <lastBuildDate>Sat, 22 May 2021 15:14:02 -0400</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
+    
+      <item>
+        <title>Bandit Level 16 → Level 17</title>
+        <description>Insecurity As A Service</description>
+        <pubDate>Fri, 21 May 2021 19:34:17 -0400</pubDate>
+        <link>https://caminek.rocks/2021/05/21/bandit16-17/</link>
+        <guid isPermaLink="true">https://caminek.rocks/2021/05/21/bandit16-17/</guid>
+        
+        <category>wargames</category>
+        
+        <category>ctf</category>
+        
+        <category>overthewire</category>
+        
+        <category>linux</category>
+        
+        
+        <category>ctf</category>
+        
+        <category>wargames</category>
+        
+        <category>linux</category>
+        
+      </item>
     
       <item>
         <title>Bandit Level 15 → Level 16</title>
@@ -207,30 +231,6 @@
         <pubDate>Fri, 14 May 2021 09:00:55 -0400</pubDate>
         <link>https://caminek.rocks/2021/05/14/bandit07-08/</link>
         <guid isPermaLink="true">https://caminek.rocks/2021/05/14/bandit07-08/</guid>
-        
-        <category>wargames</category>
-        
-        <category>ctf</category>
-        
-        <category>overthewire</category>
-        
-        <category>linux</category>
-        
-        
-        <category>ctf</category>
-        
-        <category>wargames</category>
-        
-        <category>linux</category>
-        
-      </item>
-    
-      <item>
-        <title>Bandit Level 6 → Level 7</title>
-        <description>Find 2: Electric Boogaloo</description>
-        <pubDate>Fri, 14 May 2021 08:57:55 -0400</pubDate>
-        <link>https://caminek.rocks/2021/05/14/bandit06-07/</link>
-        <guid isPermaLink="true">https://caminek.rocks/2021/05/14/bandit06-07/</guid>
         
         <category>wargames</category>
         

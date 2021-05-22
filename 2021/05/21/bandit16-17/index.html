@@ -6,31 +6,31 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta name="description" content="The Key the Secret">
+    <meta name="description" content="Insecurity As A Service">
 
     <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
     <link rel="icon" href="/favicon.ico?" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.Cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="/assets/css/main.min.css ">
-    <link rel="canonical" href="https://caminek.rocks/2021/05/15/bandit13-14/">
+    <link rel="canonical" href="https://caminek.rocks/2021/05/21/bandit16-17/">
     <link rel="alternate" type="application/rss+xml" title="Caminek" href="https://caminek.rocks/feed.xml ">
     
     <!-- Begin Jekyll SEO tag v2.7.1 -->
-<title>Bandit Level 13 → Level 14 | Caminek</title>
+<title>Bandit Level 16 → Level 17 | Caminek</title>
 <meta name="generator" content="Jekyll v4.2.0" />
-<meta property="og:title" content="Bandit Level 13 → Level 14" />
+<meta property="og:title" content="Bandit Level 16 → Level 17" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="The Key the Secret" />
-<meta property="og:description" content="The Key the Secret" />
-<link rel="canonical" href="https://caminek.rocks/2021/05/15/bandit13-14/" />
-<meta property="og:url" content="https://caminek.rocks/2021/05/15/bandit13-14/" />
+<meta name="description" content="Insecurity As A Service" />
+<meta property="og:description" content="Insecurity As A Service" />
+<link rel="canonical" href="https://caminek.rocks/2021/05/21/bandit16-17/" />
+<meta property="og:url" content="https://caminek.rocks/2021/05/21/bandit16-17/" />
 <meta property="og:site_name" content="Caminek" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2021-05-15T12:00:42-04:00" />
+<meta property="article:published_time" content="2021-05-21T19:34:17-04:00" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Bandit Level 13 → Level 14" />
+<meta property="twitter:title" content="Bandit Level 16 → Level 17" />
 <script type="application/ld+json">
-{"@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://caminek.rocks/2021/05/15/bandit13-14/"},"description":"The Key the Secret","headline":"Bandit Level 13 → Level 14","dateModified":"2021-05-15T12:00:42-04:00","url":"https://caminek.rocks/2021/05/15/bandit13-14/","datePublished":"2021-05-15T12:00:42-04:00","@context":"https://schema.org"}</script>
+{"@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://caminek.rocks/2021/05/21/bandit16-17/"},"description":"Insecurity As A Service","headline":"Bandit Level 16 → Level 17","dateModified":"2021-05-21T19:34:17-04:00","url":"https://caminek.rocks/2021/05/21/bandit16-17/","datePublished":"2021-05-21T19:34:17-04:00","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -128,11 +128,11 @@
 
         <div class="page clearfix" index>
     <div class="left">
-        <h1>Bandit Level 13 → Level 14</h1>
+        <h1>Bandit Level 16 → Level 17</h1>
         <div class="label">
 
             <div class="label-card">
-                <i class="fa fa-calendar"></i> 2021-05-15
+                <i class="fa fa-calendar"></i> 2021-05-21
             </div>
 
             <div class="label-card">
@@ -195,17 +195,99 @@
         <hr>
         <article itemscope itemtype="http://schema.org/BlogPosting">
             <h2 id="level-goal">Level Goal</h2>
-<p>The password for the next level is stored in /etc/bandit_pass/bandit14 and can only be read by user bandit14. For this level, you don’t get the next password, but you get a private SSH key that can be used to log into the next level.</p>
+<p>The credentials for the next level can be retrieved by submitting the password of the current level to a port on localhost in the range 31000 to 32000. First find out which of these ports have a server listening on them. Then find out which of those speak SSL and which don’t. There is only 1 server that will give the next credentials, the others will simply send back to you whatever you send to it.</p>
 
 <h2 id="solution">Solution</h2>
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bandit13@bandit:~<span class="nv">$ </span><span class="nb">ls
-</span>sshkey.private
-bandit13@bandit:~<span class="nv">$ </span>ssh <span class="nt">-i</span> sshkey.private bandit14@localhost
-Could not create directory <span class="s1">'/home/bandit13/.ssh'</span><span class="nb">.</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bandit16@bandit:~<span class="nv">$ </span>nmap <span class="nt">-sV</span> <span class="nt">-vvvv</span> <span class="nt">-Pn</span> <span class="nt">-p31000-32000</span> localhost
+
+Starting Nmap 7.40 <span class="o">(</span> https://nmap.org <span class="o">)</span> at 2021-05-22 05:40 CEST
+NSE: Loaded 40 scripts <span class="k">for </span>scanning.
+Initiating Connect Scan at 05:40
+Scanning localhost <span class="o">(</span>127.0.0.1<span class="o">)</span> <span class="o">[</span>1001 ports]
+Discovered open port 31518/tcp on 127.0.0.1
+Discovered open port 31960/tcp on 127.0.0.1
+Discovered open port 31691/tcp on 127.0.0.1
+Discovered open port 31790/tcp on 127.0.0.1
+Discovered open port 31046/tcp on 127.0.0.1
+Completed Connect Scan at 05:40, 0.05s elapsed <span class="o">(</span>1001 total ports<span class="o">)</span>
+Initiating Service scan at 05:40
+Scanning 5 services on localhost <span class="o">(</span>127.0.0.1<span class="o">)</span>
+Service scan Timing: About 20.00% <span class="k">done</span><span class="p">;</span> ETC: 05:43 <span class="o">(</span>0:02:44 remaining<span class="o">)</span>
+Completed Service scan at 05:41, 88.97s elapsed <span class="o">(</span>5 services on 1 host<span class="o">)</span>
+NSE: Script scanning 127.0.0.1.
+NSE: Starting runlevel 1 <span class="o">(</span>of 2<span class="o">)</span> scan.
+Initiating NSE at 05:41
+Completed NSE at 05:41, 0.01s elapsed
+NSE: Starting runlevel 2 <span class="o">(</span>of 2<span class="o">)</span> scan.
+Initiating NSE at 05:41
+Completed NSE at 05:41, 0.01s elapsed
+Nmap scan report <span class="k">for </span>localhost <span class="o">(</span>127.0.0.1<span class="o">)</span>
+Host is up, received user-set <span class="o">(</span>0.00025s latency<span class="o">)</span><span class="nb">.</span>
+Scanned at 2021-05-22 05:40:01 CEST <span class="k">for </span>89s
+Not shown: 996 closed ports
+Reason: 996 conn-refused
+PORT      STATE SERVICE     REASON  VERSION
+31046/tcp open  <span class="nb">echo        </span>syn-ack
+31518/tcp open  ssl/echo    syn-ack
+31691/tcp open  <span class="nb">echo        </span>syn-ack
+31790/tcp open  ssl/unknown syn-ack
+31960/tcp open  <span class="nb">echo        </span>syn-ack
+1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :
+SF-Port31790-TCP:V<span class="o">=</span>7.40%T<span class="o">=</span>SSL%I<span class="o">=</span>7%D<span class="o">=</span>5/22%Time<span class="o">=</span>60A87D22%P<span class="o">=</span>x86_64-pc-linux-g
+SF:nu%r<span class="o">(</span>GenericLines,31,<span class="s2">"Wrong!</span><span class="se">\x</span><span class="s2">20Please</span><span class="se">\x</span><span class="s2">20enter</span><span class="se">\x</span><span class="s2">20the</span><span class="se">\x</span><span class="s2">20correct</span><span class="se">\x</span><span class="s2">20cu
+SF:rrent</span><span class="se">\x</span><span class="s2">20password</span><span class="se">\n</span><span class="s2">"</span><span class="o">)</span>%r<span class="o">(</span>GetRequest,31,<span class="s2">"Wrong!</span><span class="se">\x</span><span class="s2">20Please</span><span class="se">\x</span><span class="s2">20enter</span><span class="se">\x</span><span class="s2">20the
+SF:</span><span class="se">\x</span><span class="s2">20correct</span><span class="se">\x</span><span class="s2">20current</span><span class="se">\x</span><span class="s2">20password</span><span class="se">\n</span><span class="s2">"</span><span class="o">)</span>%r<span class="o">(</span>HTTPOptions,31,<span class="s2">"Wrong!</span><span class="se">\x</span><span class="s2">20Plea
+SF:se</span><span class="se">\x</span><span class="s2">20enter</span><span class="se">\x</span><span class="s2">20the</span><span class="se">\x</span><span class="s2">20correct</span><span class="se">\x</span><span class="s2">20current</span><span class="se">\x</span><span class="s2">20password</span><span class="se">\n</span><span class="s2">"</span><span class="o">)</span>%r<span class="o">(</span>RTSPRequest,
+SF:31,<span class="s2">"Wrong!</span><span class="se">\x</span><span class="s2">20Please</span><span class="se">\x</span><span class="s2">20enter</span><span class="se">\x</span><span class="s2">20the</span><span class="se">\x</span><span class="s2">20correct</span><span class="se">\x</span><span class="s2">20current</span><span class="se">\x</span><span class="s2">20password</span><span class="se">\</span><span class="s2">
+SF:n"</span><span class="o">)</span>%r<span class="o">(</span>Help,31,<span class="s2">"Wrong!</span><span class="se">\x</span><span class="s2">20Please</span><span class="se">\x</span><span class="s2">20enter</span><span class="se">\x</span><span class="s2">20the</span><span class="se">\x</span><span class="s2">20correct</span><span class="se">\x</span><span class="s2">20current</span><span class="se">\x</span><span class="s2">
+SF:20password</span><span class="se">\n</span><span class="s2">"</span><span class="o">)</span>%r<span class="o">(</span>SSLSessionReq,31,<span class="s2">"Wrong!</span><span class="se">\x</span><span class="s2">20Please</span><span class="se">\x</span><span class="s2">20enter</span><span class="se">\x</span><span class="s2">20the</span><span class="se">\x</span><span class="s2">20
+SF:correct</span><span class="se">\x</span><span class="s2">20current</span><span class="se">\x</span><span class="s2">20password</span><span class="se">\n</span><span class="s2">"</span><span class="o">)</span>%r<span class="o">(</span>TLSSessionReq,31,<span class="s2">"Wrong!</span><span class="se">\x</span><span class="s2">20Please
+SF:</span><span class="se">\x</span><span class="s2">20enter</span><span class="se">\x</span><span class="s2">20the</span><span class="se">\x</span><span class="s2">20correct</span><span class="se">\x</span><span class="s2">20current</span><span class="se">\x</span><span class="s2">20password</span><span class="se">\n</span><span class="s2">"</span><span class="o">)</span>%r<span class="o">(</span>Kerberos,31,<span class="s2">"W
+SF:rong!</span><span class="se">\x</span><span class="s2">20Please</span><span class="se">\x</span><span class="s2">20enter</span><span class="se">\x</span><span class="s2">20the</span><span class="se">\x</span><span class="s2">20correct</span><span class="se">\x</span><span class="s2">20current</span><span class="se">\x</span><span class="s2">20password</span><span class="se">\n</span><span class="s2">"</span><span class="o">)</span>%r
+SF:<span class="o">(</span>FourOhFourRequest,31,<span class="s2">"Wrong!</span><span class="se">\x</span><span class="s2">20Please</span><span class="se">\x</span><span class="s2">20enter</span><span class="se">\x</span><span class="s2">20the</span><span class="se">\x</span><span class="s2">20correct</span><span class="se">\x</span><span class="s2">20c
+SF:urrent</span><span class="se">\x</span><span class="s2">20password</span><span class="se">\n</span><span class="s2">"</span><span class="o">)</span>%r<span class="o">(</span>LPDString,31,<span class="s2">"Wrong!</span><span class="se">\x</span><span class="s2">20Please</span><span class="se">\x</span><span class="s2">20enter</span><span class="se">\x</span><span class="s2">20the
+SF:</span><span class="se">\x</span><span class="s2">20correct</span><span class="se">\x</span><span class="s2">20current</span><span class="se">\x</span><span class="s2">20password</span><span class="se">\n</span><span class="s2">"</span><span class="o">)</span>%r<span class="o">(</span>LDAPSearchReq,31,<span class="s2">"Wrong!</span><span class="se">\x</span><span class="s2">20Pl
+SF:ease</span><span class="se">\x</span><span class="s2">20enter</span><span class="se">\x</span><span class="s2">20the</span><span class="se">\x</span><span class="s2">20correct</span><span class="se">\x</span><span class="s2">20current</span><span class="se">\x</span><span class="s2">20password</span><span class="se">\n</span><span class="s2">"</span><span class="o">)</span>%r<span class="o">(</span>SIPOptions
+SF:,31,<span class="s2">"Wrong!</span><span class="se">\x</span><span class="s2">20Please</span><span class="se">\x</span><span class="s2">20enter</span><span class="se">\x</span><span class="s2">20the</span><span class="se">\x</span><span class="s2">20correct</span><span class="se">\x</span><span class="s2">20current</span><span class="se">\x</span><span class="s2">20password
+SF:</span><span class="se">\n</span><span class="s2">"</span><span class="o">)</span><span class="p">;</span>
+
+Read data files from: /usr/bin/../share/nmap
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ <span class="nb">.</span>
+Nmap <span class="k">done</span>: 1 IP address <span class="o">(</span>1 host up<span class="o">)</span> scanned <span class="k">in </span>89.78 seconds
+bandit16@bandit:~<span class="nv">$ </span><span class="nb">cat</span> /etc/bandit_pass/bandit16 | openssl s_client <span class="nt">-quiet</span> <span class="nt">-connect</span> localhost:31790
+<span class="nv">depth</span><span class="o">=</span>0 CN <span class="o">=</span> localhost
+verify error:num<span class="o">=</span>18:self signed certificate
+verify <span class="k">return</span>:1
+<span class="nv">depth</span><span class="o">=</span>0 CN <span class="o">=</span> localhost
+verify <span class="k">return</span>:1
+Correct!
+<span class="nt">-----BEGIN</span> RSA PRIVATE KEY-----
+MIIEogIBAAKCAQEAvmOkuifmMg6HL2YPIOjon6iWfbp7c3jx34YkYWqUH57SUdyJ
+
+...
+
+vBgsyi/sN3RqRBcGU40fOoZyfAMT8s1m/uYv52O6IgeuZ/ujbjY<span class="o">=</span>
+<span class="nt">-----END</span> RSA PRIVATE KEY-----
+
+</code></pre></div></div>
+
+<p>Redirect the output into a file called ssh.key. While the output will add extra information to the top of the key file, it does not affect the key itself.</p>
+
+<p>We’re unable to write to the home directory, so we’ll need to make the key file within the temp directory.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bandit16@bandit:~<span class="nv">$ </span><span class="nb">cd</span> <span class="sb">`</span><span class="nb">mktemp</span> <span class="nt">-d</span><span class="sb">`</span>
+bandit16@bandit:/tmp/tmp.DMNd3qIku0<span class="nv">$ </span><span class="nb">echo </span>cluFn7wTiGryunymYOu4RcffSxQluehd | openssl s_client <span class="nt">-quiet</span> <span class="nt">-connect</span> localhost:31790 <span class="o">&gt;</span> ssh.key 
+<span class="nv">depth</span><span class="o">=</span>0 CN <span class="o">=</span> localhost
+verify error:num<span class="o">=</span>18:self signed certificate
+verify <span class="k">return</span>:1
+<span class="nv">depth</span><span class="o">=</span>0 CN <span class="o">=</span> localhost
+verify <span class="k">return</span>:1
+bandit16@bandit:/tmp/tmp.DMNd3qIku0<span class="nv">$ </span>ssh <span class="nt">-i</span> ssh.key localhost <span class="nt">-l</span> bandit17
+Could not create directory <span class="s1">'/home/bandit16/.ssh'</span><span class="nb">.</span>
 The authenticity of host <span class="s1">'localhost (127.0.0.1)'</span> can<span class="s1">'t be established.
 ECDSA key fingerprint is SHA256:98UL0ZWr85496EtCRkKlo20X3OPnyPSB5tB5RPbhczc.
 Are you sure you want to continue connecting (yes/no)? yes
-Failed to add the host to the list of known hosts (/home/bandit13/.ssh/known_hosts).
+Failed to add the host to the list of known hosts (/home/bandit16/.ssh/known_hosts).
 This is a OverTheWire game server. More information on http://www.overthewire.org/wargames
 
 Linux bandit.otw.local 5.4.8 x86_64 GNU/Linux
@@ -294,12 +376,27 @@ irc.overthewire.org.
 
   Enjoy your stay!
 
-bandit14@bandit:~</span><span class="nv">$ </span><span class="s2">cat /etc/bandit_pass/bandit14
-4------------------------------e
+bandit17@bandit:~</span><span class="nv">$ </span><span class="s2">cat /etc/bandit_pass/bandit17 
+x------------------------------n
 </span></code></pre></div></div>
 
 <h2 id="explanation">Explanation</h2>
-<p>This level requires knowing how to use an ssh key that is not placed in the default location.</p>
+<p>This level requires you to know of and use nmap. The rest of the requirements were met in previous levels.</p>
+
+<p>The options passed to nmap were:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-sV           : check service versions
+-vvvv         : use verbose output
+-Pn           : Don't test ports to see if they're open, treat them as if they were
+-p31000-32000 : scan ports 31000 - 32000
+</code></pre></div></div>
+
+<p>The -sV, -vvvv, and most likely -Pn were optional. Without -sV we would have recieved a list of open ports very quickly, but with no information as to what they were. We could have tested them since the level description described how both correct and incorrect ports worked. Using this option caused the can to run for almost 90 seconds, were without it it would have likely been a couple seconds.</p>
+
+<p>The -vvvv option provided information about what the scan was doing. This was to make sure the scan would complete in a reasonable time. Without it, I wouldn’t have known how long the scanner would need to run. Given that these are public servers, I wanted to make sure I would live to see it complete.</p>
+
+<p>The -Pn most likely wouldn’t have been necessary for this level. It tells nmap to scan the ports without bothering to test if they’re open first. If this were required, nmap would recommend it after completing the scan.</p>
+
+<p>The -p option tells nmap what port(s) to scan.</p>
 
         </article>
         <hr>
@@ -308,12 +405,10 @@ bandit14@bandit:~</span><span class="nv">$ </span><span class="s2">cat /etc/band
         <div class="post-recent">
     <div class="pre" style="display:inline-block; margin-top: 20px;">
         
-        <p><i class="fa fa-arrow-left"></i> <a href="/2021/05/14/bandit12-13/">Bandit Level 12 → Level 13</a></p>
+        <p><i class="fa fa-arrow-left"></i> <a href="/2021/05/15/bandit15-16/">Bandit Level 15 → Level 16</a></p>
         
     </div>
     <div class="nex" style="display:inline-block; margin-top: 20px; float:right;">
-        
-        <p><a href="/2021/05/15/bandit14-15/">Bandit Level 14 → Level 15</a> <i class="fa fa-arrow-right"></i></p>
         
     </div>
 </div>
@@ -354,22 +449,22 @@ bandit14@bandit:~</span><span class="nv">$ </span><span class="s2">cat /etc/band
                         
 
                         
-                    
-                        
-
-                        
-                    
-                        
-
-                        
-                    
-                        
-
-                        
                             
 
                             <!-- prevent Series from showing < 5 entries when near the end of series -->
                             
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
                         
                     
                         
@@ -492,14 +587,6 @@ bandit14@bandit:~</span><span class="nv">$ </span><span class="s2">cat /etc/band
                         
                             <li>
                                 
-                                    <a href="/2021/05/14/bandit11-12/">Bandit Level 11 → Level 12</a>
-                                
-                            </li>
-                        
-                    
-                        
-                            <li>
-                                
                                     <a href="/2021/05/14/bandit12-13/">Bandit Level 12 → Level 13</a>
                                 
                             </li>
@@ -508,7 +595,7 @@ bandit14@bandit:~</span><span class="nv">$ </span><span class="s2">cat /etc/band
                         
                             <li>
                                 
-                                    <strong>Bandit Level 13 → Level 14</strong>
+                                    <a href="/2021/05/15/bandit13-14/">Bandit Level 13 → Level 14</a>
                                 
                             </li>
                         
@@ -525,6 +612,14 @@ bandit14@bandit:~</span><span class="nv">$ </span><span class="s2">cat /etc/band
                             <li>
                                 
                                     <a href="/2021/05/15/bandit15-16/">Bandit Level 15 → Level 16</a>
+                                
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                
+                                    <strong>Bandit Level 16 → Level 17</strong>
                                 
                             </li>
                         
