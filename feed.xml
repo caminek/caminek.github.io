@@ -5,14 +5,38 @@
     <description></description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 22 May 2021 15:28:24 -0400</pubDate>
-    <lastBuildDate>Sat, 22 May 2021 15:28:24 -0400</lastBuildDate>
+    <pubDate>Sat, 22 May 2021 15:45:08 -0400</pubDate>
+    <lastBuildDate>Sat, 22 May 2021 15:45:08 -0400</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
+    
+      <item>
+        <title>Bandit Level 18 → Level 19</title>
+        <description>Bye bye bye</description>
+        <pubDate>Sat, 22 May 2021 11:24:44 -0400</pubDate>
+        <link>/2021/05/22/bandit18-19/</link>
+        <guid isPermaLink="true">/2021/05/22/bandit18-19/</guid>
+        
+        <category>wargames</category>
+        
+        <category>ctf</category>
+        
+        <category>overthewire</category>
+        
+        <category>linux</category>
+        
+        
+        <category>ctf</category>
+        
+        <category>wargames</category>
+        
+        <category>linux</category>
+        
+      </item>
     
       <item>
         <title>Bandit Level 17 → Level 18</title>
         <description>Spot the difference</description>
-        <pubDate>Sat, 22 May 2021 11:19:44 -0400</pubDate>
+        <pubDate>Sat, 22 May 2021 11:22:44 -0400</pubDate>
         <link>/2021/05/22/bandit17-18/</link>
         <guid isPermaLink="true">/2021/05/22/bandit17-18/</guid>
         
@@ -207,30 +231,6 @@
         <pubDate>Fri, 14 May 2021 09:02:55 -0400</pubDate>
         <link>/2021/05/14/bandit09-10/</link>
         <guid isPermaLink="true">/2021/05/14/bandit09-10/</guid>
-        
-        <category>wargames</category>
-        
-        <category>ctf</category>
-        
-        <category>overthewire</category>
-        
-        <category>linux</category>
-        
-        
-        <category>ctf</category>
-        
-        <category>wargames</category>
-        
-        <category>linux</category>
-        
-      </item>
-    
-      <item>
-        <title>Bandit Level 8 → Level 9</title>
-        <description>Needle in a haystack</description>
-        <pubDate>Fri, 14 May 2021 09:02:55 -0400</pubDate>
-        <link>/2021/05/14/bandit08-09/</link>
-        <guid isPermaLink="true">/2021/05/14/bandit08-09/</guid>
         
         <category>wargames</category>
         
