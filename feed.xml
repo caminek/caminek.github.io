@@ -5,232 +5,232 @@
     <description></description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 22 May 2021 20:54:38 -0400</pubDate>
-    <lastBuildDate>Sat, 22 May 2021 20:54:38 -0400</lastBuildDate>
+    <pubDate>Sun, 23 May 2021 17:25:39 -0400</pubDate>
+    <lastBuildDate>Sun, 23 May 2021 17:25:39 -0400</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
     
       <item>
-        <title>Bandit Level 23 → Level 24</title>
+        <title>Bandit Level 33 → Level 34</title>
+        <description>Come to the end of the road</description>
+        <pubDate>Sun, 23 May 2021 13:21:38 -0400</pubDate>
+        <link>/2021/05/23/bandit33-34/</link>
+        <guid isPermaLink="true">/2021/05/23/bandit33-34/</guid>
+        
+        <category>wargames</category>
+        
+        <category>ctf</category>
+        
+        <category>overthewire</category>
+        
+        <category>linux</category>
+        
+        
+        <category>ctf</category>
+        
+        <category>wargames</category>
+        
+        <category>linux</category>
+        
+      </item>
+    
+      <item>
+        <title>Bandit Level 32 → Level 33</title>
+        <description>I&apos;m special (special), so special (special)</description>
+        <pubDate>Sun, 23 May 2021 12:56:25 -0400</pubDate>
+        <link>/2021/05/23/bandit32-33/</link>
+        <guid isPermaLink="true">/2021/05/23/bandit32-33/</guid>
+        
+        <category>wargames</category>
+        
+        <category>ctf</category>
+        
+        <category>overthewire</category>
+        
+        <category>linux</category>
+        
+        
+        <category>ctf</category>
+        
+        <category>wargames</category>
+        
+        <category>linux</category>
+        
+      </item>
+    
+      <item>
+        <title>Bandit Level 31 → Level 32</title>
+        <description>Push it real good</description>
+        <pubDate>Sun, 23 May 2021 12:36:25 -0400</pubDate>
+        <link>/2021/05/23/bandit31-32/</link>
+        <guid isPermaLink="true">/2021/05/23/bandit31-32/</guid>
+        
+        <category>wargames</category>
+        
+        <category>ctf</category>
+        
+        <category>overthewire</category>
+        
+        <category>linux</category>
+        
+        
+        <category>ctf</category>
+        
+        <category>wargames</category>
+        
+        <category>linux</category>
+        
+      </item>
+    
+      <item>
+        <title>Bandit Level 30 → Level 31</title>
+        <description>Tag you&apos;re it</description>
+        <pubDate>Sun, 23 May 2021 11:56:25 -0400</pubDate>
+        <link>/2021/05/23/bandit30-31/</link>
+        <guid isPermaLink="true">/2021/05/23/bandit30-31/</guid>
+        
+        <category>wargames</category>
+        
+        <category>ctf</category>
+        
+        <category>overthewire</category>
+        
+        <category>linux</category>
+        
+        
+        <category>ctf</category>
+        
+        <category>wargames</category>
+        
+        <category>linux</category>
+        
+      </item>
+    
+      <item>
+        <title>Bandit Level 29 → Level 30</title>
+        <description>Branching out</description>
+        <pubDate>Sun, 23 May 2021 11:32:11 -0400</pubDate>
+        <link>/2021/05/23/bandit29-30/</link>
+        <guid isPermaLink="true">/2021/05/23/bandit29-30/</guid>
+        
+        <category>wargames</category>
+        
+        <category>ctf</category>
+        
+        <category>overthewire</category>
+        
+        <category>linux</category>
+        
+        
+        <category>ctf</category>
+        
+        <category>wargames</category>
+        
+        <category>linux</category>
+        
+      </item>
+    
+      <item>
+        <title>Bandit Level 28 → Level 29</title>
+        <description>Spot the difference: git edition</description>
+        <pubDate>Sun, 23 May 2021 11:03:34 -0400</pubDate>
+        <link>/2021/05/23/bandit28-29/</link>
+        <guid isPermaLink="true">/2021/05/23/bandit28-29/</guid>
+        
+        <category>wargames</category>
+        
+        <category>ctf</category>
+        
+        <category>overthewire</category>
+        
+        <category>linux</category>
+        
+        
+        <category>ctf</category>
+        
+        <category>wargames</category>
+        
+        <category>linux</category>
+        
+      </item>
+    
+      <item>
+        <title>Bandit Level 27 → Level 28</title>
+        <description>I think I&apos;m a clone now</description>
+        <pubDate>Sun, 23 May 2021 10:57:03 -0400</pubDate>
+        <link>/2021/05/23/bandit27-28/</link>
+        <guid isPermaLink="true">/2021/05/23/bandit27-28/</guid>
+        
+        <category>wargames</category>
+        
+        <category>ctf</category>
+        
+        <category>overthewire</category>
+        
+        <category>linux</category>
+        
+        
+        <category>ctf</category>
+        
+        <category>wargames</category>
+        
+        <category>linux</category>
+        
+      </item>
+    
+      <item>
+        <title>Bandit Level 26 → Level 27</title>
+        <description>It&apos;s like déjà vu all over again</description>
+        <pubDate>Sun, 23 May 2021 10:33:45 -0400</pubDate>
+        <link>/2021/05/23/bandit26-27/</link>
+        <guid isPermaLink="true">/2021/05/23/bandit26-27/</guid>
+        
+        <category>wargames</category>
+        
+        <category>ctf</category>
+        
+        <category>overthewire</category>
+        
+        <category>linux</category>
+        
+        
+        <category>ctf</category>
+        
+        <category>wargames</category>
+        
+        <category>linux</category>
+        
+      </item>
+    
+      <item>
+        <title>Bandit Level 25 → Level 26</title>
+        <description>Shell games</description>
+        <pubDate>Sun, 23 May 2021 09:03:46 -0400</pubDate>
+        <link>/2021/05/23/bandit25-26/</link>
+        <guid isPermaLink="true">/2021/05/23/bandit25-26/</guid>
+        
+        <category>wargames</category>
+        
+        <category>ctf</category>
+        
+        <category>overthewire</category>
+        
+        <category>linux</category>
+        
+        
+        <category>ctf</category>
+        
+        <category>wargames</category>
+        
+        <category>linux</category>
+        
+      </item>
+    
+      <item>
+        <title>Bandit Level 24 → Level 25</title>
         <description>watch this</description>
-        <pubDate>Sat, 22 May 2021 15:59:50 -0400</pubDate>
-        <link>/2021/05/22/bandit23-24/</link>
-        <guid isPermaLink="true">/2021/05/22/bandit23-24/</guid>
-        
-        <category>wargames</category>
-        
-        <category>ctf</category>
-        
-        <category>overthewire</category>
-        
-        <category>linux</category>
-        
-        
-        <category>ctf</category>
-        
-        <category>wargames</category>
-        
-        <category>linux</category>
-        
-      </item>
-    
-      <item>
-        <title>Bandit Level 22 → Level 23</title>
-        <description>Why not use Python?</description>
-        <pubDate>Sat, 22 May 2021 15:21:22 -0400</pubDate>
-        <link>/2021/05/22/bandit22-23/</link>
-        <guid isPermaLink="true">/2021/05/22/bandit22-23/</guid>
-        
-        <category>wargames</category>
-        
-        <category>ctf</category>
-        
-        <category>overthewire</category>
-        
-        <category>linux</category>
-        
-        
-        <category>ctf</category>
-        
-        <category>wargames</category>
-        
-        <category>linux</category>
-        
-      </item>
-    
-      <item>
-        <title>Bandit Level 21 → Level 22</title>
-        <description>Is this why we&apos;re using systemd?</description>
-        <pubDate>Sat, 22 May 2021 15:21:22 -0400</pubDate>
-        <link>/2021/05/22/bandit21-22/</link>
-        <guid isPermaLink="true">/2021/05/22/bandit21-22/</guid>
-        
-        <category>wargames</category>
-        
-        <category>ctf</category>
-        
-        <category>overthewire</category>
-        
-        <category>linux</category>
-        
-        
-        <category>ctf</category>
-        
-        <category>wargames</category>
-        
-        <category>linux</category>
-        
-      </item>
-    
-      <item>
-        <title>Bandit Level 20 → Level 21</title>
-        <description>Identity theft is not a joke, Jim</description>
-        <pubDate>Sat, 22 May 2021 14:00:44 -0400</pubDate>
-        <link>/2021/05/22/bandit20-21/</link>
-        <guid isPermaLink="true">/2021/05/22/bandit20-21/</guid>
-        
-        <category>wargames</category>
-        
-        <category>ctf</category>
-        
-        <category>overthewire</category>
-        
-        <category>linux</category>
-        
-        
-        <category>ctf</category>
-        
-        <category>wargames</category>
-        
-        <category>linux</category>
-        
-      </item>
-    
-      <item>
-        <title>Bandit Level 19 → Level 20</title>
-        <description>It&apos;s not identity theft; it&apos;s identity borrowing</description>
-        <pubDate>Sat, 22 May 2021 11:26:44 -0400</pubDate>
-        <link>/2021/05/22/bandit19-20/</link>
-        <guid isPermaLink="true">/2021/05/22/bandit19-20/</guid>
-        
-        <category>wargames</category>
-        
-        <category>ctf</category>
-        
-        <category>overthewire</category>
-        
-        <category>linux</category>
-        
-        
-        <category>ctf</category>
-        
-        <category>wargames</category>
-        
-        <category>linux</category>
-        
-      </item>
-    
-      <item>
-        <title>Bandit Level 18 → Level 19</title>
-        <description>Bye bye bye</description>
-        <pubDate>Sat, 22 May 2021 11:24:44 -0400</pubDate>
-        <link>/2021/05/22/bandit18-19/</link>
-        <guid isPermaLink="true">/2021/05/22/bandit18-19/</guid>
-        
-        <category>wargames</category>
-        
-        <category>ctf</category>
-        
-        <category>overthewire</category>
-        
-        <category>linux</category>
-        
-        
-        <category>ctf</category>
-        
-        <category>wargames</category>
-        
-        <category>linux</category>
-        
-      </item>
-    
-      <item>
-        <title>Bandit Level 17 → Level 18</title>
-        <description>Spot the difference</description>
-        <pubDate>Sat, 22 May 2021 11:22:44 -0400</pubDate>
-        <link>/2021/05/22/bandit17-18/</link>
-        <guid isPermaLink="true">/2021/05/22/bandit17-18/</guid>
-        
-        <category>wargames</category>
-        
-        <category>ctf</category>
-        
-        <category>overthewire</category>
-        
-        <category>linux</category>
-        
-        
-        <category>ctf</category>
-        
-        <category>wargames</category>
-        
-        <category>linux</category>
-        
-      </item>
-    
-      <item>
-        <title>Bandit Level 16 → Level 17</title>
-        <description>Insecurity As A Service</description>
-        <pubDate>Fri, 21 May 2021 19:34:17 -0400</pubDate>
-        <link>/2021/05/21/bandit16-17/</link>
-        <guid isPermaLink="true">/2021/05/21/bandit16-17/</guid>
-        
-        <category>wargames</category>
-        
-        <category>ctf</category>
-        
-        <category>overthewire</category>
-        
-        <category>linux</category>
-        
-        
-        <category>ctf</category>
-        
-        <category>wargames</category>
-        
-        <category>linux</category>
-        
-      </item>
-    
-      <item>
-        <title>Bandit Level 15 → Level 16</title>
-        <description>Server says!</description>
-        <pubDate>Sat, 15 May 2021 12:04:42 -0400</pubDate>
-        <link>/2021/05/15/bandit15-16/</link>
-        <guid isPermaLink="true">/2021/05/15/bandit15-16/</guid>
-        
-        <category>wargames</category>
-        
-        <category>ctf</category>
-        
-        <category>overthewire</category>
-        
-        <category>linux</category>
-        
-        
-        <category>ctf</category>
-        
-        <category>wargames</category>
-        
-        <category>linux</category>
-        
-      </item>
-    
-      <item>
-        <title>Bandit Level 14 → Level 15</title>
-        <description>I can haz passwordz?</description>
-        <pubDate>Sat, 15 May 2021 12:02:42 -0400</pubDate>
-        <link>/2021/05/15/bandit14-15/</link>
-        <guid isPermaLink="true">/2021/05/15/bandit14-15/</guid>
+        <pubDate>Sat, 22 May 2021 17:24:46 -0400</pubDate>
+        <link>/2021/05/22/bandit24-25/</link>
+        <guid isPermaLink="true">/2021/05/22/bandit24-25/</guid>
         
         <category>wargames</category>
         
