@@ -1,0 +1,31 @@
+---
+layout: post
+title:  "Bandit Level 32 → Level 33"
+date:   2021-05-23 16:56:25
+categories: ctf wargames linux
+tags: wargames ctf overthewire linux
+series: "OverTheWire: Bandit"
+excerpt: I'm special (special), so special (special)
+mathjax: false
+---
+
+## Level Goal
+After all this git stuff its time for another escape. Good luck!
+
+
+## Solution
+```bash
+WELCOME TO THE UPPERCASE SHELL
+>> ls
+sh: 1: LS: not found
+>> $0
+$ ls
+uppershell
+$ /bin/bash	
+bandit33@bandit:~$ cat /etc/bandit_pass/bandit33
+c------------------------------e
+```
+
+
+## Explanation
+This level requires you to know of the special parameter $0. $0 expands to the shell or shell script. This allows us to drop into sh. Bash was not required, but I like having tab-completion.

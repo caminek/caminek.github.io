@@ -1,0 +1,96 @@
+---
+layout: post
+title:  "Bandit Level 28 → Level 29"
+date:   2021-05-23 15:03:34
+categories: ctf wargames linux
+tags: wargames ctf overthewire linux
+series: "OverTheWire: Bandit"
+excerpt: "Spot the difference: git edition"
+mathjax: false
+---
+
+## Level Goal
+There is a git repository at ssh://bandit28-git@localhost/home/bandit28-git/repo. The password for the user bandit28-git is the same as for the user bandit28.
+
+Clone the repository and find the password for the next level.
+
+
+## Solution
+```bash
+bandit28@bandit:~$ cd `mktemp -d`
+bandit28@bandit:/tmp/tmp.yHAo5UdegH$ git clone ssh://bandit28-git@localhost/home/bandit28-git/repo
+Cloning into 'repo'...
+Could not create directory '/home/bandit28/.ssh'.
+The authenticity of host 'localhost (127.0.0.1)' can't be established.
+ECDSA key fingerprint is SHA256:98UL0ZWr85496EtCRkKlo20X3OPnyPSB5tB5RPbhczc.
+Are you sure you want to continue connecting (yes/no)? yes
+Failed to add the host to the list of known hosts (/home/bandit28/.ssh/known_hosts).
+This is a OverTheWire game server. More information on http://www.overthewire.org/wargames
+
+bandit28-git@localhost's password: 
+Permission denied, please try again.
+bandit28-git@localhost's password: 
+remote: Counting objects: 9, done.
+remote: Compressing objects: 100% (6/6), done.
+remote: Total 9 (delta 2), reused 0 (delta 0)
+Receiving objects: 100% (9/9), done.
+Resolving deltas: 100% (2/2), done.
+bandit28@bandit:/tmp/tmp.yHAo5UdegH$ cd repo/
+bandit28@bandit:/tmp/tmp.yHAo5UdegH/repo$ ls
+README.md
+bandit28@bandit:/tmp/tmp.yHAo5UdegH/repo$ cat README.md 
+# Bandit Notes
+Some notes for level29 of bandit.
+
+## credentials
+
+- username: bandit29
+- password: xxxxxxxxxx
+
+bandit28@bandit:/tmp/tmp.yHAo5UdegH/repo$ git log
+commit edd935d60906b33f0619605abd1689808ccdd5ee
+Author: Morla Porla <morla@overthewire.org>
+Date:   Thu May 7 20:14:49 2020 +0200
+
+    fix info leak
+
+commit c086d11a00c0648d095d04c089786efef5e01264
+Author: Morla Porla <morla@overthewire.org>
+Date:   Thu May 7 20:14:49 2020 +0200
+
+    add missing data
+
+commit de2ebe2d5fd1598cd547f4d56247e053be3fdc38
+Author: Ben Dover <noone@overthewire.org>
+Date:   Thu May 7 20:14:49 2020 +0200
+
+    initial commit of README.md
+bandit28@bandit:/tmp/tmp.yHAo5UdegH/repo$ git diff edd9~ edd9
+diff --git a/README.md b/README.md
+index 3f7cee8..5c6457b 100644
+--- a/README.md
++++ b/README.md
+@@ -4,5 +4,5 @@ Some notes for level29 of bandit.
+ ## credentials
+ 
+ - username: bandit29
+-- password: b------------------------------2
++- password: xxxxxxxxxx
+```
+
+## Explanation
+This level requires you to know how to view previous commits in order to find the redacted password information. Using git log will show us all of the previous commits and any message that was included. I chose to use diff, but there are several ways we could get the information from this commit. 
+
+Looking at the git logs we can see two interesting messages: "add missing data" and "fix info leak." 
+
+The following line tells git that we want to compare two different hashes. The hash prior to the hash that starts with edd9, and the edd9 hash.
+
+```bash
+bandit28@bandit:/tmp/tmp.yHAo5UdegH/repo$ git diff edd9~ edd9
+```
+
+The shorthand notation isn't required. We could have also entered in the following:
+
+```bash
+bandit28@bandit:/tmp/tmp.yHAo5UdegH/repo$ git diff c086 edd9
+```
