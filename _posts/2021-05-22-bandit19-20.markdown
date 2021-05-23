@@ -5,7 +5,7 @@ date:   2021-05-22 15:26:44
 categories: ctf wargames linux
 tags: wargames ctf overthewire linux
 series: "OverTheWire: Bandit"
-excerpt: It's not identity theft, it's identity borrowing
+excerpt: It's not identity theft; it's identity borrowing
 mathjax: false
 ---
 

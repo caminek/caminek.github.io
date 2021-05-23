@@ -1,0 +1,49 @@
+---
+layout: post
+title:  "Bandit Level 20 → Level 21"
+date:   2021-05-22 18:00:44
+categories: ctf wargames linux
+tags: wargames ctf overthewire linux
+series: "OverTheWire: Bandit"
+excerpt: Identity theft is not a joke, Jim
+mathjax: false
+---
+
+## Level Goal
+There is a setuid binary in the homedirectory that does the following: it makes a connection to localhost on the port you specify as a commandline argument. It then reads a line of text from the connection and compares it to the password in the previous level (bandit20). If the password is correct, it will transmit the password for the next level (bandit21).
+
+NOTE: Try connecting to your own network daemon to see if it works as you think
+
+
+## Solution
+```bash
+bandit20@bandit:~$ ls
+suconnect
+bandit20@bandit:~$ ls -la
+total 32
+drwxr-xr-x  2 root     root      4096 May  7  2020 .
+drwxr-xr-x 41 root     root      4096 May  7  2020 ..
+-rw-r--r--  1 root     root       220 May 15  2017 .bash_logout
+-rw-r--r--  1 root     root      3526 May 15  2017 .bashrc
+-rw-r--r--  1 root     root       675 May 15  2017 .profile
+-rwsr-x---  1 bandit21 bandit20 12088 May  7  2020 suconnect
+bandit20@bandit:~$ ./suconnect 
+Usage: ./suconnect <portnumber>
+This program will connect to the given port on localhost using TCP. If it receives the correct password from the other side, the next password is transmitted back.
+bandit20@bandit:~$ nc -lvnp 31000 < /etc/bandit_pass/bandit20 &
+[1] 14698
+bandit20@bandit:~$ listening on [any] 31000 ...
+
+bandit20@bandit:~$ ./suconnect 31000
+connect to [127.0.0.1] from (UNKNOWN) [127.0.0.1] 49734
+Read: G------------------------------j
+Password matches, sending next password
+g------------------------------r
+```
+
+## Explanation
+This level can be solved a few different ways. I went for what I felt was the easiest approach. Instead of using tmux or screen, I opted to use jobs. 
+
+The first thing we need to do is use nc to listen for incoming connections and respond with the password for this level.  As we saw in Level 16 -> Level 17, there were only 5 ports open in the range of 31000 - 32000. I've opted to use port 31000.
+
+Once this is set, we place the job in the background. Now we can use the suconnect binary to connect to nc and get the passsword for the next level.

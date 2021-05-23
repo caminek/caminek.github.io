@@ -1,0 +1,57 @@
+---
+layout: post
+title:  "Bandit Level 22 → Level 23"
+date:   2021-05-22 19:21:22
+categories: ctf wargames linux
+tags: wargames ctf overthewire linux
+series: "OverTheWire: Bandit"
+excerpt: Why not use Python?
+mathjax: false
+---
+
+## Level Goal
+A program is running automatically at regular intervals from cron, the time-based job scheduler. Look in /etc/cron.d/ for the configuration and see what command is being executed.
+
+
+## Solution
+```bash
+bandit22@bandit:~$ cd /etc/cron.d
+bandit22@bandit:/etc/cron.d$ ls
+cronjob_bandit15_root  cronjob_bandit17_root  cronjob_bandit22  cronjob_bandit23  cronjob_bandit24  cronjob_bandit25_root
+bandit22@bandit:/etc/cron.d$ cat cronjob_bandit23
+@reboot bandit23 /usr/bin/cronjob_bandit23.sh  &> /dev/null
+* * * * * bandit23 /usr/bin/cronjob_bandit23.sh  &> /dev/null
+bandit22@bandit:/etc/cron.d$ cat /usr/bin/cronjob_bandit23.sh
+#!/bin/bash
+
+myname=$(whoami)
+mytarget=$(echo I am user $myname | md5sum | cut -d ' ' -f 1)
+
+echo "Copying passwordfile /etc/bandit_pass/$myname to /tmp/$mytarget"
+
+cat /etc/bandit_pass/$myname > /tmp/$mytarget
+bandit22@bandit:/etc/cron.d$ echo I am user `whoami` | md5sum | cut -d ' ' -f 1
+8169b67bd894ddbb4412f91573b38db3
+bandit22@bandit:/etc/cron.d$ cat /tmp/8169b67bd894ddbb4412f91573b38db3
+Y------------------------------I
+bandit22@bandit:/etc/cron.d$ echo I am user bandit23 | md5sum | cut -d ' ' -f 1
+8------------------------------9
+```
+
+## Explanation
+This level requires you to have a basic understanding of Bash scripting. 
+
+```bash
+myname=$(whoami)
+```
+This assigns the output of the whoami command to a variable named myname.
+
+To access the assigned value, you prepend a $ to the front of the variable name.
+
+We can see that target will be assigned the md5 sum of the string **I am user bandit22**. The last line of the script shows that the password is being output to a file with the name of the value stored within the mytarget variable. This file is created within /tmp.
+
+We can get the next password by changing the value assigned to myname from bandit22 to bandit23. We do this since the cronjob is run as bandit23.
+
+```bash
+bandit22@bandit:/etc/cron.d$ echo I am user bandit23 | md5sum | cut -d ' ' -f 1
+```
