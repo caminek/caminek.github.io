@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta name="description" content="I prefer Python">
+    <meta name="description" content="Why not use Python?">
 
     <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
     <link rel="icon" href="/favicon.ico?" type="image/x-icon">
@@ -20,8 +20,8 @@
 <meta name="generator" content="Jekyll v4.2.0" />
 <meta property="og:title" content="Bandit Level 22 → Level 23" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="I prefer Python" />
-<meta property="og:description" content="I prefer Python" />
+<meta name="description" content="Why not use Python?" />
+<meta property="og:description" content="Why not use Python?" />
 <link rel="canonical" href="/2021/05/22/bandit22-23/" />
 <meta property="og:url" content="/2021/05/22/bandit22-23/" />
 <meta property="og:site_name" content="Caminek" />
@@ -30,7 +30,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Bandit Level 22 → Level 23" />
 <script type="application/ld+json">
-{"datePublished":"2021-05-22T15:21:22-04:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"/2021/05/22/bandit22-23/"},"description":"I prefer Python","dateModified":"2021-05-22T15:21:22-04:00","url":"/2021/05/22/bandit22-23/","headline":"Bandit Level 22 → Level 23","@context":"https://schema.org"}</script>
+{"@type":"BlogPosting","description":"Why not use Python?","headline":"Bandit Level 22 → Level 23","dateModified":"2021-05-22T15:21:22-04:00","datePublished":"2021-05-22T15:21:22-04:00","mainEntityOfPage":{"@type":"WebPage","@id":"/2021/05/22/bandit22-23/"},"url":"/2021/05/22/bandit22-23/","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -219,6 +219,8 @@ bandit22@bandit:/etc/cron.d<span class="nv">$ </span><span class="nb">echo </spa
 8169b67bd894ddbb4412f91573b38db3
 bandit22@bandit:/etc/cron.d<span class="nv">$ </span><span class="nb">cat</span> /tmp/8169b67bd894ddbb4412f91573b38db3
 Y------------------------------I
+bandit22@bandit:/etc/cron.d<span class="nv">$ </span><span class="nb">echo </span>I am user bandit23 | <span class="nb">md5sum</span> | <span class="nb">cut</span> <span class="nt">-d</span> <span class="s1">' '</span> <span class="nt">-f</span> 1
+8------------------------------9
 </code></pre></div></div>
 
 <h2 id="explanation">Explanation</h2>
@@ -232,6 +234,11 @@ Y------------------------------I
 
 <p>We can see that target will be assigned the md5 sum of the string <strong>I am user bandit22</strong>. The last line of the script shows that the password is being output to a file with the name of the value stored within the mytarget variable. This file is created within /tmp.</p>
 
+<p>We can get the next password by changing the value assigned to myname from bandit22 to bandit23. We do this since the cronjob is run as bandit23.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bandit22@bandit:/etc/cron.d<span class="nv">$ </span><span class="nb">echo </span>I am user bandit23 | <span class="nb">md5sum</span> | <span class="nb">cut</span> <span class="nt">-d</span> <span class="s1">' '</span> <span class="nt">-f</span> 1
+</code></pre></div></div>
+
         </article>
         <hr>
         
@@ -243,6 +250,8 @@ Y------------------------------I
         
     </div>
     <div class="nex" style="display:inline-block; margin-top: 20px; float:right;">
+        
+        <p><a href="/2021/05/22/bandit23-24/">Bandit Level 23 → Level 24</a> <i class="fa fa-arrow-right"></i></p>
         
     </div>
 </div>
@@ -279,6 +288,10 @@ Y------------------------------I
                      <!--for loop is 0 based. this prevents off-by-one errors -->
                     
 
+                    
+                        
+
+                        
                     
                         
 
@@ -445,14 +458,6 @@ Y------------------------------I
                         
                             <li>
                                 
-                                    <a href="/2021/05/22/bandit18-19/">Bandit Level 18 → Level 19</a>
-                                
-                            </li>
-                        
-                    
-                        
-                            <li>
-                                
                                     <a href="/2021/05/22/bandit19-20/">Bandit Level 19 → Level 20</a>
                                 
                             </li>
@@ -482,6 +487,14 @@ Y------------------------------I
                             </li>
                         
                     
+                        
+                            <li>
+                                
+                                    <a href="/2021/05/22/bandit23-24/">Bandit Level 23 → Level 24</a>
+                                
+                            </li>
+                        
+                    
                 </ul>
             </div>
             
@@ -494,6 +507,8 @@ Y------------------------------I
                 </div>
                 <ul class="content-ul" recent>
                     
+                        <li><a href="/2021/05/22/bandit23-24/">Bandit Level 23 → Level 24</a></li>
+                    
                         <li><a href="/2021/05/22/bandit22-23/">Bandit Level 22 → Level 23</a></li>
                     
                         <li><a href="/2021/05/22/bandit21-22/">Bandit Level 21 → Level 22</a></li>
@@ -501,8 +516,6 @@ Y------------------------------I
                         <li><a href="/2021/05/22/bandit20-21/">Bandit Level 20 → Level 21</a></li>
                     
                         <li><a href="/2021/05/22/bandit19-20/">Bandit Level 19 → Level 20</a></li>
-                    
-                        <li><a href="/2021/05/22/bandit18-19/">Bandit Level 18 → Level 19</a></li>
                     
                 </ul>
             </div>
@@ -538,7 +551,7 @@ Y------------------------------I
                             <span class="name">
                                 ctf
                             </span>
-                            <span class="badge">29</span>
+                            <span class="badge">30</span>
                         </a>
                     </li>
                     
@@ -547,7 +560,7 @@ Y------------------------------I
                             <span class="name">
                                 wargames
                             </span>
-                            <span class="badge">24</span>
+                            <span class="badge">25</span>
                         </a>
                     </li>
                     
@@ -556,7 +569,7 @@ Y------------------------------I
                             <span class="name">
                                 linux
                             </span>
-                            <span class="badge">24</span>
+                            <span class="badge">25</span>
                         </a>
                     </li>
                     

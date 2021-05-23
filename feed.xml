@@ -5,13 +5,46 @@
     <description></description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 22 May 2021 19:51:33 -0400</pubDate>
-    <lastBuildDate>Sat, 22 May 2021 19:51:33 -0400</lastBuildDate>
+    <pubDate>Sat, 22 May 2021 20:12:06 -0400</pubDate>
+    <lastBuildDate>Sat, 22 May 2021 20:12:06 -0400</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
     
       <item>
+        <title>Bandit Level 23 → Level 24</title>
+        <description>&lt;h2 id=&quot;level-goal&quot;&gt;Level Goal&lt;/h2&gt;
+A program is running automatically at regular intervals from cron, the time-based job scheduler. Look in /etc/cron.d/ for the configuration and see what command is being executed.
+
+&lt;h2 id=&quot;solution&quot;&gt;Solution&lt;/h2&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;explanation&quot;&gt;Explanation&lt;/h2&gt;
+
+</description>
+        <pubDate>Sat, 22 May 2021 15:59:50 -0400</pubDate>
+        <link>/2021/05/22/bandit23-24/</link>
+        <guid isPermaLink="true">/2021/05/22/bandit23-24/</guid>
+        
+        <category>wargames</category>
+        
+        <category>ctf</category>
+        
+        <category>overthewire</category>
+        
+        <category>linux</category>
+        
+        
+        <category>ctf</category>
+        
+        <category>wargames</category>
+        
+        <category>linux</category>
+        
+      </item>
+    
+      <item>
         <title>Bandit Level 22 → Level 23</title>
-        <description>I prefer Python</description>
+        <description>Why not use Python?</description>
         <pubDate>Sat, 22 May 2021 15:21:22 -0400</pubDate>
         <link>/2021/05/22/bandit22-23/</link>
         <guid isPermaLink="true">/2021/05/22/bandit22-23/</guid>
@@ -207,30 +240,6 @@
         <pubDate>Sat, 15 May 2021 12:02:42 -0400</pubDate>
         <link>/2021/05/15/bandit14-15/</link>
         <guid isPermaLink="true">/2021/05/15/bandit14-15/</guid>
-        
-        <category>wargames</category>
-        
-        <category>ctf</category>
-        
-        <category>overthewire</category>
-        
-        <category>linux</category>
-        
-        
-        <category>ctf</category>
-        
-        <category>wargames</category>
-        
-        <category>linux</category>
-        
-      </item>
-    
-      <item>
-        <title>Bandit Level 13 → Level 14</title>
-        <description>The Key the Secret</description>
-        <pubDate>Sat, 15 May 2021 12:00:42 -0400</pubDate>
-        <link>/2021/05/15/bandit13-14/</link>
-        <guid isPermaLink="true">/2021/05/15/bandit13-14/</guid>
         
         <category>wargames</category>
         
