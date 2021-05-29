@@ -5,16 +5,16 @@
     <description></description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 23 May 2021 17:25:39 -0400</pubDate>
-    <lastBuildDate>Sun, 23 May 2021 17:25:39 -0400</lastBuildDate>
+    <pubDate>Sat, 29 May 2021 18:28:56 -0400</pubDate>
+    <lastBuildDate>Sat, 29 May 2021 18:28:56 -0400</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
     
       <item>
-        <title>Bandit Level 33 → Level 34</title>
-        <description>Come to the end of the road</description>
-        <pubDate>Sun, 23 May 2021 13:21:38 -0400</pubDate>
-        <link>/2021/05/23/bandit33-34/</link>
-        <guid isPermaLink="true">/2021/05/23/bandit33-34/</guid>
+        <title>Natas Level 16 → Level 17</title>
+        <description>I&apos;ve got too much time on my hands</description>
+        <pubDate>Fri, 28 May 2021 22:01:38 -0400</pubDate>
+        <link>/2021/05/28/natas16-17/</link>
+        <guid isPermaLink="true">/2021/05/28/natas16-17/</guid>
         
         <category>wargames</category>
         
@@ -22,23 +22,23 @@
         
         <category>overthewire</category>
         
-        <category>linux</category>
+        <category>web-security</category>
         
         
         <category>ctf</category>
         
         <category>wargames</category>
         
-        <category>linux</category>
+        <category>web-security</category>
         
       </item>
     
       <item>
-        <title>Bandit Level 32 → Level 33</title>
-        <description>I&apos;m special (special), so special (special)</description>
-        <pubDate>Sun, 23 May 2021 12:56:25 -0400</pubDate>
-        <link>/2021/05/23/bandit32-33/</link>
-        <guid isPermaLink="true">/2021/05/23/bandit32-33/</guid>
+        <title>Natas Level 15 → Level 16</title>
+        <description>You can&apos;t see what I can see</description>
+        <pubDate>Fri, 28 May 2021 07:15:19 -0400</pubDate>
+        <link>/2021/05/28/natas15-16/</link>
+        <guid isPermaLink="true">/2021/05/28/natas15-16/</guid>
         
         <category>wargames</category>
         
@@ -46,23 +46,23 @@
         
         <category>overthewire</category>
         
-        <category>linux</category>
+        <category>web-security</category>
         
         
         <category>ctf</category>
         
         <category>wargames</category>
         
-        <category>linux</category>
+        <category>web-security</category>
         
       </item>
     
       <item>
-        <title>Bandit Level 31 → Level 32</title>
-        <description>Push it real good</description>
-        <pubDate>Sun, 23 May 2021 12:36:25 -0400</pubDate>
-        <link>/2021/05/23/bandit31-32/</link>
-        <guid isPermaLink="true">/2021/05/23/bandit31-32/</guid>
+        <title>Natas Level 14 → Level 15</title>
+        <description>Blind leading the blind</description>
+        <pubDate>Thu, 27 May 2021 13:53:10 -0400</pubDate>
+        <link>/2021/05/27/natas14-15/</link>
+        <guid isPermaLink="true">/2021/05/27/natas14-15/</guid>
         
         <category>wargames</category>
         
@@ -70,23 +70,23 @@
         
         <category>overthewire</category>
         
-        <category>linux</category>
+        <category>web-security</category>
         
         
         <category>ctf</category>
         
         <category>wargames</category>
         
-        <category>linux</category>
+        <category>web-security</category>
         
       </item>
     
       <item>
-        <title>Bandit Level 30 → Level 31</title>
-        <description>Tag you&apos;re it</description>
-        <pubDate>Sun, 23 May 2021 11:56:25 -0400</pubDate>
-        <link>/2021/05/23/bandit30-31/</link>
-        <guid isPermaLink="true">/2021/05/23/bandit30-31/</guid>
+        <title>Natas Level 13 → Level 14</title>
+        <description>xkcd 327</description>
+        <pubDate>Thu, 27 May 2021 12:34:43 -0400</pubDate>
+        <link>/2021/05/27/natas13-14/</link>
+        <guid isPermaLink="true">/2021/05/27/natas13-14/</guid>
         
         <category>wargames</category>
         
@@ -94,23 +94,23 @@
         
         <category>overthewire</category>
         
-        <category>linux</category>
+        <category>web-security</category>
         
         
         <category>ctf</category>
         
         <category>wargames</category>
         
-        <category>linux</category>
+        <category>web-security</category>
         
       </item>
     
       <item>
-        <title>Bandit Level 29 → Level 30</title>
-        <description>Branching out</description>
-        <pubDate>Sun, 23 May 2021 11:32:11 -0400</pubDate>
-        <link>/2021/05/23/bandit29-30/</link>
-        <guid isPermaLink="true">/2021/05/23/bandit29-30/</guid>
+        <title>Natas Level 12 → Level 13</title>
+        <description>Filter jilter</description>
+        <pubDate>Thu, 27 May 2021 11:47:18 -0400</pubDate>
+        <link>/2021/05/27/natas12-13/</link>
+        <guid isPermaLink="true">/2021/05/27/natas12-13/</guid>
         
         <category>wargames</category>
         
@@ -118,23 +118,23 @@
         
         <category>overthewire</category>
         
-        <category>linux</category>
+        <category>web-security</category>
         
         
         <category>ctf</category>
         
         <category>wargames</category>
         
-        <category>linux</category>
+        <category>web-security</category>
         
       </item>
     
       <item>
-        <title>Bandit Level 28 → Level 29</title>
-        <description>Spot the difference: git edition</description>
-        <pubDate>Sun, 23 May 2021 11:03:34 -0400</pubDate>
-        <link>/2021/05/23/bandit28-29/</link>
-        <guid isPermaLink="true">/2021/05/23/bandit28-29/</guid>
+        <title>Natas Level 11 → Level 12</title>
+        <description>Extension tension</description>
+        <pubDate>Wed, 26 May 2021 11:37:21 -0400</pubDate>
+        <link>/2021/05/26/natas11-12/</link>
+        <guid isPermaLink="true">/2021/05/26/natas11-12/</guid>
         
         <category>wargames</category>
         
@@ -142,23 +142,23 @@
         
         <category>overthewire</category>
         
-        <category>linux</category>
+        <category>web-security</category>
         
         
         <category>ctf</category>
         
         <category>wargames</category>
         
-        <category>linux</category>
+        <category>web-security</category>
         
       </item>
     
       <item>
-        <title>Bandit Level 27 → Level 28</title>
-        <description>I think I&apos;m a clone now</description>
-        <pubDate>Sun, 23 May 2021 10:57:03 -0400</pubDate>
-        <link>/2021/05/23/bandit27-28/</link>
-        <guid isPermaLink="true">/2021/05/23/bandit27-28/</guid>
+        <title>Natas Level 10 → Level 11</title>
+        <description>That&apos;s the way the cookie crumbles</description>
+        <pubDate>Wed, 26 May 2021 05:17:35 -0400</pubDate>
+        <link>/2021/05/26/natas10-11/</link>
+        <guid isPermaLink="true">/2021/05/26/natas10-11/</guid>
         
         <category>wargames</category>
         
@@ -166,23 +166,23 @@
         
         <category>overthewire</category>
         
-        <category>linux</category>
+        <category>web-security</category>
         
         
         <category>ctf</category>
         
         <category>wargames</category>
         
-        <category>linux</category>
+        <category>web-security</category>
         
       </item>
     
       <item>
-        <title>Bandit Level 26 → Level 27</title>
-        <description>It&apos;s like déjà vu all over again</description>
-        <pubDate>Sun, 23 May 2021 10:33:45 -0400</pubDate>
-        <link>/2021/05/23/bandit26-27/</link>
-        <guid isPermaLink="true">/2021/05/23/bandit26-27/</guid>
+        <title>Natas Level 9 → Level 10</title>
+        <description>Get a grep</description>
+        <pubDate>Sun, 23 May 2021 17:17:34 -0400</pubDate>
+        <link>/2021/05/23/natas09-10/</link>
+        <guid isPermaLink="true">/2021/05/23/natas09-10/</guid>
         
         <category>wargames</category>
         
@@ -190,23 +190,23 @@
         
         <category>overthewire</category>
         
-        <category>linux</category>
+        <category>web-security</category>
         
         
         <category>ctf</category>
         
         <category>wargames</category>
         
-        <category>linux</category>
+        <category>web-security</category>
         
       </item>
     
       <item>
-        <title>Bandit Level 25 → Level 26</title>
-        <description>Shell games</description>
-        <pubDate>Sun, 23 May 2021 09:03:46 -0400</pubDate>
-        <link>/2021/05/23/bandit25-26/</link>
-        <guid isPermaLink="true">/2021/05/23/bandit25-26/</guid>
+        <title>Natas Level 8 → Level 9</title>
+        <description>Bobby Tables: The Early Years</description>
+        <pubDate>Sun, 23 May 2021 16:52:16 -0400</pubDate>
+        <link>/2021/05/23/natas08-09/</link>
+        <guid isPermaLink="true">/2021/05/23/natas08-09/</guid>
         
         <category>wargames</category>
         
@@ -214,23 +214,23 @@
         
         <category>overthewire</category>
         
-        <category>linux</category>
+        <category>web-security</category>
         
         
         <category>ctf</category>
         
         <category>wargames</category>
         
-        <category>linux</category>
+        <category>web-security</category>
         
       </item>
     
       <item>
-        <title>Bandit Level 24 → Level 25</title>
-        <description>watch this</description>
-        <pubDate>Sat, 22 May 2021 17:24:46 -0400</pubDate>
-        <link>/2021/05/22/bandit24-25/</link>
-        <guid isPermaLink="true">/2021/05/22/bandit24-25/</guid>
+        <title>Natas Level 7 → Level 8</title>
+        <description>What&apos;s the name of that famous chef from the UK?</description>
+        <pubDate>Sun, 23 May 2021 16:07:23 -0400</pubDate>
+        <link>/2021/05/23/natas07-08/</link>
+        <guid isPermaLink="true">/2021/05/23/natas07-08/</guid>
         
         <category>wargames</category>
         
@@ -238,14 +238,14 @@
         
         <category>overthewire</category>
         
-        <category>linux</category>
+        <category>web-security</category>
         
         
         <category>ctf</category>
         
         <category>wargames</category>
         
-        <category>linux</category>
+        <category>web-security</category>
         
       </item>
     
