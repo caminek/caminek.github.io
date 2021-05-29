@@ -1,0 +1,80 @@
+---
+layout: post
+title:  "Natas Level 13 → Level 14"
+date:   2021-05-27 16:34:43
+categories: ctf wargames web-security
+tags: wargames ctf overthewire web-security
+series: "OverTheWire: Natas"
+excerpt: xkcd 327
+mathjax: false
+---
+
+## Level Goal
+Excluding the URL and username, the Level Goal section is blank for the Natas ctf.
+
+
+## Solution
+The natas14 site asks for a username and password in order to log in. It also provides a link the the source code.  Let's take a look at that.
+
+```php
+<?
+if(array_key_exists("username", $_REQUEST)) {
+    $link = mysql_connect('localhost', 'natas14', '<censored>');
+    mysql_select_db('natas14', $link);
+    
+    $query = "SELECT * from users where username=\"".$_REQUEST["username"]."\" and password=\"".$_REQUEST["password"]."\"";
+    if(array_key_exists("debug", $_GET)) {
+        echo "Executing query: $query<br>";
+    }
+
+    if(mysql_num_rows(mysql_query($query, $link)) > 0) {
+            echo "Successful login! The password for natas15 is <censored><br>";
+    } else {
+            echo "Access denied!<br>";
+    }
+    mysql_close($link);
+} else {
+?> 
+```
+
+Here we see a very unsafe line of code:
+```php
+$query = "SELECT * from users where username=.$_REQUEST["username"]. and password=.$_REQUEST["password"]."; 
+```
+
+Since this code does not sanitize user input, a malicious user could craft a username/passsword combo that could allow them access to the site. 
+
+Let's first look at how the unsafe line would appear if the user entered in non-malicious inputs. If they were to provide a username of **foo**, and a password of **bar**, the unsafe code would be interpreted as:
+
+```sql
+SELECT * from users where username="foo" and password="bar";
+```
+
+The line above is how the site admin intended the script to work. The user in this case would gain or be denied access based on the credentials provided. What if the user entered a password of **" OR 1=1 --"**? Here's how the unsafe code would be interpreted:
+
+```sql
+SELECT * from users where username="foo" and password="" OR 1=1 --""
+```
+
+The order or operation state that AND occurs before OR. Therefore the database will need to potentially make two evaluations.
+
+First evaluation:
+```
+Is there a user named foo with a blank password?
+```
+
+The password is appears blank due to the first character in the supplied password being a quotation mark. All subsequent characters are interpreted as SQL.
+
+If there's a user named foo with a blank password, then there's no need to check the second condition as OR only requires one of the evaluations to be true in order for the statement to be true. While possible, this statement is most likely going to be false.
+
+Second evaluation:
+```
+1=1
+```
+
+Since 1 equals 1, this check passes.  The two dashes are comments. This will cause any other conditionals that may follow to be ignored.
+
+With this, you'll be able to log into the site and get the password to the next level. 
+
+## Still getting access denied?
+If you still get an access denied message, its most likely due to UNICODE characters. Specifically, the double dashes and/or the quotation marks. Depending on where on this site you copied the password from, the ASCII quotes may have been substituted for the stylized UNICODE version. The double dash is also replaced with a UNICODE long dash. You'll need to edit these characters in the password if that's the case.

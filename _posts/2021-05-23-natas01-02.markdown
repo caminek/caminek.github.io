@@ -1,0 +1,28 @@
+---
+layout: post
+title:  "Natas Level 1 → Level 2"
+date:   2021-05-23 19:05:25
+categories: ctf wargames web-security
+tags: wargames ctf overthewire web-security
+series: "OverTheWire: Natas"
+excerpt: Directory browsing
+mathjax: false
+---
+
+## Level Goal
+Excluding the URL and username, the Level Goal section is blank for the Natas ctf.
+
+
+## Solution
+In the page source, we see the following:
+```
+<div id="content">
+There is nothing on this page
+<img src="files/pixel.png">
+</div>
+```
+
+Here we see there's a directory named files. Let's see if we can browse that directory.
+[http://natas2.natas.labs.overthewire.org/files/](http://natas2.natas.labs.overthewire.org/files/)
+
+Here we see users.txt. This file contains the password to the next level.

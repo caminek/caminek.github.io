@@ -1,0 +1,27 @@
+---
+layout: post
+title:  "Natas Level 4 → Level 5"
+date:   2021-05-23 19:29:25
+categories: ctf wargames web-security
+tags: wargames ctf overthewire web-security
+series: "OverTheWire: Natas"
+excerpt: Cookie monster
+mathjax: false
+---
+
+## Level Goal
+Excluding the URL and username, the Level Goal section is blank for the Natas ctf.
+
+
+## Solution
+
+Logging in we see the following message
+```
+Access disallowed. You are not logged in
+```
+
+Open the web browsers developer tools (F12 on Firefox) and click on the Storage tab.
+
+Change the value of loggedin from 0 to 1, and refresh the page.
+
+

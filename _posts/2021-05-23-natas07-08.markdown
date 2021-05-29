@@ -1,0 +1,52 @@
+---
+layout: post
+title:  "Natas Level 7 → Level 8"
+date:   2021-05-23 20:07:23
+categories: ctf wargames web-security
+tags: wargames ctf overthewire web-security
+series: "OverTheWire: Natas"
+excerpt: What's the name of that famous chef from the UK?
+mathjax: false
+---
+
+## Level Goal
+Excluding the URL and username, the Level Goal section is blank for the Natas ctf.
+
+
+## Solution
+Logging into the site we're asked to enter a secret and have the ability to view the page source.  
+
+Let's look at the source:
+```php
+<?
+
+$encodedSecret = "3d3d516343746d4d6d6c315669563362";
+
+function encodeSecret($secret) {
+    return bin2hex(strrev(base64_encode($secret)));
+}
+
+if(array_key_exists("submit", $_POST)) {
+    if(encodeSecret($_POST['secret']) == $encodedSecret) {
+    print "Access granted. The password for natas9 is <censored>";
+    } else {
+    print "Wrong secret";
+    }
+}
+?>
+```
+
+Here we see the secret is now encoded as well as a function that encodes out input for later comparison. By performing these steps in reverse, we can decode the encodedSecret. As usual, there are multiple ways to handle this. I chose to use [CyberChef](https://gchq.github.io/CyberChef/).
+
+Step 1: We need to convert encodedSecret from hex
+Step 2: We need to reverse the results of Step 1
+Step 3: We need to base64 decode the answer
+
+Paste the value assigned to encodedSecret into the Input section of CyberChef
+
+In CyberChef use the following recipes, leaving their defaults set:
+1: From Hex
+2: Reverse
+3: From Base64
+
+The decoded secret will appear in the output section. Copy that value and paste in into the text field on the natas9 site and click the button.

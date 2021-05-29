@@ -1,0 +1,32 @@
+---
+layout: post
+title:  "Natas Level 0 → Level 1"
+date:   2021-05-23 19:04:25
+categories: ctf wargames web-security
+tags: wargames ctf overthewire web-security
+series: "OverTheWire: Natas"
+excerpt: We'll I guess that secures things
+mathjax: false
+---
+
+## Level Goal
+Excluding the URL and username, the Level Goal section is blank for the Natas ctf.
+
+
+## Solution
+Right clicking the webpage has been disabled. In Firefox, you can view the source using the following url:
+[view-source:http://natas1.natas.labs.overthewire.org/](view-source:http://natas1.natas.labs.overthewire.org/)
+
+The password is once again in a comment.
+
+```
+<body oncontextmenu="javascript:alert('right clicking has been blocked!');return false;">
+<h1>natas1</h1>
+<div id="content">
+You can find the password for the
+next level on this page, but rightclicking has been blocked!
+
+<!--The password for natas2 is Z------------------------------i -->
+</div>
+</body>
+```

