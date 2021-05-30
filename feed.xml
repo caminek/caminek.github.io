@@ -3,18 +3,162 @@
   <channel>
     <title>Caminek</title>
     <description></description>
-    <link>/</link>
-    <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 29 May 2021 21:30:16 -0400</pubDate>
-    <lastBuildDate>Sat, 29 May 2021 21:30:16 -0400</lastBuildDate>
+    <link>https://caminek.rocks/</link>
+    <atom:link href="https://caminek.rocks/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Sun, 30 May 2021 19:54:34 -0400</pubDate>
+    <lastBuildDate>Sun, 30 May 2021 19:54:34 -0400</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
+    
+      <item>
+        <title>Natas Level 24 → Level 25</title>
+        <description>OMG</description>
+        <pubDate>Sun, 30 May 2021 13:12:11 -0400</pubDate>
+        <link>https://caminek.rocks/2021/05/30/natas24-25/</link>
+        <guid isPermaLink="true">https://caminek.rocks/2021/05/30/natas24-25/</guid>
+        
+        <category>wargames</category>
+        
+        <category>ctf</category>
+        
+        <category>overthewire</category>
+        
+        <category>web-security</category>
+        
+        
+        <category>ctf</category>
+        
+        <category>wargames</category>
+        
+        <category>web-security</category>
+        
+      </item>
+    
+      <item>
+        <title>Natas Level 23 → Level 24</title>
+        <description>Nothing compares to you</description>
+        <pubDate>Sun, 30 May 2021 12:33:50 -0400</pubDate>
+        <link>https://caminek.rocks/2021/05/30/natas23-24/</link>
+        <guid isPermaLink="true">https://caminek.rocks/2021/05/30/natas23-24/</guid>
+        
+        <category>wargames</category>
+        
+        <category>ctf</category>
+        
+        <category>overthewire</category>
+        
+        <category>web-security</category>
+        
+        
+        <category>ctf</category>
+        
+        <category>wargames</category>
+        
+        <category>web-security</category>
+        
+      </item>
+    
+      <item>
+        <title>Natas Level 22 → Level 23</title>
+        <description>Matchmaker</description>
+        <pubDate>Sun, 30 May 2021 11:42:57 -0400</pubDate>
+        <link>https://caminek.rocks/2021/05/30/natas22-23/</link>
+        <guid isPermaLink="true">https://caminek.rocks/2021/05/30/natas22-23/</guid>
+        
+        <category>wargames</category>
+        
+        <category>ctf</category>
+        
+        <category>overthewire</category>
+        
+        <category>web-security</category>
+        
+        
+        <category>ctf</category>
+        
+        <category>wargames</category>
+        
+        <category>web-security</category>
+        
+      </item>
+    
+      <item>
+        <title>Natas Level 21 → Level 22</title>
+        <description>You can go your own way</description>
+        <pubDate>Sun, 30 May 2021 09:05:34 -0400</pubDate>
+        <link>https://caminek.rocks/2021/05/30/natas21-22/</link>
+        <guid isPermaLink="true">https://caminek.rocks/2021/05/30/natas21-22/</guid>
+        
+        <category>wargames</category>
+        
+        <category>ctf</category>
+        
+        <category>overthewire</category>
+        
+        <category>web-security</category>
+        
+        
+        <category>ctf</category>
+        
+        <category>wargames</category>
+        
+        <category>web-security</category>
+        
+      </item>
+    
+      <item>
+        <title>Natas Level 20 → Level 21</title>
+        <description>Sharing is caring</description>
+        <pubDate>Sun, 30 May 2021 07:31:33 -0400</pubDate>
+        <link>https://caminek.rocks/2021/05/30/natas20-21/</link>
+        <guid isPermaLink="true">https://caminek.rocks/2021/05/30/natas20-21/</guid>
+        
+        <category>wargames</category>
+        
+        <category>ctf</category>
+        
+        <category>overthewire</category>
+        
+        <category>web-security</category>
+        
+        
+        <category>ctf</category>
+        
+        <category>wargames</category>
+        
+        <category>web-security</category>
+        
+      </item>
+    
+      <item>
+        <title>Natas Level 19 → Level 20</title>
+        <description>Write to own</description>
+        <pubDate>Sat, 29 May 2021 17:34:21 -0400</pubDate>
+        <link>https://caminek.rocks/2021/05/29/natas19-20/</link>
+        <guid isPermaLink="true">https://caminek.rocks/2021/05/29/natas19-20/</guid>
+        
+        <category>wargames</category>
+        
+        <category>ctf</category>
+        
+        <category>overthewire</category>
+        
+        <category>web-security</category>
+        
+        
+        <category>ctf</category>
+        
+        <category>wargames</category>
+        
+        <category>web-security</category>
+        
+      </item>
     
       <item>
         <title>Natas Level 18 → Level 19</title>
         <description>What the hex?</description>
         <pubDate>Sat, 29 May 2021 16:55:52 -0400</pubDate>
-        <link>/2021/05/29/natas18-19/</link>
-        <guid isPermaLink="true">/2021/05/29/natas18-19/</guid>
+        <link>https://caminek.rocks/2021/05/29/natas18-19/</link>
+        <guid isPermaLink="true">https://caminek.rocks/2021/05/29/natas18-19/</guid>
         
         <category>wargames</category>
         
@@ -37,8 +181,8 @@
         <title>Natas Level 17 → Level 18</title>
         <description>Bill never said that!</description>
         <pubDate>Sat, 29 May 2021 14:42:56 -0400</pubDate>
-        <link>/2021/05/29/natas17-18/</link>
-        <guid isPermaLink="true">/2021/05/29/natas17-18/</guid>
+        <link>https://caminek.rocks/2021/05/29/natas17-18/</link>
+        <guid isPermaLink="true">https://caminek.rocks/2021/05/29/natas17-18/</guid>
         
         <category>wargames</category>
         
@@ -61,8 +205,8 @@
         <title>Natas Level 16 → Level 17</title>
         <description>I&apos;ve got too much time on my hands</description>
         <pubDate>Fri, 28 May 2021 22:01:38 -0400</pubDate>
-        <link>/2021/05/28/natas16-17/</link>
-        <guid isPermaLink="true">/2021/05/28/natas16-17/</guid>
+        <link>https://caminek.rocks/2021/05/28/natas16-17/</link>
+        <guid isPermaLink="true">https://caminek.rocks/2021/05/28/natas16-17/</guid>
         
         <category>wargames</category>
         
@@ -85,152 +229,8 @@
         <title>Natas Level 15 → Level 16</title>
         <description>You can&apos;t see what I can see</description>
         <pubDate>Fri, 28 May 2021 07:15:19 -0400</pubDate>
-        <link>/2021/05/28/natas15-16/</link>
-        <guid isPermaLink="true">/2021/05/28/natas15-16/</guid>
-        
-        <category>wargames</category>
-        
-        <category>ctf</category>
-        
-        <category>overthewire</category>
-        
-        <category>web-security</category>
-        
-        
-        <category>ctf</category>
-        
-        <category>wargames</category>
-        
-        <category>web-security</category>
-        
-      </item>
-    
-      <item>
-        <title>Natas Level 14 → Level 15</title>
-        <description>Blind leading the blind</description>
-        <pubDate>Thu, 27 May 2021 13:53:10 -0400</pubDate>
-        <link>/2021/05/27/natas14-15/</link>
-        <guid isPermaLink="true">/2021/05/27/natas14-15/</guid>
-        
-        <category>wargames</category>
-        
-        <category>ctf</category>
-        
-        <category>overthewire</category>
-        
-        <category>web-security</category>
-        
-        
-        <category>ctf</category>
-        
-        <category>wargames</category>
-        
-        <category>web-security</category>
-        
-      </item>
-    
-      <item>
-        <title>Natas Level 13 → Level 14</title>
-        <description>xkcd 327</description>
-        <pubDate>Thu, 27 May 2021 12:34:43 -0400</pubDate>
-        <link>/2021/05/27/natas13-14/</link>
-        <guid isPermaLink="true">/2021/05/27/natas13-14/</guid>
-        
-        <category>wargames</category>
-        
-        <category>ctf</category>
-        
-        <category>overthewire</category>
-        
-        <category>web-security</category>
-        
-        
-        <category>ctf</category>
-        
-        <category>wargames</category>
-        
-        <category>web-security</category>
-        
-      </item>
-    
-      <item>
-        <title>Natas Level 12 → Level 13</title>
-        <description>Filter jilter</description>
-        <pubDate>Thu, 27 May 2021 11:47:18 -0400</pubDate>
-        <link>/2021/05/27/natas12-13/</link>
-        <guid isPermaLink="true">/2021/05/27/natas12-13/</guid>
-        
-        <category>wargames</category>
-        
-        <category>ctf</category>
-        
-        <category>overthewire</category>
-        
-        <category>web-security</category>
-        
-        
-        <category>ctf</category>
-        
-        <category>wargames</category>
-        
-        <category>web-security</category>
-        
-      </item>
-    
-      <item>
-        <title>Natas Level 11 → Level 12</title>
-        <description>Extension tension</description>
-        <pubDate>Wed, 26 May 2021 11:37:21 -0400</pubDate>
-        <link>/2021/05/26/natas11-12/</link>
-        <guid isPermaLink="true">/2021/05/26/natas11-12/</guid>
-        
-        <category>wargames</category>
-        
-        <category>ctf</category>
-        
-        <category>overthewire</category>
-        
-        <category>web-security</category>
-        
-        
-        <category>ctf</category>
-        
-        <category>wargames</category>
-        
-        <category>web-security</category>
-        
-      </item>
-    
-      <item>
-        <title>Natas Level 10 → Level 11</title>
-        <description>That&apos;s the way the cookie crumbles</description>
-        <pubDate>Wed, 26 May 2021 05:17:35 -0400</pubDate>
-        <link>/2021/05/26/natas10-11/</link>
-        <guid isPermaLink="true">/2021/05/26/natas10-11/</guid>
-        
-        <category>wargames</category>
-        
-        <category>ctf</category>
-        
-        <category>overthewire</category>
-        
-        <category>web-security</category>
-        
-        
-        <category>ctf</category>
-        
-        <category>wargames</category>
-        
-        <category>web-security</category>
-        
-      </item>
-    
-      <item>
-        <title>Natas Level 9 → Level 10</title>
-        <description>Get a grep</description>
-        <pubDate>Sun, 23 May 2021 17:17:34 -0400</pubDate>
-        <link>/2021/05/23/natas09-10/</link>
-        <guid isPermaLink="true">/2021/05/23/natas09-10/</guid>
+        <link>https://caminek.rocks/2021/05/28/natas15-16/</link>
+        <guid isPermaLink="true">https://caminek.rocks/2021/05/28/natas15-16/</guid>
         
         <category>wargames</category>
         
