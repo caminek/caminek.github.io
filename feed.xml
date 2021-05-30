@@ -5,9 +5,57 @@
     <description></description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 29 May 2021 18:28:56 -0400</pubDate>
-    <lastBuildDate>Sat, 29 May 2021 18:28:56 -0400</lastBuildDate>
+    <pubDate>Sat, 29 May 2021 21:30:16 -0400</pubDate>
+    <lastBuildDate>Sat, 29 May 2021 21:30:16 -0400</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
+    
+      <item>
+        <title>Natas Level 18 → Level 19</title>
+        <description>What the hex?</description>
+        <pubDate>Sat, 29 May 2021 16:55:52 -0400</pubDate>
+        <link>/2021/05/29/natas18-19/</link>
+        <guid isPermaLink="true">/2021/05/29/natas18-19/</guid>
+        
+        <category>wargames</category>
+        
+        <category>ctf</category>
+        
+        <category>overthewire</category>
+        
+        <category>web-security</category>
+        
+        
+        <category>ctf</category>
+        
+        <category>wargames</category>
+        
+        <category>web-security</category>
+        
+      </item>
+    
+      <item>
+        <title>Natas Level 17 → Level 18</title>
+        <description>Bill never said that!</description>
+        <pubDate>Sat, 29 May 2021 14:42:56 -0400</pubDate>
+        <link>/2021/05/29/natas17-18/</link>
+        <guid isPermaLink="true">/2021/05/29/natas17-18/</guid>
+        
+        <category>wargames</category>
+        
+        <category>ctf</category>
+        
+        <category>overthewire</category>
+        
+        <category>web-security</category>
+        
+        
+        <category>ctf</category>
+        
+        <category>wargames</category>
+        
+        <category>web-security</category>
+        
+      </item>
     
       <item>
         <title>Natas Level 16 → Level 17</title>
@@ -183,54 +231,6 @@
         <pubDate>Sun, 23 May 2021 17:17:34 -0400</pubDate>
         <link>/2021/05/23/natas09-10/</link>
         <guid isPermaLink="true">/2021/05/23/natas09-10/</guid>
-        
-        <category>wargames</category>
-        
-        <category>ctf</category>
-        
-        <category>overthewire</category>
-        
-        <category>web-security</category>
-        
-        
-        <category>ctf</category>
-        
-        <category>wargames</category>
-        
-        <category>web-security</category>
-        
-      </item>
-    
-      <item>
-        <title>Natas Level 8 → Level 9</title>
-        <description>Bobby Tables: The Early Years</description>
-        <pubDate>Sun, 23 May 2021 16:52:16 -0400</pubDate>
-        <link>/2021/05/23/natas08-09/</link>
-        <guid isPermaLink="true">/2021/05/23/natas08-09/</guid>
-        
-        <category>wargames</category>
-        
-        <category>ctf</category>
-        
-        <category>overthewire</category>
-        
-        <category>web-security</category>
-        
-        
-        <category>ctf</category>
-        
-        <category>wargames</category>
-        
-        <category>web-security</category>
-        
-      </item>
-    
-      <item>
-        <title>Natas Level 7 → Level 8</title>
-        <description>What&apos;s the name of that famous chef from the UK?</description>
-        <pubDate>Sun, 23 May 2021 16:07:23 -0400</pubDate>
-        <link>/2021/05/23/natas07-08/</link>
-        <guid isPermaLink="true">/2021/05/23/natas07-08/</guid>
         
         <category>wargames</category>
         

