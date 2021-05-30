@@ -1,0 +1,60 @@
+---
+layout: post
+title:  "Natas Level 22 → Level 23"
+date:   2021-05-30 15:42:57
+categories: ctf wargames web-security
+tags: wargames ctf overthewire web-security
+series: "OverTheWire: Natas"
+excerpt: Matchmaker
+mathjax: false
+---
+
+## Level Goal
+Excluding the URL and username, the Level Goal section is blank for the Natas ctf.
+
+
+## Solution
+This level allows us to submit a password and view the source code.
+
+```php
+if(array_key_exists("passwd",$_REQUEST)){
+    if(strstr($_REQUEST["passwd"],"iloveyou") && ($_REQUEST["passwd"] > 10 )){
+        echo "<br>The credentials for the next level are:<br>";
+        echo "<pre>Username: natas24 Password: <censored></pre>";
+    }
+    else{
+        echo "<br>Wrong!<br>";
+    }
+} 
+```
+
+In order to get access to the credentials, we need pass a key with the name passwd. The value must contain "iloveyou" and be greater than 10. To do this, we need to understand how strstr works and what type juggling is.
+
+### strstr
+The official documentation for [strstr](https://www.php.net/manual/en/function.strstr.php) states that strstr matches the first occurance of the search term. It then returns returns everything from the search term to the end of the search space. Perhaps this is better explained with an example:
+
+```php
+<?
+    $example = "abciloveyou123";
+    $res = strstr($example, "iloveyou");
+    print $res;
+```
+
+result:
+```
+iloveyou123
+```
+
+### Type juggling
+The official documentation for [type juggling](https://www.php.net/manual/en/language.types.type-juggling.php) states that php does not support static typing of variables. The type is dynamically set depending on the value assigned to the variable. The example on the page shows that multiplying a number with a string that starts with a number returns the same result that would have been expected if both sides of the multiplication sign had been numbers. 
+
+There are addtional links on this page to further explain how this works, but this should be enough for us to solve this level.
+
+Since strstr matches the first occurance to the end of the search space, the iloveyou string must be the last part of the password. Since the second condition is performing a math operation on the value stored in passwd, we can prepend a number greater than 10 to iloveyou.
+
+Here's the password I used:
+```
+42iloveyou
+```
+
+Click the login button to get the credentials for the next level.

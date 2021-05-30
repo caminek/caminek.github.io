@@ -1,0 +1,43 @@
+---
+layout: post
+title:  "Natas Level 23 → Level 24"
+date:   2021-05-30 16:33:50
+categories: ctf wargames web-security
+tags: wargames ctf overthewire web-security
+series: "OverTheWire: Natas"
+excerpt: Nothing compares to you
+mathjax: false
+---
+
+## Level Goal
+Excluding the URL and username, the Level Goal section is blank for the Natas ctf.
+
+
+## Solution
+This level allows us to submit a password and view the source code.
+
+```php
+if(array_key_exists("passwd",$_REQUEST)){
+    if(!strcmp($_REQUEST["passwd"],"<censored>")){
+        echo "<br>The credentials for the next level are:<br>";
+        echo "<pre>Username: natas25 Password: <censored></pre>";
+    }
+    else{
+        echo "<br>Wrong!<br>";
+    }
+}
+```
+
+To solve this we'll need to look into how strcmp works and how type juggling affects the results.
+
+The official documentation for [strcmp](https://www.php.net/manual/en/function.strcmp.php) states that if the strings match, a 0 will be returned, otherwise a positive or negative number will be returned.
+
+A result of 0 would be interpreted as false. By NOT'ing false we get true. This true value would be evaluated by the if statement and the program would then print the credentials. Whereas a result of any number besides 0 is interpreted as true, and NOT'd to false. This false value would cause the program would move to the else clause and print "Wrong!" At least that's what the intent was.
+
+Due to type juggling, bizarre things can occur while comparing unintended types. One of these oddities is comparing an array to a string.  The result is NULL and a warning is displayed. NULL is evaluated to be 0, the same value as if the strings matched. By altering the search, we can trick the site into giving up the credentials.
+
+Append the following to the URL and press Enter.
+
+```
+?passwd[]=foo
+```

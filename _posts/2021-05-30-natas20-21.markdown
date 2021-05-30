@@ -1,0 +1,56 @@
+---
+layout: post
+title:  "Natas Level 20 → Level 21"
+date:   2021-05-30 11:31:33
+categories: ctf wargames web-security
+tags: wargames ctf overthewire web-security
+series: "OverTheWire: Natas"
+excerpt: Sharing is caring
+mathjax: false
+---
+
+## Level Goal
+Excluding the URL and username, the Level Goal section is blank for the Natas ctf.
+
+
+## Solution
+This level starts off with us logged in automatically as a regular user. There's a link to a "co-located" site, and a link to the source code. We'll need to work with both sites in order to complete this level. To try an keep things clear, I'll refer to this site as **Main**, and the site at http://natas21-experimenter.natas.labs.overthewire.org as **Experimenter**.
+
+Looking at the source code on Main we see there's very little going on. It checks the SESSION variable to see if there's a key named admin, and if its value is set to 1. If it is, we're greeted as admin and given the credentials to the next level. If key-value pair is missing or set differently, we're greeted as a regular user. Let's go look at the Experimenter site.
+
+The Experimenter site includes the ability to adjust properties of a test element, a link to Main, and a link to the source code.  Let's look at the selected portions of the source.
+
+
+The code below takes any data passed in with the URL and stores it in SESSION variable as a key-value pair.
+```php
+// if update was submitted, store it
+if(array_key_exists("submit", $_REQUEST)) {
+    foreach($_REQUEST as $key => $val) {
+    $_SESSION[$key] = $val;
+    }
+}
+```
+
+The foreach loop filters the SESSION variable for the key-value pairs used to populate the form. If a key-value pair is not used, it's placed back into SESSION. 
+
+```php
+// only allow these keys
+$validkeys = array("align" => "center", "fontsize" => "100%", "bgcolor" => "yellow");
+...
+foreach($validkeys as $key => $defval) {
+    $val = $defval;
+    if(array_key_exists($key, $_SESSION)) {
+    $val = $_SESSION[$key];
+    } else {
+    $_SESSION[$key] = $val;
+    }
+    ...
+}
+```
+
+Let's copy the PHPSESSID from Main and paste into Experimenter. We should be able to create the admin key-value pair on Experimenter by appending the following to the URL and pressing Enter:
+```
+?admin=1&submit=1
+```
+
+Go back to Main and reload the page, and the credentials for the next level will be shown.
