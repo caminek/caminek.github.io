@@ -224,15 +224,15 @@ bandit22@bandit:/etc/cron.d<span class="nv">$ </span><span class="nb">echo </spa
 </code></pre></div></div>
 
 <h2 id="explanation">Explanation</h2>
-<p>This level requires you to have a basic understanding of Bash scripting.</p>
+<p>This level requires an understanding of Bash scripting.</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">myname</span><span class="o">=</span><span class="si">$(</span><span class="nb">whoami</span><span class="si">)</span>
 </code></pre></div></div>
-<p>This assigns the output of the whoami command to a variable named myname.</p>
+<p>This assigns the output of the <strong>whoami</strong> command to a variable named myname.</p>
 
 <p>To access the assigned value, you prepend a $ to the front of the variable name.</p>
 
-<p>We can see that target will be assigned the md5 sum of the string <strong>I am user bandit22</strong>. The last line of the script shows that the password is being output to a file with the name of the value stored within the mytarget variable. This file is created within /tmp.</p>
+<p>We can see that target will be assigned the md5 sum of the string <strong>I am user bandit22</strong>. The last line of the script shows that the password is outputting to a file with the name of the value stored within the mytarget variable. This file is created within /tmp.</p>
 
 <p>We can get the next password by changing the value assigned to myname from bandit22 to bandit23. We do this since the cronjob is run as bandit23.</p>
 

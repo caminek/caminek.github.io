@@ -215,11 +215,11 @@ G------------------------------j
 </code></pre></div></div>
 
 <h2 id="explanation">Explanation</h2>
-<p>This level requires understanding of permissions, especially euid or Effective User ID. The permissons of the bandit20-do file are:</p>
+<p>This level requires an understanding of permissions, especially euid or Effective User ID. The permissions of the bandit20-do file are:</p>
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">-rwsr-x---</span>  1 bandit20 bandit19 7296 May  7  2020 bandit20-do
 </code></pre></div></div>
 
-<p>The ‘s’ tells us that this file will run with all the permissions of the file owner, bandit20. The ‘x’ tells us the group bandit19, which we are part of, may read and execute this file. This means we’re now able to execute this binary as if we were bandit20. By passing the binary the cat command and the password file for bandit20, we’re able to output its contents.</p>
+<p>The ‘s’ tells us that this file will run with all the permissions of the file owner, bandit20. The ‘x’ tells us the group bandit19, which we are part of, may read and execute this file. This means we’re now able to execute this binary as if we were bandit20. Passing the binary the cat command and the password file for bandit20, we’re able to output its contents.</p>
 
         </article>
         <hr>
