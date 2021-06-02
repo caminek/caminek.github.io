@@ -36,17 +36,18 @@ if(array_key_exists("submit", $_POST)) {
 ?>
 ```
 
-Here we see the secret is now encoded as well as a function that encodes out input for later comparison. By performing these steps in reverse, we can decode the encodedSecret. As usual, there are multiple ways to handle this. I chose to use [CyberChef](https://gchq.github.io/CyberChef/).
+Here we see the secret is now encoded as well as a function that encodes out input for later comparison. By performing these steps in reverse, we can decode the encodedSecret. As usual, there are multiple ways to handle this. I've decided to use Python, but this could easily have been done with [CyberChef](https://gchq.github.io/CyberChef/).
 
-Step 1: We need to convert encodedSecret from hex
-Step 2: We need to reverse the results of Step 1
-Step 3: We need to base64 decode the answer
 
-Paste the value assigned to encodedSecret into the Input section of CyberChef
+```python
+import base64
 
-In CyberChef use the following recipes, leaving their defaults set:
-1: From Hex
-2: Reverse
-3: From Base64
+encodedSecret = '3d3d516343746d4d6d6c315669563362'  # encodedSecret taken from web source
+secret_decoded = bytes.fromhex(encodedSecret)  # convert encodedSecret from hex to ASCII bytes
+b64 = secret_decoded[::-1]  # Reversing secret_decoded gives us valid base64
+res = base64.b64decode(b64)  # Decode the base64
 
-The decoded secret will appear in the output section. Copy that value and paste in into the text field on the natas9 site and click the button.
+print("".join(chr(x) for x in res))  # convert from bytes to str so the output appears cleaner
+```
+
+Copy that value returned by the script and paste it into the text field on the natas9 site. Click the button to get the credentials for the next level.
