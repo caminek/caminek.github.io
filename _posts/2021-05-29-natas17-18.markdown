@@ -14,7 +14,7 @@ Excluding the URL and username, the Level Goal section is blank for the Natas ct
 
 
 ## Solution
-The natas18 tells us to login to get the credentials for the next level. The form allows us to enter in a username and password. We can also view the source code.  Due to the length of the code, I'll only included selected sections.
+The natas18 tells us to login to get the credentials for the next level. The form allows us to enter in a username and password. We can also view the source code.  Due to the length of the code, I'll only include selected sections.
 
 First, the form does not allow the admin to log in.
 
@@ -76,7 +76,7 @@ $maxid = 640; // 640 should be enough for everyone
 
 The one thing we don't see is the password being used for anything. Enter in anything other than admin for the username and anything for the password, then click Login. Now open your browser's Developer Tools (F12 in Firefox) and click on the Storage tab (again in Firefox) to view the value stored in PHPSESSID.
 
-If you were to delete this cookie, go back to main page for natas19 and enter the same information into the form, you'd get a different session id. This means that every user gets an random id between 1 and 640, including the admin. Since the search space is so small, we should be able to bruteforce the id fairly quickly.
+If you were to delete this cookie, then go back to the main page for natas19 and enter the same information into the form, you'd get a different session id. This means that every user gets a random id between 1 and 640, including the admin. Since the search space is so small, we should be able to brute-force the id fairly quickly.
 
 As we saw when we logged in, we're greeted with, "You are logged in as a regular user" when we first logged in. While we can get the admin greeting from the source, we don't need it. We'll simply look for the absence of this line to let us know when we've found the correct id.
 
