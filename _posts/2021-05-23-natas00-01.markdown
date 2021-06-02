@@ -14,8 +14,10 @@ Excluding the URL and username, the Level Goal section is blank for the Natas ct
 
 
 ## Solution
-Right clicking the webpage has been disabled. In Firefox, you can view the source using the following url:
-[view-source:http://natas1.natas.labs.overthewire.org/](view-source:http://natas1.natas.labs.overthewire.org/)
+Right-clicking the webpage has been disabled. In Firefox, you can view the source using the following URL:
+```
+view-source:http://natas1.natas.labs.overthewire.org/
+```
 
 The password is once again in a comment.
 
