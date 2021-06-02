@@ -28,4 +28,4 @@ c------------------------------e
 
 
 ## Explanation
-This level requires you to know of the special parameter $0. $0 expands to the shell or shell script. This allows us to drop into sh. Bash was not required, but I like having tab-completion.
+This level requires you to know the special parameter **$0**. $0 expands to the shell or shell script. This allows us to drop into sh. Bash was not required, but I like having tab completion.
