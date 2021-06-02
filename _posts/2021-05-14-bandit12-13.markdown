@@ -65,6 +65,6 @@ The password is 8------------------------------L
 ```
 
 ## Explanation
-Here you need to know several different compression methods and how to extract them. You also needed to use file to determine what the filetypes were.
+Here you need to know several different compression methods and how to extract them. You also needed to use the file command to determine the file types.
 
-The Level Goal tells you that you'll need to create a temp directory to work in. instead of creating a directory and trying to come up with a unique name it, I used **mktemp -d** to create a randomly named unique directory. By enclosing this command in backticks and prepending **cd**, I was placed in the directory after it was created. Doing this is not necessary, but done for convenience.
+The Level Goal tells you that you’ll need to create a temp directory to work in. instead of creating a directory and trying to come up with a unique name, I used **mktemp -d** to create a randomly named unique directory. By enclosing this command in backticks and prepending **cd**, I was placed in the directory after it was created. Doing this is not necessary, but done for convenience.
