@@ -22,6 +22,6 @@ C------------------------------9
 ```
 
 ## Explanation
-If you were to type **cat -** you'd see the terminal scroll one line and do nothing afterwards. Typing any character and pressing Enter would result in the duplication of said  characters. 
+If you were to type **cat -** you’d see the terminal scroll one line and do nothing afterward. Typing any character and pressing Enter would result in the duplication of said characters.
 
-The **-** is telling cat to use standard input or output instead of a filename. Prepending **./** tells cat you're looking for a file named - in the current directory.
+The **-** is telling cat to use standard input or output instead of a filename. Prepending ./ tells cat you’re looking for a file named - in the current directory.
