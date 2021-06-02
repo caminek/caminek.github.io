@@ -33,4 +33,4 @@ include "includes/secret.inc";
 
 Here we see the value within includes/secret.inc is compared to our input. Let's see if we can open that file.
 
-[http://natas6.natas.labs.overthewire.org/includes/secret.inc](http://natas6.natas.labs.overthewire.org/includes/secret.inc) appears to be blank, but if we view the page source, we'll see the secret. Enter that value into the text field and press Submit Query. 
+The [includes/secret.inc](http://natas6.natas.labs.overthewire.org/includes/secret.inc) file appears to be blank, but if we view the page source, we'll see the secret. Enter that value into the text field and press Submit Query. 
