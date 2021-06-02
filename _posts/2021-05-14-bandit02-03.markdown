@@ -24,7 +24,7 @@ U------------------------------K
 ```
 
 ## Explanation
-Typing **spaces in this filename** without using either quotes or escaping the spaces will be interpreted as:
+Typing **spaces in this filename** without using either quotation marks or escaping the spaces will be interpreted as:
 
 ```bash
 cat spaces
