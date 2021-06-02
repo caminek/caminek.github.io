@@ -40,4 +40,4 @@ The password to the next level is: 0------------------------------2
 ```
 
 ## Explanation
-This level requires you to know how to clone a repository with git
+This level requires you to know how to clone a repository with git.
