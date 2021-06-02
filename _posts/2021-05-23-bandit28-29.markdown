@@ -79,11 +79,11 @@ index 3f7cee8..5c6457b 100644
 ```
 
 ## Explanation
-This level requires you to know how to view previous commits in order to find the redacted password information. Using git log will show us all of the previous commits and any message that was included. I chose to use diff, but there are several ways we could get the information from this commit. 
+This level requires you to know how to view previous commits to find the redacted password information. Using git log will show us all of the previous commits and any message that was included. I chose to use diff, but there are several ways we could get the information from this commit. 
 
 Looking at the git logs we can see two interesting messages: "add missing data" and "fix info leak." 
 
-The following line tells git that we want to compare two different hashes. The hash prior to the hash that starts with edd9, and the edd9 hash.
+The following line tells git that we want to compare two different hashes. The hash before the hash that starts with edd9, and the edd9 hash.
 
 ```bash
 bandit28@bandit:/tmp/tmp.yHAo5UdegH/repo$ git diff edd9~ edd9
