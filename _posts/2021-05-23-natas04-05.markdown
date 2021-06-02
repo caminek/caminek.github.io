@@ -20,8 +20,6 @@ Logging in we see the following message
 Access disallowed. You are not logged in
 ```
 
-Open the web browsers developer tools (F12 on Firefox) and click on the Storage tab.
+Open the web browser's developer tools (F12 on Firefox) and click on the Storage tab.
 
-Change the value of loggedin from 0 to 1, and refresh the page.
-
-
+Change the value of logged-in from 0 to 1, and refresh the page.
