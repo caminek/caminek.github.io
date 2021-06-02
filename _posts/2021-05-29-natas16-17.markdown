@@ -54,13 +54,13 @@ if(array_key_exists("username", $_REQUEST)) {
 <form action="index.php" method="POST"> 
 ```
 
-It would seem at first glance there's little we can do here. We can still perform the query, but have no way to get any output. The weakness here is that the inputs are still not sanatized. This means we can add to the SQL query and create a different attack method that also makes use of the Blind attacks from the previous levels. 
+It would seem at first glance there's little we can do here. We can still perform the query but have no way to get any output. The weakness here is that the inputs are still not sanitized. This means we can add to the SQL query and create a different attack method that also makes use of the Blind attacks from the previous levels. 
 
 In the previous levels were able to check whether a statement was true or false based upon the output we got back from the server. Since we're unable to get any text, we'll need to come up with something different. We'll need to use the SLEEP command, which works as you'd expect, and some boolean logic.
 
-In a previous level we combined two conditions with an OR. We altered the statement to say if we entered both the correct username and password, or if 1=1, give us access. Since OR only requires one side of the statement to be true, we gained access. 
+In a previous level, we combined two conditions with an OR. We altered the statement to say if we entered both the correct username and password, or if 1=1, give us access. Since OR only requires one side of the statement to be true, we gained access. 
 
-This time we'll use AND which requires both sides of the statement to be true. On the left side of the AND we'll ask the server if the username is valid and the password contains a specific character. On the right side we'll add the SLEEP command.  The left side of the statement will appear to us to function the same whether we enter a correct character or not. The SLEEP command will allow us to determine if there was a match. If the given character doesn't match, the right side of the AND is not evaluated. If the character matches, the response from the page will be measurably slower. By monitoring for slow responses, we can determine if we have a match or not.  This is known as Timing attack.
+This time we'll use AND which requires both sides of the statement to be true. On the left side of the AND, we'll ask the server if the username is valid and the password contains a specific character. On the right side, we'll add the SLEEP command.  The left side of the statement will appear to us to function the same whether we enter a correct character or not. The SLEEP command will allow us to determine if there was a match. If the given character doesn't match, the right side of the AND is not evaluated. If the character matches, the response from the page will be measurably slower. By monitoring for slow responses, we can determine if we have a match or not.  This is known as a Timing attack.
 
 Since the user input is submitted using POST instead of GET, we won't be able to craft a URL for testing. While I'm sure there are addons to simplify sending form data with POST, I'm going to stick with Firefox's built-in Developer Tools.
 
@@ -68,7 +68,7 @@ First, open the developer tools and click on the Network tab. Once that is done,
 
 <img src="/assets/img/natas/natas17_network_tab.png" alt="Dev Tools Network Tab" height="239" width="652" />
 
-Right click on the index.php line and choose Edit and Resend. A panel will appear to the right that will allow you to enter in POST data and resend it. You may need to scroll or resize the developer tools to see Request Body section. In the screenshot below, you'll see that I entered natas18 into the form before I clicked the button. The word(s) you entered don't matter. We're going to delete everything in this section.
+Right-click on the index.php line and choose Edit and Resend. A panel will appear to the right that will allow you to enter POST data and resend it. You may need to scroll or resize the developer tools to see Request Body section. In the screenshot below, you'll see that I entered natas18 into the form before I clicked the button.
 
 <img src="/assets/img/natas/natas17_edit_resend.png" alt="Edit and Resend Panel" height="357" width="516" />
 
@@ -81,13 +81,13 @@ If you'd like to use debug, you can append **?debug** to the URL at the top of t
 
 Click the blue Send button at the top of the panel.  The panel will close and the results of your search will appear at the bottom of the file list, and be highlighted once the query is complete. 
 
-Single click on highlighted index.php entry and select Timings. If you're using debug, you can click on Response to see a rendered version of the webpage. Since debug simply returns the query entered, you can't use it for an attack.
+Single-click on highlighted index.php entry and select Timings. If you're using debug, you can click on Response to see a rendered version of the webpage. Since debug simply returns the query entered, you can't use it for an attack.
 
 <img src="/assets/img/natas/natas17_timings_a.png" alt="Network Timings for Character a" height="207" width="553" />
 
-If you look at the Waiting entry on the Timings graph you'll see we got our response in 124ms. Since our attack contains a 5 second sleep, we know the password does not contain an 'a'.
+If you look at the Waiting entry on the Timings graph you'll see we got our response in 124ms. Since our attack contains a 5-second sleep, we know the password does not contain an 'a'.
 
-Let's search for a character that's in the password. Right click on index.php and enter the following into the Request Body:
+Let's search for a character that's in the password. Right-click on index.php and enter the following into the Request Body:
 ```
 username=natas18" AND password LIKE BINARY "%x%" and SLEEP(5) #
 ```
@@ -96,7 +96,7 @@ Click on the blue Send button. Notice that the panel didn't disappear as quickly
 
 <img src="/assets/img/natas/natas17_turtle.png" alt="Dev Tools Network Tab Showing Turtle Icon" height="328" width="652" />
 
-Single click on the highlighted index.php and then click on Timings in panel on the right.
+Single-click on the highlighted index.php and then click on Timings in the panel on the right.
 
 <img src="/assets/img/natas/natas17_timings_x.png" alt="Network Timings for Character x" height="208" width="504" />
 
@@ -105,13 +105,13 @@ Here you can see that the Waiting portion of the graph is now 5.12s. This tells 
 As with natas15, we can solve this with sqlmap and with a Python script. I'll show both below. Unlike natas15, I'll only include a multithreaded script for this level.
 
 ### sqlmap
-Running sqlmap took 12 minutes on my system, even though sqlmap set the sleep timer to 1 second. This is due to sqlmap leaking all users and passwords. The database contains 4 accounts, with each account having a 32 character password. You'll need to supply the current level password in order to run the following:
+Running sqlmap took 12 minutes on my system, even though sqlmap set the sleep timer to 1 second. This is due to sqlmap leaking all users and passwords. The database contains 4 accounts, with each account having a 32 character password. You'll need to supply the current level password to run the following:
 
 ```bash
 sqlmap -u "http://natas17.natas.labs.overthewire.org/index.php" --auth-type=Basic --auth-cred=natas17:8------------------------------w --data="username=natas18" --level=3 --risk=1 --technique=T --threads=4 --dbms=MySQL -D natas17 -T users -C username,password --dump --batch
 ```
 
-Here's a breakdown on each option:
+Here's a breakdown of each option:
 ```
 -u              URL
 --auth-type     HTTP authentication
@@ -132,7 +132,7 @@ Here's a breakdown on each option:
 ```
 
 ### Python
-Unlike sqlmap, this script will not determine if the sleep time is too short. In my limited testing, I've received a response to my queries in 0.125 seconds. I'm going to use 1 second as my sleep timer. Depending on your internet connection, you may need to increase the sleep time. You'll need to supply the current level password in order to run the script.
+Unlike sqlmap, this script will not determine if the sleep time is too short. In my limited testing, I've received a response to my queries in 0.125 seconds. I'm going to use 1 second as my sleep timer. Depending on your internet connection, you may need to increase the sleep time. You'll need to supply the current-level password to run the script.
 
 Script Performance:
 ```
