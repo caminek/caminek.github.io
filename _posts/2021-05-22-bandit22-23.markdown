@@ -39,16 +39,16 @@ bandit22@bandit:/etc/cron.d$ echo I am user bandit23 | md5sum | cut -d ' ' -f 1
 ```
 
 ## Explanation
-This level requires you to have a basic understanding of Bash scripting. 
+This level requires an understanding of Bash scripting. 
 
 ```bash
 myname=$(whoami)
 ```
-This assigns the output of the whoami command to a variable named myname.
+This assigns the output of the **whoami** command to a variable named myname.
 
 To access the assigned value, you prepend a $ to the front of the variable name.
 
-We can see that target will be assigned the md5 sum of the string **I am user bandit22**. The last line of the script shows that the password is being output to a file with the name of the value stored within the mytarget variable. This file is created within /tmp.
+We can see that target will be assigned the md5 sum of the string **I am user bandit22**. The last line of the script shows that the password is outputting to a file with the name of the value stored within the mytarget variable. This file is created within /tmp.
 
 We can get the next password by changing the value assigned to myname from bandit22 to bandit23. We do this since the cronjob is run as bandit23.
 
