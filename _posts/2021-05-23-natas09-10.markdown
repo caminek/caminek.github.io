@@ -1,0 +1,45 @@
+---
+layout: post
+title:  "Natas Level 9 → Level 10"
+date:   2021-05-23 21:17:34
+categories: ctf wargames web-security
+tags: wargames ctf overthewire web-security
+series: "OverTheWire: Natas"
+excerpt: Get a grep2
+mathjax: false
+---
+
+## Level Goal
+Excluding the URL and username, the Level Goal section is blank for the Natas ctf.
+
+
+## Solution
+Logging into the site we see an updated version of the previous level. The site states, "For security reasons, we now filter on certain characters." 
+
+Let's look at the source:
+```php
+Output:
+<pre>
+<?
+$key = "";
+
+if(array_key_exists("needle", $_REQUEST)) {
+    $key = $_REQUEST["needle"];
+}
+
+if($key != "") {
+    if(preg_match('/[;|&]/',$key)) {
+        print "Input contains an illegal character!";
+    } else {
+        passthru("grep -i $key dictionary.txt");
+    }
+}
+?>
+</pre>
+```
+
+The same trick from the last level works on this level.  Enter **. /etc/natas_webpass/natas11** into the text field and press the button.
+
+## Explanation
+
+Grep stands for Global Regular Expression Parser. The dot in regex stands for any single character, meaning grep matches and then outputs every character in the natas10 password file followed by the dictionary. 
