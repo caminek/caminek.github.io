@@ -34,7 +34,7 @@ The official documentation for [strcmp](https://www.php.net/manual/en/function.s
 
 A result of 0 would be interpreted as false. By NOT'ing false we get true. This true value would be evaluated by the if statement and the program would then print the credentials. Whereas a result of any number besides 0 is interpreted as true, and NOT'd to false. This false value would cause the program would move to the else clause and print "Wrong!" At least that's what the intent was.
 
-Due to type juggling, bizarre things can occur while comparing unintended types. One of these oddities is comparing an array to a string.  The result is NULL and a warning is displayed. NULL is evaluated to be 0, the same value as if the strings matched. By altering the search, we can trick the site into giving up the credentials.
+Due to type juggling, bizarre things can occur while comparing unintended types. One of these oddities is comparing an array to a string.  The result is NULL and a warning is displayed. NULL is evaluated to be 0, the same value as if the strings match. By altering the search, we can trick the site into giving up the credentials.
 
 Append the following to the URL and press Enter.
 
