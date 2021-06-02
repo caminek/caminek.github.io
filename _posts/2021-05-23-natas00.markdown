@@ -16,7 +16,7 @@ URL:      http://natas0.natas.labs.overthewire.org
 
 
 ## Solution
-Right click on the webpage. The password is in a comment.
+Right-click on the webpage. The password is in a comment.
 
 ```
 <div id="content">
