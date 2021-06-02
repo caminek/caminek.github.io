@@ -14,7 +14,7 @@ Excluding the URL and username, the Level Goal section is blank for the Natas ct
 
 
 ## Solution
-The natas15 site allows us to check for the existence of a user. It also provides a link the the source code.  Let's take a look at that.
+The natas15 site allows us to check for the existence of a user. It also provides a link to the source code.  Let's take a look at that.
 
 ```php
 <?
@@ -52,7 +52,7 @@ if(array_key_exists("username", $_REQUEST)) {
 
 Here we have an SQL query that takes unsanitized inputs, like the previous level. Unlike the last level, the output of the database is not rendered to the webpage. We simply get generic messages as to whether or not the user exists. This tells us that we'll need to perform a Blind SQL attack on the site. 
 
-A Blind SQL attack is used when the output of the database is not rendered to the webpage. The attack asks many true/false questions of the database and determines the to these questions based on the response from the database.
+A Blind SQL attack is used when the output of the database is not rendered to the webpage. The attack asks many true/false questions of the database and determines the answer to these questions based on the response from the database.
 
 Looking at the code, we can see the two responses to any queries made: if query returns a result it outputs, "This user exists." to the page, otherwise it outputs, "This user doesn't exist." to the page.
 
@@ -61,13 +61,13 @@ Here I'll show two ways to get the next password. One uses [sqlmap](https://sqlm
 You'll need the supply the credentials to the current level for either solution. You may also wish to adjust the thread count.
 
 ### sqlmap
-The sqlmap tool is capable of a wide range of attacks and can be used to determine a lot of the information that is supplied below. Since we're in the unique position of having the code to the site, we can fill in a lot of this information without having to resort to teasing the information out of the site.
+The sqlmap tool is capable of a wide range of attacks and can be used to determine a lot of the information that is supplied below. Since we're in the unique position of having the source code for the site, we can fill in a lot of this information without having to resort to teasing the information out of the site.
 
 ```
 sqlmap -u "http://natas15.natas.labs.overthewire.org/index.php" --auth-type=Basic --auth-cred=natas15:A------------------------------J --string="This user exists" --data="username=natas16" --level=3 --risk=1 --technique=B --threads=4 --dbms=MySQL -D natas15 -T users -C username,password --dump --batch
 ```
 
-Here's a breakdown on each option:
+Here's a breakdown of each option:
 ```
 -u              URL
 --auth-type     HTTP authentication
@@ -92,15 +92,15 @@ The sqlmap tool will run for a couple minutes and will return with the username 
 
 ### Python 3 scripting
 
-In a real-world situation I'd use sqlmap. However, this is not a real-world situation. It's a learning environment. As such, priority should be given to learning and not "winning." That said, this section will not attempt to teach Python programming.
+In a real-world situation, I'd use sqlmap. However, this is not a real-world situation. It's a learning environment. As such, priority should be given to learning and not "winning." That said, this section will not attempt to teach Python programming.
 
-Before creating the script, we'll need to get a few ideas under our belt first. Log into the site if you haven't already and append the following to the URL:
+Before creating the script, we'll need to get a few ideas under our belt first. Login to the site if you haven't already and append the following to the URL:
 
 ```
 ?username=natas16%22+and+password=+%22a&debug
 ```
 
-By passing the debug option we can see the query that was passed, along with the 
+Using the debug option, we can see the query that was passed, along with the 
 
 ```
 Executing query: SELECT * from users where username="natas16" and password= "a"
@@ -131,7 +131,7 @@ Executing query: SELECT * from users where username="natas16" and password LIKE 
 This user exists.
 ```
 
-While the output tells us that password contains an "A", I can tell you with certainty that is does not. The reason we're being told that there's an "A" is because the query is case insensitive. To make the query case sensitive, we need to add BINARY to the query. Let's modify our last search.
+While the output tells us that password contains an "A", I can tell you with certainty that it does not. The reason we're being told that there's an "A" is because the query is case insensitive. To make the query case sensitive, we need to add BINARY to the query. Let's modify our last search.
 
 ```
 ?username=natas16%22+and+password+LIKE+BINARY+%22%A%&debug
@@ -145,11 +145,11 @@ This user doesn't exist.
 
 Now that we can search for characters within the password, we can significantly speed up our search by only searching for characters known to be in the password. This will be the first part of both scripts.
 
-If you look back on all the password for the Natas levels you'll notice that they're comprised of both upper- and lower-case characters, and digits for a combined character count of 62. There's also 32 characters to each password. This makes the worst-case search space $32^{62} \approx 2.09 \times 10^{93}$. If we filter out the unused characters, we can shrink the the worst-case search space to $32^{25} \approx 4.25 \times 10^{37}$. While not small, its a significant improvement.
+If you look back on all the passwords for the Natas levels you'll notice that they're comprised of both upper- and lower-case characters, and digits for a combined character count of 62. There's also 32 characters to each password. This makes the worst-case search space $32^{62} \approx 2.09 \times 10^{93}$. If we filter out the unused characters, we can shrink the worst-case search space to $32^{25} \approx 4.25 \times 10^{37}$. While not small, it's a significant improvement.
 
 After we have the filtered characters, we'll need to discover the password using them.
 
-In order to discover this we need to try each character until we get a positive response from the server. What makes this different from the last queries is the placement of the wildcard. Instead of checking if there's an "A" anywhere, we'll ask if there's a match for "A" followed by any other character.
+To discover the password, we'll need to try each character until we get a positive response from the server. What makes this different from the last queries is the placement of the wildcard. Instead of checking if there's an "A" anywhere, we'll ask if there's a match for "A" followed by any other character.
 
 Let's search to see if the first character in the natas16 password is an "a."
 ```
@@ -162,7 +162,7 @@ Executing query: SELECT * from users where username="natas16" and password LIKE 
 This user doesn't exist.
 ```
 
-While before we were able to confirm that the password contains an "a", its not the first character.
+While before we were able to confirm that the password contains an "a", it's not the first character.
 
 Let's modify the search once again, this time with the first character of the password, a "W."
 ```
@@ -187,13 +187,13 @@ Executing query: SELECT * from users where username="natas16" and password LIKE 
 This user exists
 ```
 
-You'd have to repeat this process 30 more times over all upper- and lower-case characters, and digits. This is a task best left to a script, especially given the length of the password.
+You'd have to repeat this process 30 more times overall upper- and lower-case characters, and digits. This is a task best left to a script, especially given the length of the password.
 
-Below are two scripts, one is single-threaded, the other multithreaded. The single threaded script is easier to both read and write, but is slower as it waits for a response to each query before asking another.
+Below are two scripts, one is single-threaded, the other multithreaded. The single-threaded script is easier to both read and write, but is slower as it waits for a response to each query before asking another.
 
 The multithreaded script allows the computer to make multiple queries at the same time without having to wait for a response. While the results may be returned out of order, they will be displayed in order.
 
-If you decide to run either script, you'll need to edit the natas15_password variable to include the correct password for the current level. Do not edit natas16_password variable!
+If you decide to run either script, you'll need to edit the natas15_password variable to include the correct password for the current level. Do not edit the natas16_password variable!
 
 
 #### Single-threaded 
