@@ -10,13 +10,13 @@ mathjax: false
 ---
 
 # Introduction
-Bandit is the entry level wargame from OverTheWire. Its focus is working with the Linux command line.
+Bandit is the entry-level wargame from OverTheWire. Its focus is working with the Linux command line.
 
-Each level will include the relevant portions of the **Level Goal** from level's page. 
+Each level will include the relevant portions of the Level Goal from the level’s page.
 
-The **Commands you may need to solve this level** are not included as this section is only needed if you're both unfamiliar with how to handle the task and not consulting a writeup for the level.
+The Commands you may need to solve this level are not included as this section is only needed if you’re both unfamiliar  with how to handle the task and not consulting a write-up for the level.
 
-The **Solution** and **Explanation** sections contain the commands used to complete the Level Goal. 
+The Solution and Explanation sections contain the commands used to complete the Level Goal.
 
 The passwords for each level have been redacted.
 
@@ -38,11 +38,13 @@ Once logged in, go to the [Level 1](https://overthewire.org/wargames/bandit/band
 
 
 ## Tip
-The server address and the port will remain the same throughout the wargame. The only portions that will change are the username and password. 
 
-By specifying the login name at the end, you'll be able to press your up arrow once and change the login name. The login name will alway be the wargame server and the level number.
+The server address and the port will remain the same throughout the wargame. The only portions that will change are the username and password.
+
+By specifying the login name at the end, you’ll be able to press your up arrow once and change the login name. The login name will always be the wargame server and the level number.
 
 The following works for both Linux and macOS:
+
 ```bash
 ssh bandit.labs.overthewire.org -p 2220 -l bandit0
 ```
