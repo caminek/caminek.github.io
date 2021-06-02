@@ -28,4 +28,4 @@ I------------------------------x
 
 
 ## Explanation
-In order to log into the server, we need to use another shell. To do this we use the -t option to tell ssh to "force pseudo-terminal allocation." In order words, we'd like to use the specified shell instead of the default shell. While there are other shells we could have used, the most likely to be on the remote system was sh.
+To log into the server, we need to use another shell. To do this we use the -t option to tell ssh to "force pseudo-terminal allocation." In order words, we'd like to use the specified shell instead of the default shell. While there are other shells we could have used, the most likely to be on the remote system was sh.
