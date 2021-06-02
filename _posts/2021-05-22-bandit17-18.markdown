@@ -28,4 +28,4 @@ bandit17@bandit:~$ diff passwords.old passwords.new
 ## Explanation
 This level requires you to use diff and be able to understand its output. 
 
-The **<** indicates a difference in the first file passed to diff, in this case passwords.old.  The **>** indicates a difference in the second file passed to diff, in this case passwords.new.  This tells us that the old password was the one that started with a 'w', and the new password starts with a 'k'.
+The **<** indicates a difference in the first file passed to diff, in this case, passwords.old.  The **>** indicates a difference in the second file passed to diff, in this case, passwords.new.  This tells us that the old password was the one that started with a 'w', and the new password starts with a 'k'.
