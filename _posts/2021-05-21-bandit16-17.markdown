@@ -200,7 +200,7 @@ x------------------------------n
 
 
 ## Explanation
-This level requires you to know of and use nmap. The rest of the requirements were met in previous levels.
+This level requires you to know of and use nmap. The rest of the requirements were met at previous levels.
 
 The options passed to nmap were:
 ~~~
@@ -210,10 +210,11 @@ The options passed to nmap were:
 -p31000-32000 : scan ports 31000 - 32000
 ~~~
 
-The -sV, -vvvv, and most likely -Pn were optional. Without -sV we would have recieved a list of open ports very quickly, but with no information as to what they were. We could have tested them since the level description described how both correct and incorrect ports worked. Using this option caused the can to run for almost 90 seconds, were without it it would have likely been a couple seconds.
+The -sV, -vvvv, and most likely -Pn were optional. Without -sV, we would have recieved a list of open ports very quickly, but with no information as to what they were. We could have tested them since the level description described how both correct and incorrect ports worked. Using this option caused the can to run for almost 90 seconds, were without it, it would have likely been a couple seconds.
 
-The -vvvv option provided information about what the scan was doing. This was to make sure the scan would complete in a reasonable time. Without it, I wouldn't have known how long the scanner would need to run. Given that these are public servers, I wanted to make sure I would live to see it complete.
+The -vvvv option provided information about what the scan was doing. This was to make sure the scan would complete in a reasonable time. Without it, I wouldn’t have known how long the scanner would need to run. Given that these are public servers, I wanted to make sure I would live to see it complete.
 
-The -Pn most likely wouldn't have been necessary for this level. It tells nmap to scan the ports without bothering to test if they're open first. If this were required, nmap would recommend it after completing the scan.
+The -Pn most likely wouldn’t have been necessary for this level. It tells nmap to scan the ports without bothering to test if they’re open first. If this were required, nmap would recommend it after completing 
+the scan.
 
 The -p option tells nmap what port(s) to scan.
