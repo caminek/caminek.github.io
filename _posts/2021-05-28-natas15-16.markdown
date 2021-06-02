@@ -37,9 +37,9 @@ if($key != "") {
 </pre>
 ```
 
-While the filter makes our task more difficult, it does not make it impossible due to one oversight, the command substitution notation **$()** was not included. We can combine this with the way this application behaves to create a binary attack to leak the password. This is similiar to the method used in the previous level, except sqlmap won't be able to help; We'll need to script this.
+While the filter makes our task more difficult, it does not make it impossible due to one oversight, the command substitution notation **$()** was not included. We can combine this with the way this application behaves to create a binary attack to leak the password. This is similar to the method used in the previous level, except sqlmap won't be able to help; We'll need to script this.
 
-Note that if we search for something in database, every match comes back. If nothing is found, nothing is returned. We can create a similar attack to last level by finding a word that returns a single result. For this, I will use the word **sonatas**. I happened to find this word looking for natas in the dictionary. Any word will work so long is only one result is returned.
+Note that if we search for something in the database, every match comes back. If nothing is found, nothing is returned. We can create a similar attack to the last level by finding a word that returns a single result. For this, I will use the word **sonatas**. I happened to find this word looking for natas in the dictionary. Any word will work so long as only one result is returned.
 
 If we use the word sonatas immediately followed by a carefully created command substitution, we can leak the password for the next level.  Enter the following into the form:
 
@@ -54,7 +54,7 @@ sonatas$(grep 8 /etc/natas_webpass/natas17)
 
 The returned result is blank. This is because the natas17 password contains an "8". The matching line is now appended to the end of the word sonatas.  In other words, if the password was ***789xyz**, our first search was unaffected since there no "a", but in the second search the "8" was matched and sonatas became sonatas789xyz. Since the command substitution takes place, this is the word the application looked for.  Since sonatas789xyz is not in the dictionary, nothing was returned.
 
-With this, we can modify the scripts from the last level for this task. If you haven't read the writeup for the previous level and are not familiar with how the binary attack works, I'd recommend doing so. 
+With this, we can modify the scripts from the last level for this task. If you haven't read the write-up for the previous level and are not familiar with how the binary attack works, I'd recommend doing so. 
 
 Like the previous level, you'll need to supply the current level password to the script.
 
