@@ -14,7 +14,7 @@ Excluding the URL and username, the Level Goal section is blank for the Natas ct
 
 
 ## Solution
-The natas14 site asks for a username and password in order to log in. It also provides a link the the source code.  Let's take a look at that.
+The natas14 site asks for a username and password to log in. It also provides a link to the source code.  Let's take a look at that.
 
 ```php
 <?
@@ -42,9 +42,9 @@ Here we see a very unsafe line of code:
 $query = "SELECT * from users where username=.$_REQUEST["username"]. and password=.$_REQUEST["password"]."; 
 ```
 
-Since this code does not sanitize user input, a malicious user could craft a username/passsword combo that could allow them access to the site. 
+Since this code does not sanitize user input, a malicious user could craft a username/password combo that could allow them access to the site. 
 
-Let's first look at how the unsafe line would appear if the user entered in non-malicious inputs. If they were to provide a username of **foo**, and a password of **bar**, the unsafe code would be interpreted as:
+Let's first look at how the unsafe line would appear if the user entered non-malicious inputs. If they were to provide a username of **foo** and a password of **bar**, the unsafe code would be interpreted as:
 
 ```sql
 SELECT * from users where username="foo" and password="bar";
@@ -56,16 +56,16 @@ The line above is how the site admin intended the script to work. The user in th
 SELECT * from users where username="foo" and password="" OR 1=1 --""
 ```
 
-The order or operation state that AND occurs before OR. Therefore the database will need to potentially make two evaluations.
+The order of operations state that AND occurs before OR. Therefore the database will need to potentially make two evaluations.
 
 First evaluation:
 ```
 Is there a user named foo with a blank password?
 ```
 
-The password is appears blank due to the first character in the supplied password being a quotation mark. All subsequent characters are interpreted as SQL.
+The password appears blank due to the first character in the supplied password being a quotation mark. All subsequent characters are interpreted as SQL.
 
-If there's a user named foo with a blank password, then there's no need to check the second condition as OR only requires one of the evaluations to be true in order for the statement to be true. While possible, this statement is most likely going to be false.
+If there's a user named foo with a blank password, then there's no need to check the second condition as OR only requires one of the evaluations to be true for the statement to be true. While possible, this statement is most likely going to be false.
 
 Second evaluation:
 ```
@@ -76,5 +76,5 @@ Since 1 equals 1, this check passes.  The two dashes are comments. This will cau
 
 With this, you'll be able to log into the site and get the password to the next level. 
 
-## Still getting access denied?
-If you still get an access denied message, its most likely due to UNICODE characters. Specifically, the double dashes and/or the quotation marks. Depending on where on this site you copied the password from, the ASCII quotes may have been substituted for the stylized UNICODE version. The double dash is also replaced with a UNICODE long dash. You'll need to edit these characters in the password if that's the case.
+## Getting access denied?
+If you still get an access denied message, it's most likely due to Unicode characters. Specifically, the double dashes and/or the quotation marks. Depending on where on this site you copied the password from, the ASCII quotes may have been substituted for the stylized Unicode version. The double dash is also replaced with a Unicode long dash. You'll need to edit these characters in the password if that's the case.
