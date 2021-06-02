@@ -14,9 +14,9 @@ Excluding the URL and username, the Level Goal section is blank for the Natas ct
 
 
 ## Solution
-The natas19 site tells us that the site is nearly identical to the the previous level, and that session ids are no longer sequential. There is no source code to view.
+The natas19 site tells us that the site is nearly identical to the previous level, and that session ids are no longer sequential. There is no source code to view.
 
-Let's start opening the Developer Tools, clicking on Storage and then entering some random data into the username and password fields.
+Let's start opening the Developer Tools, clicking on Storage, and then entering some random data into the username and password fields.
 
 We now have a much longer value for PHPSESSID. Here's the value I received:
 
