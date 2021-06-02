@@ -23,8 +23,7 @@ Logging in we see two link. Let's look at the page source.
 ...
 ```
 
-This site is susceptible to Local File Injection (LFI). Any time you see a URL that appears to include a file from the local server, you should test to see if an LFI exploit would work. In this case the URL http://natas7.natas.labs.overthewire.org/index.php?page=home seems to include a file named home.  Replace the intended file (home) with one you're looking for. Since the page source told us to look for /etc/natas_webpass/natas8, we'll do exactly that.
+This site is susceptible to Local File Injection (LFI). Any time you see a URL that appears to include a file from the local server, you should test to see if an LFI exploit would work. In this case, this site's URL seems to include a file named home.  Let's see if we can replace the intended file, home, with one of our choosing. Since the page source told us to look for 
+/etc/natas_webpass/natas8, we’ll do exactly that. Delete the word, home, from the end of the URL and enter /etc/natas_webpass/natas8 in its place.
 
-The link below will display the password in your browser.
-
-[http://natas7.natas.labs.overthewire.org/index.php?page=/etc/natas_webpass/natas8](http://natas7.natas.labs.overthewire.org/index.php?page=/etc/natas_webpass/natas8)
+The credentials for the next level will appear in the browser.
