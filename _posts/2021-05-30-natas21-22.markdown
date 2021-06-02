@@ -29,7 +29,7 @@ if(array_key_exists("revelio", $_GET)) {
 ?> 
 ```
 
-Here we see the site is looking to see variable **revelio** is passed. Next is checks to see if we have the admin key set in our SESSION and if so, is the value set to 1.  If this check fails, we're redirected; otherwise we continue loading this page and fall into the following code:
+Here we see the site is looking to see variable **revelio** is passed. Here we see the site is looking to see variable revelio is passed. Next, it checks to see if we have the admin key set in our SESSION and if so is the value set to 1.  If this check fails, we’re redirected; otherwise, we continue loading this page and fall into the following code:
 
 ```php
 <?
@@ -41,7 +41,7 @@ Here we see the site is looking to see variable **revelio** is passed. Next is c
 ?> 
 ```
 
-All we need to do is avoid the redirect. If you have access to curl, that will provide the easiest solution as curl doesn't follow redirects by default. A Python solution is also nice and quick. For either solution you'll need to provide the password to the current level.
+All we need to do is avoid the redirect. If you have access to curl, that will provide the easiest solution as curl doesn't follow redirects by default. A Python solution is also nice and quick. For either solution, you'll need to provide the password to the current level.
 
 ### curl
 ```bash
