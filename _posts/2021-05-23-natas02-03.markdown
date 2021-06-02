@@ -15,13 +15,16 @@ Excluding the URL and username, the Level Goal section is blank for the Natas ct
 
 ## Solution
 
+Viewing the page source we see the following:
+```html
 <div id="content">
 There is nothing on this page
 <!-- No more information leaks!! Not even Google will find it this time... -->
 </div>
+```
 
-This is a hint to check robots.txt. This file tells well-behaved search engines what the webmaster does not want indexed. This can also be used to find potentially sensitive information.
+The comment is a hint to check robots.txt. The robots.txt file tells a well-behaved search engine what resources the webmaster does not want indexed. This can also be used to find potentially sensitive information.
 
-[view-source:http://natas3.natas.labs.overthewire.org/robots.txt](view-source:http://natas3.natas.labs.overthewire.org/robots.txt)
+Append robots.txt to the URL.
 
-Here we see a single directory listed. In that directory you'll find a users.txt file with the password to the next level.
+Here we see a single directory listed. In that directory, you'll find a users.txt file with the password to the next level.
