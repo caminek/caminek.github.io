@@ -16,7 +16,7 @@ Excluding the URL and username, the Level Goal section is blank for the Natas ct
 ## Solution
 This level starts with some static text and a dropdown to change the language of the text. As usual, there's also a link to the source code.
 
-Below we see an attempt as sanitization.
+Below we see an attempt at sanitization.
 ```php
 function safeinclude($filename){
         // check for directory traversal
@@ -51,14 +51,14 @@ resp = session.post(url=url, data={"lang": passwd}, auth=auth)
 print(resp.text)
 ```
 
-In the output we see the contents of /etc/passwd. The reason this worked is because the sanitzation attempt in not recursive. Let's look at a the following portion of the directory traversal string and see what's going on.
+In the output, we see the contents of /etc/passwd. The reason this worked is that the sanitization attempt is not recursive. Let's look at the following portion of the directory traversal string and see what's going on.
 ```
 ..././
 ↑↑↑↑↑↑
 123456
 ```
 
-The function looks for **../** and removes any occurances found.  In the above example numbers 2, 3, and 4 meet this criteria and are deleted. Starting again at 5 a dot is encountered, but 6 is a slash. The sanitization has completed. The sanitized string now consists of 1, 5, and 6. This string is now considered safe by the rest of the program.
+The function looks for **../** and removes any occurrences found.  In the above example numbers 2, 3, and 4 meet these criteria and are deleted. Starting again at 5 a dot is encountered, but 6 is a slash. The sanitization has been completed. The sanitized string now consists of 1, 5, and 6. This string is now considered safe by the rest of the program.
 
 Now let's look at the logging function:
 ```php
@@ -72,7 +72,7 @@ function logRequest($message){
     }
 ```
 
-Notice that the log contains our User Agent. This is set in the headers and is something we can control. We should be able to inline a simple php script that writes the natas25 password to the log. Since we have the path and name of the log file, we can use the weakness in the directory traversal filter and avoid the natas_webpass filter all together.
+Notice that the log contains our User-Agent. This is set in the headers and is something we can control. We should be able to inline a simple php script that writes the natas25 password to the log. Since we have the path and name of the log file, we can use the weakness in the directory traversal filter and avoid the natas_webpass filter altogether.
 
 Let's update the Python script:
 ```python
