@@ -21,4 +21,4 @@ U------------------------------R
 ```
 
 ## Explanation
-This level requires knowledge of sort, uniq, and pipes. The sort command is self-explanitory. The uniq command requires -u in order to output only unique lines. Other options, such as -c will provide a count for each occurrance of a match.
+This level requires knowledge of sort, uniq, and pipes. The sort command is self-explanatory. The uniq command requires -u to output only unique lines. Other options, such as -c will provide a count for each occurrance of a match.
