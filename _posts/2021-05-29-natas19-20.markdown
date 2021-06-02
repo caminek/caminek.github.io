@@ -14,9 +14,9 @@ Excluding the URL and username, the Level Goal section is blank for the Natas ct
 
 
 ## Solution
-This level starts with us logged in. We have a form that is intended to let us change out name and a link to the source code. The source for this level is too long. I'll highlight the the more important sections. 
+This level starts with us logged in. We have a form that is intended to let us change our name and a link to the source code. The source for this level is too long. I'll highlight the more important sections. 
 
-Additionally, due to the way this level was put together, I'll be testing the code from Python instead of the Developer Tools. This is due to the level requiring use of the provided debug via GET, and the submission of data via POST. All results are printed via Debug which is not rendered to the webpage, but to the Request tab under the Network tab. To pass this level, multiple loads of the page are required. Not only is this too much hassle, but the testing via Python will result in us getting the password and as a final script.
+Additionally, due to the way this level was put together, I'll be testing the code from Python instead of the Developer Tools. This is due to the level requiring the use of the provided debug via GET, and the submission of data via POST. All results are printed via Debug which is not rendered to the webpage, but to the Request tab under the Network tab. To pass this level, multiple loads of the page are required. Not only is this too much hassle, but the testing via Python will result in us getting the password and as a final script.
 
 Let's look at a few sections of the code.
 
@@ -48,7 +48,7 @@ function myread($sid) {
     ...
 ```
 
-The mywrite function reads the save session file. It takes the values in $_SESSION and stores them two-at-a-time with a space delimiter, and ends with a newline. There is no sanitization.
+The mywrite function reads the save session file. It takes the values in $_SESSION and stores them two at a time with a space delimiter and ends with a newline. There is no sanitization.
 
 ```php
 function mywrite($sid, $data) { 
