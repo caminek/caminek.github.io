@@ -16,22 +16,22 @@ Excluding the URL and username, the Level Goal section is blank for the Natas ct
 ## Solution
 The natas12 website allows us to select and upload an image, and view the page source. This time it claims it will only accept image files.  Since the source is now starting to get a bit longer, I'll highlight the pertinent line(s) below.
 
-Server side code:
+Server-side code:
 ```php
 else if (! exif_imagetype($_FILES['uploadedfile']['tmp_name'])) {
     echo "File is not an image";
 ```
 
-Client side code:
+Client-side code:
 ```html
 <input type="hidden" name="filename" value="<? print genRandomString(); ?>.jpg" /> 
 ```
 
-Here we see the same method of client-side renaming used in the last level. The site author has also updated the code to include a server-side EXIF data check to try and ensure the data sent is a valid image file. Since we have no control over the server side, we'll need to trick the code into accepting our php script once again.  This time, we'll need to embed the [Magic Bytes](https://en.wikipedia.org/wiki/List_of_file_signatures) for an valid image file into our script.
+Here we see the same method of client-side renaming used in the last level. The site author has also updated the code to include a server-side EXIF data check to try and ensure the data sent is a valid image file. Since we have no control over the server-side, we'll need to trick the code into accepting our php script once again.  This time, we'll need to embed the [Magic Bytes](https://en.wikipedia.org/wiki/List_of_file_signatures) for a valid image file into our script.
 
 There are several ways to go about adding the magic bytes: you can write a small script in python (or another language) to create the file and embed the hex characters, you can use a hex editor to prepend the hex bytes to the shell.php file from the last level, or you can copy the text characters, not the hex characters and paste them into shell.php with your favorite editor. 
 
-Initially I tried to use the text characters for jpg but was unsuccessful. Looking at the hex output I could see that the characters were wrong. I'm not sure if that was an issue with vim or not. I opted to go for another image type without unicode character in it. Below is the copy/paste solution using GIF:
+Initially, I tried to use the text characters for jpg but was unsuccessful. Looking at the hex output I could see that the characters were wrong. I'm not sure if that was an issue with vim or not. I opted to use GIF instead since it didn't contain any Unicode characters.
 
 shell.php
 ```php
@@ -50,9 +50,9 @@ Open the web developer tools for your browser and use the inspector to quickly l
 
 The last line is the one we're looking for. The name of the file, **upzknql2yq** will be different for you. Change the extension from .jpg to .php using the developer tools. Do not refresh the page or use the browser navigation buttons, or you'll need to change the extension once again.
 
-With the extension now changed, click on the browse button, select shell.php and then click upload. 
+With the extension now changed, click on the browse button, select shell.php, and then click upload. 
 
-You shoud see a message similar to the following:
+You should see a message similar to the following:
 ```
 The file upload/zidcnm44f9.php has been uploaded
 ```
