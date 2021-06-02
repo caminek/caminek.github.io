@@ -28,10 +28,10 @@ if(array_key_exists("passwd",$_REQUEST)){
 } 
 ```
 
-In order to get access to the credentials, we need pass a key with the name passwd. The value must contain "iloveyou" and be greater than 10. To do this, we need to understand how strstr works and what type juggling is.
+To get access to the credentials, we need to pass a key with the name passwd. The value must contain "iloveyou" and be greater than 10. To do this, we need to understand how strstr works and what type juggling is.
 
 ### strstr
-The official documentation for [strstr](https://www.php.net/manual/en/function.strstr.php) states that strstr matches the first occurance of the search term. It then returns returns everything from the search term to the end of the search space. Perhaps this is better explained with an example:
+The official documentation for [strstr](https://www.php.net/manual/en/function.strstr.php) states that strstr matches the first occurrence of the search term. It then returns everything from the search term to the end of the search space. Perhaps this is better explained with an example:
 
 ```php
 <?
@@ -48,7 +48,7 @@ iloveyou123
 ### Type juggling
 The official documentation for [type juggling](https://www.php.net/manual/en/language.types.type-juggling.php) states that php does not support static typing of variables. The type is dynamically set depending on the value assigned to the variable. The example on the page shows that multiplying a number with a string that starts with a number returns the same result that would have been expected if both sides of the multiplication sign had been numbers. 
 
-There are addtional links on this page to further explain how this works, but this should be enough for us to solve this level.
+There are additional links on this page to further explain how this works, but this should be enough for us to solve this level.
 
 Since strstr matches the first occurance to the end of the search space, the iloveyou string must be the last part of the password. Since the second condition is performing a math operation on the value stored in passwd, we can prepend a number greater than 10 to iloveyou.
 
