@@ -1,0 +1,46 @@
+---
+layout: post
+title:  "Natas Level 26 → Level 27"
+date:   2021-05-31 19:29:07
+categories: ctf wargames web-security
+tags: wargames ctf overthewire web-security
+series: "OverTheWire: Natas"
+excerpt: Strictly speaking
+mathjax: false
+---
+
+## Level Goal
+Excluding the URL and username, the Level Goal section is blank for the Natas ctf.
+
+
+## Solution
+Logging into this level we see a form to enter in a username and password. We also have a link to the source code. Let's take a look at a few sections of the source code.
+
+```php
+function checkCredentials($link,$usr,$pass){
+ 
+    $user=mysql_real_escape_string($usr);
+    $password=mysql_real_escape_string($pass);
+    
+    $query = "SELECT username from users where username='$user' and password='$password' ";
+```
+
+This function, like all the others handling user input, makes use of mysql_real_escape_string() to sanitize the inputs. Looking online it seemed like there might be a way around this, but I couldn't find anything.
+
+Next, I tried sqlmap, but I was unable to find a solution using it. I spent a considerable amount of time trying to figure out what to do next. I decided to try a buffer overflow styled attack after noticing the comments show that the username field is varchar(64). While it worked, it didn't work as I had expected. To be honest, I didn't expect it to work at all...
+
+Below is a Python script to generate the text needed to append to the end of the URL:
+
+```python
+print("?username=natas28" + " "*57 + "!&password=")
+```
+
+What I was hoping for was that the exclamation point (65th character) would overflow into the area containing the password. I don't know if that's possible with a database, but I had no other ideas at that time. I attempted to log in with a username of **natas28** and a password of **!**. I was unable to log in. It took me a little more time to try with a username of natas28 and a blank password.  Once I did that, I was able to log in. I was presented with the credentials and a bit of a mystery.  I succeeded, but why?
+
+I tried adding more spaces, and more characters at the end but nothing affected the password. The username was being accepted and truncated even though the code does not show this happening. I looked up this behavior and it seemed to seemed unique. The people talking about character restrictions, also had their commands fail and they were able to provide the error messages they received. The password can be set though, just not with the overflow that I was attempting to set it with.  By adding something after the **password=** portion of the URL, you can set the password.
+
+It took some time, but I found a question on StackOverflow where someone was looking to add/enable this functionality directly to the server.  By default, MySQL does not allow this behavior, but according to SO user mvp, if you [disable strict mode](https://stackoverflow.com/questions/14076248/automatically-truncate-data-when-inserting/14076358#14076358) you can get this functionality without having to code for it, but it's not recommended.
+
+It appears that the database sees me as **natas28                                                         !** in some cases, such as the prompt that shows the account was created. Yet while creating the account it silently trims the username to exclude any and all characters after the 64, such as the exclamation point, and then removes all the trailing whitespace. It appears that checking to see if the username exists happens before any trimming takes place.  Now that the username is trimmed to **natas28**, the password is set (or reset as it would be in this case) to whatever the password is in the URL, which I left blank.
+
+... at least that's my guess.
