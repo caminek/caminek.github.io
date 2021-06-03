@@ -25,6 +25,9 @@ show-tag-cloud-in-posts: Hide
 # How many "Recent Posts" should be shown
 recent-post-count: 5
 
+# How many "Series Posts" should be shown in sidebar
+series-post-count: 5
+
 # other links
 #twitter_username: 
 #facebook_username: 

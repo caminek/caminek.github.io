@@ -8,7 +8,7 @@ type: page
 
 
 <div class="page clearfix">
-    {% assign series-posts = site.posts | reverse %}
+    {% assign series-posts = site.posts | sort: 'series' %}
     {% assign current-series = "" %}
     {% assign series-array = "" | split: ',' %}
 
@@ -40,7 +40,7 @@ type: page
                 <h2 id="{{s}}">{{s}}</h2>
                 <table class="series">
                     <tbody>
-                        {% for post in series-posts %}
+                        {% for post in series-posts reversed %}
                             {% if post.series == s %}
                                 <tr>
                                     <td><li class="series"><a class="title" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a></li></td>
