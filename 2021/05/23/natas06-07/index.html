@@ -12,8 +12,8 @@
     <link rel="icon" href="/favicon.ico?" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.Cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="/assets/css/main.min.css ">
-    <link rel="canonical" href="https://caminek.rocks/2021/05/23/natas06-07/">
-    <link rel="alternate" type="application/rss+xml" title="Caminek" href="https://caminek.rocks/feed.xml ">
+    <link rel="canonical" href="/2021/05/23/natas06-07/">
+    <link rel="alternate" type="application/rss+xml" title="Caminek" href="/feed.xml ">
     
     <!-- Begin Jekyll SEO tag v2.7.1 -->
 <title>Natas Level 6 → Level 7 | Caminek</title>
@@ -22,15 +22,15 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="OMGLFIWTF" />
 <meta property="og:description" content="OMGLFIWTF" />
-<link rel="canonical" href="https://caminek.rocks/2021/05/23/natas06-07/" />
-<meta property="og:url" content="https://caminek.rocks/2021/05/23/natas06-07/" />
+<link rel="canonical" href="/2021/05/23/natas06-07/" />
+<meta property="og:url" content="/2021/05/23/natas06-07/" />
 <meta property="og:site_name" content="Caminek" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2021-05-23T15:57:45-04:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Natas Level 6 → Level 7" />
 <script type="application/ld+json">
-{"@type":"BlogPosting","description":"OMGLFIWTF","headline":"Natas Level 6 → Level 7","dateModified":"2021-05-23T15:57:45-04:00","datePublished":"2021-05-23T15:57:45-04:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://caminek.rocks/2021/05/23/natas06-07/"},"url":"https://caminek.rocks/2021/05/23/natas06-07/","@context":"https://schema.org"}</script>
+{"@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"/2021/05/23/natas06-07/"},"description":"OMGLFIWTF","headline":"Natas Level 6 → Level 7","dateModified":"2021-05-23T15:57:45-04:00","url":"/2021/05/23/natas06-07/","datePublished":"2021-05-23T15:57:45-04:00","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -208,11 +208,10 @@
 ...
 </code></pre></div></div>
 
-<p>This site is susceptible to Local File Injection (LFI). Any time you see a URL that appears to include a file from the local server, you should test to see if an LFI exploit would work. In this case the URL http://natas7.natas.labs.overthewire.org/index.php?page=home seems to include a file named home.  Replace the intended file (home) with one you’re looking for. Since the page source told us to look for /etc/natas_webpass/natas8, we’ll do exactly that.</p>
+<p>This site is susceptible to Local File Injection (LFI). Any time you see a URL that appears to include a file from the local server, you should test to see if an LFI exploit would work. In this case, this site’s URL seems to include a file named home.  Let’s see if we can replace the intended file, home, with one of our choosing. Since the page source told us to look for 
+/etc/natas_webpass/natas8, we’ll do exactly that. Delete the word, home, from the end of the URL and enter /etc/natas_webpass/natas8 in its place.</p>
 
-<p>The link below will display the password in your browser.</p>
-
-<p><a href="http://natas7.natas.labs.overthewire.org/index.php?page=/etc/natas_webpass/natas8">http://natas7.natas.labs.overthewire.org/index.php?page=/etc/natas_webpass/natas8</a></p>
+<p>The credentials for the next level will appear in the browser.</p>
 
         </article>
         <hr>
@@ -263,6 +262,14 @@
                      <!--for loop is 0 based. this prevents off-by-one errors -->
                     
 
+                    
+                        
+
+                        
+                    
+                        
+
+                        
                     
                         
 
@@ -626,15 +633,15 @@
                 </div>
                 <ul class="content-ul" recent>
                     
+                        <li><a href="/2021/05/31/natas26-27/">Natas Level 26 → Level 27</a></li>
+                    
+                        <li><a href="/2021/05/31/natas25-26/">Natas Level 25 → Level 26</a></li>
+                    
                         <li><a href="/2021/05/30/natas24-25/">Natas Level 24 → Level 25</a></li>
                     
                         <li><a href="/2021/05/30/natas23-24/">Natas Level 23 → Level 24</a></li>
                     
                         <li><a href="/2021/05/30/natas22-23/">Natas Level 22 → Level 23</a></li>
-                    
-                        <li><a href="/2021/05/30/natas21-22/">Natas Level 21 → Level 22</a></li>
-                    
-                        <li><a href="/2021/05/30/natas20-21/">Natas Level 20 → Level 21</a></li>
                     
                 </ul>
             </div>
@@ -670,7 +677,7 @@
                             <span class="name">
                                 ctf
                             </span>
-                            <span class="badge">66</span>
+                            <span class="badge">68</span>
                         </a>
                     </li>
                     
@@ -679,7 +686,7 @@
                             <span class="name">
                                 wargames
                             </span>
-                            <span class="badge">61</span>
+                            <span class="badge">63</span>
                         </a>
                     </li>
                     
@@ -697,7 +704,7 @@
                             <span class="name">
                                 web-security
                             </span>
-                            <span class="badge">26</span>
+                            <span class="badge">28</span>
                         </a>
                     </li>
                     

