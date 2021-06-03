@@ -75,25 +75,14 @@ layout: default
     <button class="anchor"><i class="fa fa-anchor"></i></button>
     <div class="right">
         <div class="wrap">
-            <div class="side">
-                <div>
-                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                    Recent Posts
-                </div>
-                <ul class="content-ul" recent>
-                    {% for post in site.posts limit: site.recent-post-count %}
-                        <li><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></li>
-                    {% endfor %}
-                </ul>
-            </div>
-
+            
             <!-- Series -->
             <div class="side ">
                 <div>
                     <i class="fa fa-book" aria-hidden="true"></i>
                     Series
                 </div>
-                <ul class="content-ul">
+                <ul class="content-ul" srs>
                     {% assign posts-count = 0 %}
                     {% assign series-length = 0 %}
                     {% assign current-page = 0 %}
@@ -128,6 +117,19 @@ layout: default
                 </ul>
             </div>
 
+            <!-- Recent -->
+            <div class="side">
+                <div>
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    Recent Posts
+                </div>
+                <ul class="content-ul" recent>
+                    {% for post in site.posts limit: site.recent-post-count %}
+                        <li><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            
             <!-- Content -->
             <div class="side ">
                 <div>
