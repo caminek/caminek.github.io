@@ -87,6 +87,47 @@ layout: default
                 </ul>
             </div>
 
+            <!-- Series -->
+            <div class="side ">
+                <div>
+                    <i class="fa fa-book" aria-hidden="true"></i>
+                    Series
+                </div>
+                <ul class="content-ul">
+                    {% assign posts-count = 0 %}
+                    {% assign series-length = 0 %}
+                    {% assign current-page = 0 %}
+
+                    {% for post in site.posts %}
+                        {% assign posts-count = posts-count | plus: 1 %}
+
+                        {% if post.series == page.series %}
+                            {% assign series-length = series-length | plus: 1 %}
+                        {% endif %}
+
+                        {% if post.url == page.url %}
+                            {% assign current-page = posts-count %}
+                        {% endif %}
+                    {% endfor %}
+
+                    {% assign displacement = site.recent-post-count | divided_by: 2 %}
+                    {% assign center-article = current-page | minus: displacement | minus: 1 %}
+
+                    {% for post in site.posts limit: site.recent-post-count offset: center-article %}
+                        {% if post.series == page.series %}
+                            <li>
+                                {% if post.url == page.url %}
+                                    <strong>{{ post.title }}</strong>
+                                {% else %}
+                                    <a href="{{ post.url }}">{{ post.title }}</a>
+                                {% endif %}
+                            </li>
+                        {% endif %}
+
+                    {% endfor %}
+                </ul>
+            </div>
+
             <!-- Content -->
             <div class="side ">
                 <div>
