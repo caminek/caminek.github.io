@@ -1,0 +1,192 @@
+---
+layout: post
+title:  "Natas Level 27 → Level 28"
+date:   2021-06-01 17:59:05
+categories: ctf wargames web-security
+tags: wargames ctf overthewire web-security
+series: "OverTheWire: Natas"
+excerpt: It was a pleasure to burn
+mathjax: false
+---
+
+## Level Goal
+Excluding the URL and username, the Level Goal section is blank for the Natas ctf.
+
+
+## Solution
+This level provides us with a form to search a joke database. No code is provided. There's little for us to do at this point but play with the search. Let's do that.
+
+Playing around with search we see:
+- A quick search for a single- and double-quote, shows that the code is sanitizing inputs.
+- Leaving the form blank returns jokes.
+- The query string is in base64.
+- Decoding the URL results in non-human-readable characters.
+- Removing the URL Encoded equals sign (%3D) from the end of the URL has no effect on the site
+- Removing the character after the equal sign produces the following error:
+    ```
+    Incorrect amount of PKCS#7 padding for blocksize
+    ```
+
+The error message is interesting. It tells us that we're dealing with a [block](https://en.wikipedia.org/wiki/Padding_(cryptography)) [cipher](https://en.wikipedia.org/wiki/Block_cipher). Let's determine the block size.
+
+```python
+#!/usr/bin/env python
+import requests
+import base64
+import urllib
+import binascii
+from requests.auth import HTTPBasicAuth
+
+password = 'J------------------------------F'
+
+session = requests.Session()
+auth = HTTPBasicAuth('natas28', password)
+url = 'http://natas28.natas.labs.overthewire.org/index.php?query='
+
+
+def gcf(x, y):
+    while y > 0:
+        x, y = y, abs(x - y)
+    return x
+
+
+last_bytes = 0
+nibbles = 0
+
+for i in range(1, 128):
+    q = url + "a" * i
+    resp = session.post(url=q, auth=auth)
+    url_enc = resp.url.split("=")[1]
+    url_dec = urllib.parse.unquote(url_enc)
+    b64_dec = base64.b64decode(url_dec)
+    enc_hex = binascii.hexlify(b64_dec).decode('utf8')
+
+    if len(enc_hex) > nibbles:
+        nibbles = len(enc_hex)
+        bytes = nibbles // 2
+        blocksize = gcf(bytes, last_bytes)
+        last_bytes = bytes
+
+        if i > 1:
+            print(f'{str(i): >3}: {str(bytes): >3} bytes   Block Size: {blocksize}   Blocks: {bytes//blocksize}')
+        else:
+            print(f'{str(i): >3}: {str(bytes): >3} bytes')
+```
+
+The above script will start by contacting the natas28 site and make a query with a single 'a'. It will store the length of this value and repeat the search, adding an additional 'a' each time. It will do this 128 times. When the length of the query string has changed from the previous value, it will be output and the block size calculated by taking the [greatest common factor](https://en.wikipedia.org/wiki/Greatest_common_factor) between the byte sizes.
+
+Below are the results:
+```
+  1:  80 bytes
+ 13:  96 bytes   Block Size: 16   Blocks: 6
+ 29: 112 bytes   Block Size: 16   Blocks: 7
+ 45: 128 bytes   Block Size: 16   Blocks: 8
+ 61: 144 bytes   Block Size: 16   Blocks: 9
+ 77: 160 bytes   Block Size: 16   Blocks: 10
+ 93: 176 bytes   Block Size: 16   Blocks: 11
+109: 192 bytes   Block Size: 16   Blocks: 12
+125: 208 bytes   Block Size: 16   Blocks: 13
+```
+
+If we look at the hexadecimal representation of blocks, we see the following:
+
+- The first two blocks are identical regardless of how many a's we search for.
+    ```
+    1be82511a7ba5bfd578c0eef466db59c
+    dc84728fdcf89d93751d10a7c75c8cf2
+    ```
+- For queries with less than 10 a's the third block varies. Otherwise it always appears as below:
+    ```
+    c0872dee8bc90b1156913b08a223a39e
+    ```
+- For each new block greater than 6, we see the following repeating pattern:
+    ```
+    b39038c28df79b65d26151df58f7eaa3
+    ```
+
+### ECB
+Searching for "16 byte block cipher no salt" on [DuckDuckGo](https://duckduckgo.com/?q=16+byte+block+cipher+no+salt) returns a post from [Stack Overflow](https://stackoverflow.com/questions/587301/aes-encryption-of-16-bytes-without-salt/587384#587384) that suggests ECB or Electronic CodeBook might be what we're dealing with. It also mentions that it's not secure.
+
+The article, [An Introduction To Cryptography](https://www.sciencedirect.com/topics/computer-science/electronic-code-book) on [ScienceDirect.com](https://www.sciencedirect.com) states the following:
+
+>The Electronic Code Book (ECB) mode uses simple substitution, making it one of the easiest and fastest algorithms to implement. The input plaintext is broken into a number of blocks, and encrypted individually using the key. This allows each encrypted block to be decrypted individually. Encrypting the same block twice will result in the same ciphertext being returned twice.
+
+This definition matches exactly what we're seeing.
+
+Another quick look on DDG for **ecb reverse key** led to [another StackOverflow post](https://crypto.stackexchange.com/questions/63883/is-it-possible-to-find-the-key-for-aes-ecb-if-i-have-a-list-of-plaintext-and-cor#63889) that states this is mathematically impossible. 
+
+While we can't reverse the key, we can leverage the weakness in ECB and the fact that the site encrypts any query made of it with the key. We can use the site to encrypt our payload, we just need to carefully craft our query to do so.
+
+### Back for the Attack
+Looking back over our notes, we see four things that we need for the attack:
+1. Quotes are escaped
+2. For queries with less than 10 a's, the third block varies.
+3. Blocks are decrypted individually
+4. Encrypting the same block twice will result in the same ciphertext being returned twice.
+
+Excluding the first two blocks, we can use any other block for the attack. I'm going to use the third block as using another block offers no advantage. As we'll see, it's more advantageous to use the third since we won't have to perform any additional calculations.
+
+The attack string we want to use is:
+```
+' UNION ALL SELECT password FROM users;#
+```
+
+If we were to try entering in just that key, it would fail due to the single being escaped. Since we cannot prevent the single quote from being escaped, we'll need to find another way to deal with it. This is where numbers two and three come into play.
+
+Since blocks are decrypted individually, we should be able to start our attack in a new block and have it processed. In fact, we can but since the payload starts with a single quote, the site will append a slash nullifying the code. We cannot remove the slash due to ECB. Instead of starting with ten a's, we can start with nine. This would place the slash in Block 3 and the payload, starting with the single quote in Block 4. The new payload would look like this:
+
+```
+aaaaaaaaa' UNION ALL SELECT password FROM users;#
+```
+
+Enter that into the search and... it fails.
+
+### That was a terrible prize
+The reason this fails is that while the slash is in another block, it still exists. Why move the slash then? Because of the final point, encrypting the same block twice will result in the same ciphertext being returned twice.
+
+We know each block contains 16 bytes. We know that 10 a's fills the block. This means there are 6 bytes of padding, noted below with a question mark. 
+```
+??????aaaaaaaaaa
+```
+
+We don't know what those characters are or care. We do know that the above is encrypts to:
+```
+c0872dee8bc90b1156913b08a223a39e
+```
+
+By moving the slash up one line we end up with this pattern:
+```
+??????aaaaaaaaa\
+```
+
+While this will cause the block encryption to appear very different, we don't care. We're going to completely replace this version of Block 3, with the original one. We can do this because given identical text, ECB will always return the same result. Meaning, we're replacing **??????aaaaaaaaa\\** with **??????aaaaaaaaaa**. By doing that we remove the slash added by the input sanitization, leaving the SQL vulnerable. To do this easily, we'll use [CyberChef](https://gchq.github.io/CyberChef/).
+
+### Kitchen Stadium
+If you haven't already, enter the following into the search:
+```
+aaaaaaaaa' UNION ALL SELECT password FROM users;#
+```
+
+Copy the query string and head over to CyberChef. Enter the query string into the Input section. Add the following 3 "recipes" from the menu on the left, in order:
+- URL Decode
+- From Base64
+    - leave the defaults
+- To Hex
+    - set Delimiter to: None
+    - set Bytes per line to: 16
+
+Your page should look like [this](https://gchq.github.io/CyberChef/#recipe=URL_Decode()From_Base64('A-Za-z0-9%2B/%3D',true)To_Hex('None',16)&input=RyUyQmdsRWFlNlclMkYxWGpBN3ZSbTIxbk55RWNvJTJGYyUyQkoyVGRSMFFwOGRjalBJUjI3Z0s0Q1FsM0pjbXYlMkYwWUF4WU9WMDJHdTl6JTJGZEhSa1VVbG85RHlTUUI4bXRxNUhEMSUyRkJFZXNuVEF3aFBwWEEyeVMxSjB1aUV0R3dicGtNamJLZlNIbWFCN0hTbTFtQ0FWeVRWY0xnRHEzdG05dXNwcWM3Y2JOYUFRMHNURmMlM0Q).
+
+In the Output section, you'll see all the blocks represented for the given query. Copy all the lines and either clear the information from this page, or open CyberChef in another tab.
+
+Paste the blocks into the Input section.  Replace the third block, **11dbb80ae02425dc9726bffd1803160e**, with **c0872dee8bc90b1156913b08a223a39e**. Add the following three recipes:
+- From Hex
+- To Base64
+- URL Encode
+    - check the Encode all special chars box
+
+You should now see [this](https://gchq.github.io/CyberChef/#recipe=From_Hex('Auto')To_Base64('A-Za-z0-9%2B/%3D')URL_Encode(true)&input=MWJlODI1MTFhN2JhNWJmZDU3OGMwZWVmNDY2ZGI1OWMKZGM4NDcyOGZkY2Y4OWQ5Mzc1MWQxMGE3Yzc1YzhjZjIKYzA4NzJkZWU4YmM5MGIxMTU2OTEzYjA4YTIyM2EzOWUKNTc0ZDg2YmJkY2ZmNzQ3NDY0NTE0OTY4ZjQzYzkyNDAKMWYyNmI2YWU0NzBmNWZjMTExZWIyNzRjMGMyMTNlOTUKYzBkYjI0YjUyNzRiYTIxMmQxYjA2ZTk5MGM4ZGIyOWYKNDg3OTlhMDdiMWQyOWI1OTgyMDE1YzkzNTVjMmUwMGUKYWRlZDliZGJhY2E2YTczYjcxYjM1YTAxMGQyYzRjNTc).
+
+Copy the Output text from the output section, and head back to the natas28 site.
+
+If you closed the site earlier, you'll need to perform a search. It doesn't matter what, we simply need the URL to show the query parameter.  Delete everything to the right of the **query=**. Now paste in the text you got from CyberChef and press Enter. The site will present you with the password for natas29.
