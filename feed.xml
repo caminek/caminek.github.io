@@ -5,9 +5,105 @@
     <description></description>
     <link>/</link>
     <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 07 Jun 2021 17:12:44 -0400</pubDate>
-    <lastBuildDate>Mon, 07 Jun 2021 17:12:44 -0400</lastBuildDate>
+    <pubDate>Tue, 08 Jun 2021 03:33:49 -0400</pubDate>
+    <lastBuildDate>Tue, 08 Jun 2021 03:33:49 -0400</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
+    
+      <item>
+        <title>Natas Level 31 → Level 32</title>
+        <description>Kino&apos;s Perl</description>
+        <pubDate>Mon, 07 Jun 2021 23:00:55 -0400</pubDate>
+        <link>/2021/06/07/natas31-32/</link>
+        <guid isPermaLink="true">/2021/06/07/natas31-32/</guid>
+        
+        <category>wargames</category>
+        
+        <category>ctf</category>
+        
+        <category>overthewire</category>
+        
+        <category>web-security</category>
+        
+        
+        <category>ctf</category>
+        
+        <category>wargames</category>
+        
+        <category>web-security</category>
+        
+      </item>
+    
+      <item>
+        <title>Natas Level 30 → Level 31</title>
+        <description>From CGI.pm with love</description>
+        <pubDate>Mon, 07 Jun 2021 22:13:09 -0400</pubDate>
+        <link>/2021/06/07/natas30-31/</link>
+        <guid isPermaLink="true">/2021/06/07/natas30-31/</guid>
+        
+        <category>wargames</category>
+        
+        <category>ctf</category>
+        
+        <category>overthewire</category>
+        
+        <category>web-security</category>
+        
+        
+        <category>ctf</category>
+        
+        <category>wargames</category>
+        
+        <category>web-security</category>
+        
+      </item>
+    
+      <item>
+        <title>Natas Level 29 → Level 30</title>
+        <description>Careless camel code causes critical conundrum</description>
+        <pubDate>Mon, 07 Jun 2021 21:21:40 -0400</pubDate>
+        <link>/2021/06/07/natas29-30/</link>
+        <guid isPermaLink="true">/2021/06/07/natas29-30/</guid>
+        
+        <category>wargames</category>
+        
+        <category>ctf</category>
+        
+        <category>overthewire</category>
+        
+        <category>web-security</category>
+        
+        
+        <category>ctf</category>
+        
+        <category>wargames</category>
+        
+        <category>web-security</category>
+        
+      </item>
+    
+      <item>
+        <title>Natas Level 28 → Level 29</title>
+        <description>Wall&apos;s wall</description>
+        <pubDate>Mon, 07 Jun 2021 13:23:26 -0400</pubDate>
+        <link>/2021/06/07/natas28-29/</link>
+        <guid isPermaLink="true">/2021/06/07/natas28-29/</guid>
+        
+        <category>wargames</category>
+        
+        <category>ctf</category>
+        
+        <category>overthewire</category>
+        
+        <category>web-security</category>
+        
+        
+        <category>ctf</category>
+        
+        <category>wargames</category>
+        
+        <category>web-security</category>
+        
+      </item>
     
       <item>
         <title>Natas Level 27 → Level 28</title>
@@ -135,102 +231,6 @@
         <pubDate>Sun, 30 May 2021 11:42:57 -0400</pubDate>
         <link>/2021/05/30/natas22-23/</link>
         <guid isPermaLink="true">/2021/05/30/natas22-23/</guid>
-        
-        <category>wargames</category>
-        
-        <category>ctf</category>
-        
-        <category>overthewire</category>
-        
-        <category>web-security</category>
-        
-        
-        <category>ctf</category>
-        
-        <category>wargames</category>
-        
-        <category>web-security</category>
-        
-      </item>
-    
-      <item>
-        <title>Natas Level 21 → Level 22</title>
-        <description>You can go your own way</description>
-        <pubDate>Sun, 30 May 2021 09:05:34 -0400</pubDate>
-        <link>/2021/05/30/natas21-22/</link>
-        <guid isPermaLink="true">/2021/05/30/natas21-22/</guid>
-        
-        <category>wargames</category>
-        
-        <category>ctf</category>
-        
-        <category>overthewire</category>
-        
-        <category>web-security</category>
-        
-        
-        <category>ctf</category>
-        
-        <category>wargames</category>
-        
-        <category>web-security</category>
-        
-      </item>
-    
-      <item>
-        <title>Natas Level 20 → Level 21</title>
-        <description>Sharing is caring</description>
-        <pubDate>Sun, 30 May 2021 07:31:33 -0400</pubDate>
-        <link>/2021/05/30/natas20-21/</link>
-        <guid isPermaLink="true">/2021/05/30/natas20-21/</guid>
-        
-        <category>wargames</category>
-        
-        <category>ctf</category>
-        
-        <category>overthewire</category>
-        
-        <category>web-security</category>
-        
-        
-        <category>ctf</category>
-        
-        <category>wargames</category>
-        
-        <category>web-security</category>
-        
-      </item>
-    
-      <item>
-        <title>Natas Level 19 → Level 20</title>
-        <description>Write to own</description>
-        <pubDate>Sat, 29 May 2021 17:34:21 -0400</pubDate>
-        <link>/2021/05/29/natas19-20/</link>
-        <guid isPermaLink="true">/2021/05/29/natas19-20/</guid>
-        
-        <category>wargames</category>
-        
-        <category>ctf</category>
-        
-        <category>overthewire</category>
-        
-        <category>web-security</category>
-        
-        
-        <category>ctf</category>
-        
-        <category>wargames</category>
-        
-        <category>web-security</category>
-        
-      </item>
-    
-      <item>
-        <title>Natas Level 18 → Level 19</title>
-        <description>What the hex?</description>
-        <pubDate>Sat, 29 May 2021 16:55:52 -0400</pubDate>
-        <link>/2021/05/29/natas18-19/</link>
-        <guid isPermaLink="true">/2021/05/29/natas18-19/</guid>
         
         <category>wargames</category>
         
