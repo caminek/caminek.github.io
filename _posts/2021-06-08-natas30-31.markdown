@@ -37,7 +37,7 @@ import os.path
 import requests
 from requests.auth import HTTPBasicAuth
 
-password = 'hay7aecuungiuKaezuathuk9biin0pu1'
+password = 'h------------------------------1'
 session = requests.Session()
 
 auth = HTTPBasicAuth('natas31', password)
